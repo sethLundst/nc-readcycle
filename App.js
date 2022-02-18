@@ -1,6 +1,6 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
-import BarcodeScanner from "./BarcodeScanner";
+import BarcodeScanner from "./components/BarcodeScanner";
 
 export default function App() {
   return (
