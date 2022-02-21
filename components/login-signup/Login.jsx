@@ -1,16 +1,19 @@
 import { Text, View, StyleSheet, TextInput } from "react-native";
 import React, { useState } from "react";
 import { KeyboardAvoidingView, TouchableOpacity } from "react-native-web";
-import validator from "validator";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import validate from "validator"
+import { handleSignUp } from "../../db/firestore";
 
 const Login = () => {
 	const [email, changeEmail] = useState("");
 	const [password, changePassword] = useState("");
-	console.log(email, "<= email", password, "<= password");
-	console.log(validator.isEmail(email));
 
-
+  const validateNewUser = ()=>{
+    if (validate.isEmail(email)){
+      handleSignUp(email, password)
+    }
+  }
+	
 
 	return (
 		<View style={styles.container}>
@@ -39,7 +42,9 @@ const Login = () => {
 					<TouchableOpacity style={styles.button}>
 						<Text style={styles.buttonText}>Log in.</Text>
 					</TouchableOpacity>
-					<TouchableOpacity style={styles.button}>
+					<TouchableOpacity
+						style={styles.button}
+						onPress={() => validateNewUser()}>
 						<Text style={styles.buttonText}>Register.</Text>
 					</TouchableOpacity>
 				</View>
@@ -55,7 +60,7 @@ const styles = StyleSheet.create({
 		alignItems: "center",
 		width: "100%",
 		height: "70%",
-    backgroundColor: "white"
+		backgroundColor: "white",
 	},
 	inputContainer: {
 		width: "85%",
@@ -72,11 +77,9 @@ const styles = StyleSheet.create({
 		fontFamily: "courier new",
 		fontStyle: "italic",
 		fontWeight: "bold",
-    color: "deeppink",
-    textShadowColor: "midnightblue",
-    textShadowOffset: { width:"-1.2vw", height: "-1.2vw",
-    
-    }
+		color: "deeppink",
+		textShadowColor: "midnightblue",
+		textShadowOffset: { width: "-1.2vw", height: "-1.2vw" },
 	},
 	form: {
 		width: "90%",
@@ -92,25 +95,27 @@ const styles = StyleSheet.create({
 		padding: 8,
 		margin: 8,
 		borderRadius: 3,
-	
+		fontSize: "4.5vw",
+
 		fontFamily: "Courier",
-    color: "midnightblue",
+		color: "midnightblue",
 	},
 	button: {
 		backgroundColor: "azure",
 		padding: 10,
 		margin: 8,
 		borderRadius: 3,
-
-	
+    shadowColor: "midnightblue",
+    shadowOffset: { width: "-1.2vw", height: "-1.2vw" },
 	},
 	buttonContainer: {
 		marginTop: 16,
 	},
 	buttonText: {
 		fontFamily: "Courier",
-    color: "midnightblue",
-    fontWeight: "bold"
+		color: "midnightblue",
+		fontWeight: "bold",
+		fontSize: "4.5vw",
 	},
 });
 
