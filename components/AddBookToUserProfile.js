@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import { StyleSheet, Text, View, Image } from "react-native";
 import { api } from "../api";
 
-export default function BarcodeScanner() {
+export default function AddBookToUserProfile() {
   const ISBN = 9780191623042;
   const [book, setBook] = useState([]);
   const [cover, setCover] = useState();
