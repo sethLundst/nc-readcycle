@@ -16,14 +16,16 @@ function App() {
       <Tab.Navigator
         initialRouteName="Home"
         screenOptions={({ route }) => ({
-          tabBarIcon: ({ focused, color, size }) => {
+          tabBarIcon: ({ color, size }) => {
             let iconName;
-            if (route.name === "Home") {
-              iconName = focused
-                ? "ios-information-circle"
-                : "ios-information-circle-outline";
-            } else if (route.name === "Settings") {
-              iconName = focused ? "ios-list-box" : "ios-list";
+            if (route.name === "HomeScreen") {
+              iconName = "home-outline";
+            } else if (route.name === "ListBookScreen") {
+              iconName = "book-outline";
+            } else if (route.name === "SearchScreen") {
+              iconName = "search-outline";
+            } else if (route.name === "UserProfileScreen") {
+              iconName = "person-outline";
             }
             return <Ionicons name={iconName} size={size} color={color} />;
           },
