@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
 import { api } from "../api";
 
-export default function ListBookScreen() {
+export default function BookConfirmationScreen() {
   const ISBN = 9780191623042;
   const [book, setBook] = useState([]);
   const [cover, setCover] = useState();
