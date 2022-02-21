@@ -8,7 +8,7 @@ export default function ListBookScreen({ navigation }) {
         title="Scan a barcode"
         onPress={() => navigation.navigate("BarcodeScannerScreen")}
       />
-      <br></br>
+
       <Button
         title="List manually"
         onPress={() => navigation.navigate("ListBookManuallyScreen")}
