@@ -1,13 +1,16 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
 import BarcodeScanner from "./components/BarcodeScanner";
+import Login from "./components/login-signup/login";
 
 export default function App() {
+
   return (
     <View style={styles.container}>
-      <Text>ReadCycle</Text>
+      {/* <Text>ReadCycle</Text>
       <StatusBar style="auto" />
-      <BarcodeScanner></BarcodeScanner>
+      <BarcodeScanner></BarcodeScanner> */}
+      <Login></Login>
     </View>
   );
 }
