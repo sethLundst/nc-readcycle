@@ -9,6 +9,11 @@ import {
 } from "react-native";
 import { Ionicons, Foundation, MaterialIcons } from "@expo/vector-icons";
 import UserAvatar from "react-native-user-avatar";
+import MapButton from "./MapButton";
+import TreeIcon from "./TreeIconLink";
+import UserRatingLink from "./UserRatingLink";
+import BooksOfferedLink from "./BooksOfferedLink";
+import BooksHomedLink from "./BooksRehomedLink";
 
 export default function ProfilePage() {
   return (
@@ -35,14 +40,7 @@ export default function ProfilePage() {
             ></Ionicons>
           </View>
           <View style={styles.active}></View>
-          <View style={styles.location}>
-            <Ionicons
-              name="ios-location-outline"
-              size={22}
-              color="#DFD8C8"
-              style={{ marginTop: 4, marginLeft: 1 }}
-            ></Ionicons>
-          </View>
+          <MapButton/>
         </View>
 
         <View style={styles.infoContainer}>
@@ -56,7 +54,7 @@ export default function ProfilePage() {
 
         <View style={styles.statsContainer}>
           <View style={styles.statsBox}>
-            <Ionicons name="ios-bookmarks-outline" size={24} color="black" />
+            <BooksHomedLink />
           </View>
           <View
             style={[
@@ -68,7 +66,7 @@ export default function ProfilePage() {
               },
             ]}
           >
-            <Ionicons name="md-book-outline" size={24} color="black" />
+            <BooksOfferedLink />
           </View>
           <View
             style={[
@@ -79,10 +77,10 @@ export default function ProfilePage() {
               },
             ]}
           >
-            <Ionicons name="heart-circle-outline" size={28} color="black" />
+            <UserRatingLink/>
           </View>
           <View style={styles.statsBox}>
-            <Foundation name="trees" size={28} color="black" />
+            <TreeIcon/>
           </View>
         </View>
 
