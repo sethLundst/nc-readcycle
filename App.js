@@ -1,10 +1,16 @@
+
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import BarcodeScanner from "./components/BarcodeScanner";
 import BookList from "./components/BookList";
+import * as React from "react";
+import { NavigationContainer } from "@react-navigation/native";
+import BottomTabNavigator from "./navigation/TabNavigator";
 
-export default function App() {
+
+function App() {
   return (
+
     <View style={styles.container}>
       {/* <Text>ReadCycle</Text> */}
       <StatusBar style="auto" />
@@ -25,3 +31,12 @@ const styles = StyleSheet.create({
     // justifyContent: "center",
   },
 });
+
+    <NavigationContainer>
+      <BottomTabNavigator></BottomTabNavigator>
+    </NavigationContainer>
+  );
+}
+
+export default App;
+
