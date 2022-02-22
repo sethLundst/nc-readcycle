@@ -22,11 +22,21 @@ const styles = StyleSheet.create({
   image: {
     marginTop: 25,
     marginHorizontal: 25,
+    marginBottom: 5,
     // paddingBottom: 25,
     // paddingRight: 50,
     width: 130,
     height: 165,
   },
+  title: {
+    width: 130,
+    textAlign: "center",
+  },
+  bookBox: {
+    alignItems: 'center',
+    display: 'flex',
+    flex: 1
+  }
 });
 
 const BookList = (props) => {
@@ -1916,8 +1926,8 @@ const BookList = (props) => {
   //     { title: "book 5" },
   //   ]);
 
-  console.log(books[0].items[0].volumeInfo.title, "<< title");
-  console.log(books[0].items[0].etag, "<< id");
+  // console.log(books[0].items[0].volumeInfo.title, "<< title");
+  // console.log(books[0].items[0].etag, "<< id");
   // console.log(Object.keys(books[0].items[0].volumeInfo.title), "<< title");
   return (
     <View style={styles.container}>
@@ -1929,14 +1939,18 @@ const BookList = (props) => {
           data={books}
           renderItem={({ item }) => (
             <>
-              {/* <Text style={styles.item}>{item.items[0].volumeInfo.title}</Text> */}
-              <Image
-                style={styles.image}
-                source={{
-                  uri: `${item.items[0].volumeInfo.imageLinks.thumbnail}`,
-                }}
-                style={styles.image}
-              />
+              <View style={styles.bookBox}>
+                <Image
+                  style={styles.image}
+                  source={{
+                    uri: `${item.items[0].volumeInfo.imageLinks.thumbnail}`,
+                  }}
+                  style={styles.image}
+                />
+                <Text style={styles.title}>
+                  {item.items[0].volumeInfo.title}
+                </Text>
+              </View>
             </>
           )}
         />
