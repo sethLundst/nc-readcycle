@@ -1,8 +1,6 @@
 import { Text, View, StyleSheet, TextInput } from "react-native";
 import React, { useState, useEffect } from "react";
 import { KeyboardAvoidingView, TouchableOpacity } from "react-native-web";
-import validate from "validator";
-import { handleSignUp, checkEmail, validateUsername } from "../../db/firestore";
 
 const Login = () => {
 	const [userObj, setUserObj] = useState({
@@ -11,7 +9,7 @@ const Login = () => {
 		location: {},
 		username: "",
 	});
-	const [isRegistering, setIsRegistering] = useState(false);
+
 	const [emailErr, setEmailErr] = useState("");
 	const [pwordErr, setPwordErr] = useState("");
 
@@ -21,44 +19,8 @@ const Login = () => {
 		});
 	};
 
-	const validateEmail = async (email) => {
-		return checkEmail(email).then((isFree) => {
-			if (!isFree) {
-				setEmailErr("Email address in use");
-			} else if (!email) {
-				setEmailErr("Email address required.");
-			} else if (!validate.isEmail(email)) {
-				setEmailErr("Invalid email address.");
-			} else {
-				setEmailErr("");
-			}
-			validatePassword(userObj.password);
-			;
-		}).then(()=>{
-      
-    });
-	};
-
-	const validatePassword = async (pword) => {
-		const regex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{7,20}$/;
-
-		if (!pword) {
-			setPwordErr("Password required.");
-		} else if (!regex.test(pword)) {
-			setPwordErr(
-				"Password must be 7-20 characters long\nwith at least one uppercase letter,\none lowercase letter and one number."
-			);
-		} else {
-			setPwordErr(setPwordErr(false));
-		}
-	};
-
 	const handleRegisterClick = () => {
-		validateEmail(userObj.email).then(() => {
-			if (!emailErr && !pwordErr) {
-				console.log("yeh");
-			}
-		});
+		validatePasswordAndEmail(userObj.email);
 	};
 
 	return (
