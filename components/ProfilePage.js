@@ -48,7 +48,7 @@ export default function ProfilePage() {
             Face
           </Text>
           <Text style={[styles.text, { color: "#AEB5BC", fontSize: 14 }]}>
-            Napper-hunter-Cat
+            Napper - Hunter - Cat
           </Text>
         </View>
 
