@@ -1,5 +1,5 @@
 import { Text, View, StyleSheet, TextInput } from "react-native";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { KeyboardAvoidingView, TouchableOpacity } from "react-native-web";
 import validate from "validator";
 import { handleSignUp, checkEmail, validateUsername } from "../../db/firestore";
@@ -14,7 +14,7 @@ const Login = () => {
 	const [isRegistering, setIsRegistering] = useState(false);
 	const [emailErr, setEmailErr] = useState("");
 	const [pwordErr, setPwordErr] = useState("");
- 
+
 	const handleChange = (text, name) => {
 		setUserObj((curr) => {
 			return { ...curr, [name]: text };
@@ -22,27 +22,29 @@ const Login = () => {
 	};
 
 	const validateEmail = async (email) => {
-		if (!email) {
-			setEmailErr("Please enter an email address");
-			return;
-		} else if (!validate.isEmail(email)) {
-			setEmailErr("Invalid email address.");
-			return;
-		}
-		return checkEmail(email).then((isValid) => {
-			return isValid ? setEmailErr("") : setEmailErr("Email address in use.");
-		});
+		return checkEmail(email).then((isFree) => {
+			if (!isFree) {
+				setEmailErr("Email address in use");
+			} else if (!email) {
+				setEmailErr("Email address required.");
+			} else if (!validate.isEmail(email)) {
+				setEmailErr("Invalid email address.");
+			} else {
+				setEmailErr("");
+			}
+			validatePassword(userObj.password);
+			;
+		}).then(()=>{
+      
+    });
 	};
 
-	const validatePassword = (pword) => {
+	const validatePassword = async (pword) => {
 		const regex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{7,20}$/;
 
 		if (!pword) {
-			setPwordErr("Please enter a password");
-			return;
-		}
-
-		if (!regex.test(pword)) {
+			setPwordErr("Password required.");
+		} else if (!regex.test(pword)) {
 			setPwordErr(
 				"Password must be 7-20 characters long\nwith at least one uppercase letter,\none lowercase letter and one number."
 			);
@@ -52,17 +54,11 @@ const Login = () => {
 	};
 
 	const handleRegisterClick = () => {
-		validateEmail(userObj.email)
-			.then(() => {
-        console.log(pwordErr, emailErr, 1);
-				validatePassword(userObj.password);
-        console.log(pwordErr, emailErr, 2);
-			})
-			.then(() => {
-				if (!pwordErr && !emailErr) {
-					setIsRegistering(true);
-				}
-			});
+		validateEmail(userObj.email).then(() => {
+			if (!emailErr && !pwordErr) {
+				console.log("yeh");
+			}
+		});
 	};
 
 	return (
@@ -95,9 +91,7 @@ const Login = () => {
 					<TouchableOpacity style={styles.button}>
 						<Text style={styles.buttonText}>Log in.</Text>
 					</TouchableOpacity>
-					<TouchableOpacity
-						style={styles.button}
-						onPress={() => handleRegisterClick()}>
+					<TouchableOpacity style={styles.button} onPress={handleRegisterClick}>
 						<Text style={styles.buttonText}>Register.</Text>
 					</TouchableOpacity>
 				</View>
