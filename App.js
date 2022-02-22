@@ -6,7 +6,7 @@ import BookList from "./components/BookList";
 export default function App() {
   return (
     <View style={styles.container}>
-      <Text>ReadCycle</Text>
+      {/* <Text>ReadCycle</Text> */}
       <StatusBar style="auto" />
       {/* <BarcodeScanner></BarcodeScanner> */}
       <BookList />
