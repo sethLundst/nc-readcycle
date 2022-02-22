@@ -1,30 +1,28 @@
 import React, { useState } from "react";
-import { FlatList, StyleSheet, Text, View, Image } from "react-native";
+import {
+  FlatList,
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  TextInput,
+  Icon,
+} from "react-native";
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    // padding: 100,
     width: "100%",
   },
   list: {
-    // padding: 25,
-    // flexDirection: "row",
-
-    // fontSize: 18,
     width: "100%",
-    // height: '50%',
-    // height: 44,
-    // backgroundColor: '#FFF'
   },
   image: {
     marginTop: 25,
     marginHorizontal: 25,
     marginBottom: 5,
-    // paddingBottom: 25,
-    // paddingRight: 50,
     width: 130,
     height: 165,
   },
@@ -33,9 +31,23 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   bookBox: {
-    alignItems: 'center',
-    display: 'flex',
-    flex: 1
+    alignItems: "center",
+    display: "flex",
+    flex: 1,
+  },
+  searchbarInput: {
+    borderColor: "#1323",
+    borderWidth: 2,
+    borderRadius: 20,
+    marginTop: 20,
+    padding: 7,
+    textAlign: "center",
+  },
+  treesSaved: {
+    marginTop: 10,
+  },
+  bookFilter: {
+    marginTop: 10,
   }
 });
 
@@ -1918,41 +1930,65 @@ const BookList = (props) => {
     },
   ];
 
-  //   const [booksArr, setBooksArr] = useState([
-  //     { title: "book 1" },
-  //     { title: "book 2" },
-  //     { title: "book 3" },
-  //     { title: "book 4" },
-  //     { title: "book 5" },
-  //   ]);
+  const [search, setSearch] = useState("");
+  const [filteredDataSource, setFilteredDataSource] = useState(books);
+  const [masterDataSource, setMasterDataSource] = useState(books);
 
-  // console.log(books[0].items[0].volumeInfo.title, "<< title");
-  // console.log(books[0].items[0].etag, "<< id");
-  // console.log(Object.keys(books[0].items[0].volumeInfo.title), "<< title");
+  const searchFilterFunction = (text) => {
+    if (text) {
+      const newData = masterDataSource.filter((book) => {
+        return book.items[0].volumeInfo.title
+          .toLowerCase()
+          .includes(text.toLowerCase());
+      });
+      setFilteredDataSource(newData);
+      setSearch(text);
+    } else {
+      setFilteredDataSource(masterDataSource);
+      setSearch(text);
+    }
+  };
+
+  const ItemView = ({ item }) => {
+    return (
+      <View style={styles.bookBox}>
+        <Image
+          style={styles.image}
+          source={{
+            uri: `${item.items[0].volumeInfo.imageLinks.thumbnail}`,
+          }}
+          style={styles.image}
+        />
+        <Text style={styles.title}>{item.items[0].volumeInfo.title}</Text>
+      </View>
+    );
+  };
+
   return (
     <View style={styles.container}>
+      <View style={styles.searchbarContainer}>
+        <TextInput
+          style={styles.searchbarInput}
+          value={search}
+          placeholder="search books..."
+          onChangeText={(text) => {
+            searchFilterFunction(text);
+          }}
+        />
+      </View>
+      <View style={styles.bookFilter}>
+        <Text>112 trees saved</Text>
+      </View>
+      <View>
+        <Text>filter here ...</Text>
+      </View>
+
       <View style={styles.list}>
         <FlatList
           numColumns={2}
-          // style={styles.item}
           keyExtractor={(item) => item.items[0].etag}
-          data={books}
-          renderItem={({ item }) => (
-            <>
-              <View style={styles.bookBox}>
-                <Image
-                  style={styles.image}
-                  source={{
-                    uri: `${item.items[0].volumeInfo.imageLinks.thumbnail}`,
-                  }}
-                  style={styles.image}
-                />
-                <Text style={styles.title}>
-                  {item.items[0].volumeInfo.title}
-                </Text>
-              </View>
-            </>
-          )}
+          data={filteredDataSource}
+          renderItem={ItemView}
         />
       </View>
     </View>
