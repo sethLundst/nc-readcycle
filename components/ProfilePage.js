@@ -18,7 +18,8 @@ import BooksHomedLink from "./BooksRehomedLink";
 export default function ProfilePage() {
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView showsVerticalScrollIndicator={false}>
+      <ScrollView  showsVerticalScrollIndicator={false}>
+        <View style={styles.scrollView}>
         <View style={styles.titleBar}>
           <Ionicons name="ios-arrow-back" size={24} color="#52575D"></Ionicons>
           <MaterialIcons name="more-vert" size={24} color="black" />
@@ -287,6 +288,7 @@ export default function ProfilePage() {
               </View>
             </ScrollView>
           </View>
+          </View>
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -297,6 +299,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#FFF",
+  },
+  scrollView: {
+    flex: 1,
   },
   text: {
     fontFamily: "HelveticaNeue",
