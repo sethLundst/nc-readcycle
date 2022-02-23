@@ -6,6 +6,7 @@ import {
   SafeAreaView,
   Image,
   ScrollView,
+  FlatList,
 } from "react-native";
 import { Ionicons, Foundation, MaterialIcons } from "@expo/vector-icons";
 import MapButton from "./MapButton";
@@ -15,21 +16,52 @@ import BooksOfferedLink from "./BooksOfferedLink";
 import BooksHomedLink from "./BooksRehomedLink";
 
 export default function ProfilePage() {
-  const [bookList, setBookList] = useState("");
-
   const usersbooks = [
-    "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1396092162l/21797255.jpg",
-    "https://upload.wikimedia.org/wikipedia/en/thumb/e/e4/Ender%27s_game_cover_ISBN_0312932081.jpg/220px-Ender%27s_game_cover_ISBN_0312932081.jpg",
-    "https://m.media-amazon.com/images/I/51TVrzNamQL._SL500_.jpg",
-    "https://m.media-amazon.com/images/I/51nfKQgGgZL.jpg",
-    "https://blackwells.co.uk/jacket/l/9780062094353.jpg",
-    "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1566425108l/33.jpg",
-    "https://images-na.ssl-images-amazon.com/images/I/71UttNn8ZcL.jpg",
-    "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1532695250l/32423._SY475_.jpg",
+    {
+      id: "Hellboy",
+      cover:
+        "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1396092162l/21797255.jpg",
+    },
+    {
+      id: "Ender",
+      cover:
+        "https://upload.wikimedia.org/wikipedia/en/thumb/e/e4/Ender%27s_game_cover_ISBN_0312932081.jpg/220px-Ender%27s_game_cover_ISBN_0312932081.jpg",
+    },
+    {
+      id: "Hellbound",
+      cover: "https://m.media-amazon.com/images/I/51TVrzNamQL._SL500_.jpg",
+    },
+    {
+      id: "Rings",
+      cover: "https://m.media-amazon.com/images/I/51nfKQgGgZL.jpg",
+    },
+    { cover: "https://blackwells.co.uk/jacket/l/9780062094353.jpg" },
+    {
+      id: "Kitchen",
+      cover:
+        "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1566425108l/33.jpg",
+    },
+    {
+      id: "Watchers",
+      cover: "https://images-na.ssl-images-amazon.com/images/I/71UttNn8ZcL.jpg",
+    },
+    {
+      id: "Cloud",
+      cover:
+        "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1532695250l/32423._SY475_.jpg",
+    },
   ];
 
-  const GetUsersbooks = (usersbooks) => {
-    return usersbooks[1];
+  const GetCover = () => {
+    return (
+      <View style={styles.mediaImageContainer}>
+        <Image
+          source={{ uri: `${usersbooks[0].cover}` }}
+          style={styles.image}
+          resizeMode="cover"
+        ></Image>
+      </View>
+    );
   };
 
   return (
@@ -106,13 +138,16 @@ export default function ProfilePage() {
           </View>
 
           <View style={{ marginTop: 32 }}>
-            <ScrollView
+            <FlatList
               horizontal={true}
               showsHorizontalScrollIndicator={false}
+              keyExtractor={(item) => item.id}
+              data={usersbooks}
+              renderItem={GetCover}
             >
-              <View style={styles.mediaImageContainer}>
+              {/* <View style={styles.mediaImageContainer}>
                 <Image
-                  source={{ uri: `${usersbooks[0]}` }}
+                  source={{ uri: `${usersbooks[0].cover}` }}
                   style={styles.image}
                   resizeMode="cover"
                 ></Image>
@@ -120,7 +155,7 @@ export default function ProfilePage() {
               <View style={styles.mediaImageContainer}>
                 <Image
                   source={{
-                    uri: `${usersbooks[1]}`,
+                    uri: `${usersbooks[1].cover}`,
                   }}
                   style={styles.image}
                   resizeMode="cover"
@@ -129,7 +164,7 @@ export default function ProfilePage() {
               <View style={styles.mediaImageContainer}>
                 <Image
                   source={{
-                    uri: `${usersbooks[2]}`,
+                    uri: `${usersbooks[2].cover}`,
                   }}
                   style={styles.image}
                   resizeMode="cover"
@@ -138,7 +173,7 @@ export default function ProfilePage() {
               <View style={styles.mediaImageContainer}>
                 <Image
                   source={{
-                    uri: `${usersbooks[3]}`,
+                    uri: `${usersbooks[3].cover}`,
                   }}
                   style={styles.image}
                   resizeMode="cover"
@@ -147,7 +182,7 @@ export default function ProfilePage() {
               <View style={styles.mediaImageContainer}>
                 <Image
                   source={{
-                    uri: `${usersbooks[4]}`,
+                    uri: `${usersbooks[4].cover}`,
                   }}
                   style={styles.image}
                   resizeMode="cover"
@@ -156,7 +191,7 @@ export default function ProfilePage() {
               <View style={styles.mediaImageContainer}>
                 <Image
                   source={{
-                    uri: `${usersbooks[5]}`,
+                    uri: `${usersbooks[5].cover}`,
                   }}
                   style={styles.image}
                   resizeMode="cover"
@@ -165,7 +200,7 @@ export default function ProfilePage() {
               <View style={styles.mediaImageContainer}>
                 <Image
                   source={{
-                    uri: `${usersbooks[6]}`,
+                    uri: `${usersbooks[6].cover}`,
                   }}
                   style={styles.image}
                   resizeMode="cover"
@@ -174,13 +209,13 @@ export default function ProfilePage() {
               <View style={styles.mediaImageContainer}>
                 <Image
                   source={{
-                    uri: `${usersbooks[7]}`,
+                    uri: `${usersbooks[7].cover}`,
                   }}
                   style={styles.image}
                   resizeMode="cover"
                 ></Image>
-              </View>
-            </ScrollView>
+              </View> */}
+            </FlatList>
 
             <View style={styles.bookCount}>
               <Text
