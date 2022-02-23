@@ -9,7 +9,7 @@ import {
   setDoc,
   doc,
 } from "firebase/firestore";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAmmM3CBTdIeuOY7KEXouW-SFAHeyA_Ums",
@@ -38,15 +38,24 @@ export function checkUsername(username) {
 	return qsnap.empty;
 }
 
-export const handleSignUp = ({ email, password }) => {
-	createUserWithEmailAndPassword(auth, email, password).then(
+export const handleSignUp = ({ email, password, username, postcode }) => {
+	createUserWithEmailAndPassword(auth, email, password, postcode).then(
 		(userCredential) => {
-			console.log(userCredential.user);
 			setDoc(doc(db, "users", userCredential.user.uid), {
 				uid: userCredential.user.uid,
 				email: email,
+        username: username,
+        postcode: postcode,
+        avatar: '',
+        books: [],
+        wishlist: []
 			});
 		}
 	);
 };
 
+export const handleLogin = ({password, email}) => {
+  signInWithEmailAndPassword(auth, email, password).then((userCredential)=>{
+    console.log(userCredential);
+  })
+}
