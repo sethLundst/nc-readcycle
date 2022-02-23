@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -8,7 +8,6 @@ import {
   ScrollView,
 } from "react-native";
 import { Ionicons, Foundation, MaterialIcons } from "@expo/vector-icons";
-import UserAvatar from "react-native-user-avatar";
 import MapButton from "./MapButton";
 import TreeIcon from "./TreeIconLink";
 import UserRatingLink from "./UserRatingLink";
@@ -16,278 +15,208 @@ import BooksOfferedLink from "./BooksOfferedLink";
 import BooksHomedLink from "./BooksRehomedLink";
 
 export default function ProfilePage() {
+  const [bookList, setBookList] = useState("");
+
+  const usersbooks = [
+    "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1396092162l/21797255.jpg",
+    "https://upload.wikimedia.org/wikipedia/en/thumb/e/e4/Ender%27s_game_cover_ISBN_0312932081.jpg/220px-Ender%27s_game_cover_ISBN_0312932081.jpg",
+    "https://m.media-amazon.com/images/I/51TVrzNamQL._SL500_.jpg",
+    "https://m.media-amazon.com/images/I/51nfKQgGgZL.jpg",
+    "https://blackwells.co.uk/jacket/l/9780062094353.jpg",
+    "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1566425108l/33.jpg",
+    "https://images-na.ssl-images-amazon.com/images/I/71UttNn8ZcL.jpg",
+    "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1532695250l/32423._SY475_.jpg",
+  ];
+
+  const GetUsersbooks = (usersbooks) => {
+    return usersbooks[1];
+  };
+
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView  showsVerticalScrollIndicator={false}>
+      <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.scrollView}>
-        <View style={styles.titleBar}>
-          <Ionicons name="ios-arrow-back" size={24} color="#52575D"></Ionicons>
-          <MaterialIcons name="more-vert" size={24} color="black" />
-        </View>
-
-        <View style={{ alignSelf: "center" }}>
-          <View style={styles.profileImage}>
-            <Image
-              source={require("../assets/cat.png")}
-              style={styles.image}
-              resizeMode="center"
-            ></Image>
-          </View>
-          <View style={styles.ios_settings_outline}>
+          <View style={styles.titleBar}>
             <Ionicons
-              name="ios-settings-outline"
-              size={22}
-              color="#DFD8C8"
+              name="ios-arrow-back"
+              size={24}
+              color="#52575D"
             ></Ionicons>
+            <MaterialIcons name="more-vert" size={24} color="black" />
           </View>
-          <View style={styles.active}></View>
-          <MapButton/>
-        </View>
 
-        <View style={styles.infoContainer}>
-          <Text style={[styles.text, { fontWeight: "200", fontSize: 36 }]}>
-            Face
-          </Text>
-          <Text style={[styles.text, { color: "#AEB5BC", fontSize: 14 }]}>
-            Napper - Hunter - Cat
-          </Text>
-        </View>
+          <View style={{ alignSelf: "center" }}>
+            <View style={styles.profileImage}>
+              <Image
+                source={require("../assets/cat.png")}
+                style={styles.image}
+                resizeMode="center"
+              ></Image>
+            </View>
+            <View style={styles.ios_settings_outline}>
+              <Ionicons
+                name="ios-settings-outline"
+                size={22}
+                color="#DFD8C8"
+              ></Ionicons>
+            </View>
+            <View style={styles.active}></View>
+            <MapButton />
+          </View>
 
-        <View style={styles.statsContainer}>
-          <View style={styles.statsBox}>
-            <BooksHomedLink />
-          </View>
-          <View
-            style={[
-              styles.statsBox,
-              {
-                borderColor: "#DFD8C8",
-                borderLeftWidth: 1,
-                borderRightWidth: 1,
-              },
-            ]}
-          >
-            <BooksOfferedLink />
-          </View>
-          <View
-            style={[
-              styles.statsBox,
-              {
-                borderColor: "#DFD8C8",
-                borderRightWidth: 1,
-              },
-            ]}
-          >
-            <UserRatingLink/>
-          </View>
-          <View style={styles.statsBox}>
-            <TreeIcon/>
-          </View>
-        </View>
-
-        <View style={{ marginTop: 32 }}>
-          <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-            <View style={styles.mediaImageContainer}>
-              <Image
-                source={{
-                  uri: "https://images-na.ssl-images-amazon.com/images/I/71MBvBhzu3L.jpg",
-                }}
-                style={styles.image}
-                resizeMode="cover"
-              ></Image>
-            </View>
-            <View style={styles.mediaImageContainer}>
-              <Image
-                source={{
-                  uri: "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1566425108l/33.jpg",
-                }}
-                style={styles.image}
-                resizeMode="cover"
-              ></Image>
-            </View>
-            <View style={styles.mediaImageContainer}>
-              <Image
-                source={{
-                  uri: "https://upload.wikimedia.org/wikipedia/en/thumb/e/e4/Ender%27s_game_cover_ISBN_0312932081.jpg/220px-Ender%27s_game_cover_ISBN_0312932081.jpg",
-                }}
-                style={styles.image}
-                resizeMode="cover"
-              ></Image>
-            </View>
-            <View style={styles.mediaImageContainer}>
-              <Image
-                source={{
-                  uri: "http://booklikes.com/photo/max/300/0/upload/books/33/86/626682faddd7426a3559402e5c171dfb.jpg",
-                }}
-                style={styles.image}
-                resizeMode="cover"
-              ></Image>
-            </View>
-            <View style={styles.mediaImageContainer}>
-              <Image
-                source={{
-                  uri: "https://images-na.ssl-images-amazon.com/images/I/71UttNn8ZcL.jpg",
-                }}
-                style={styles.image}
-                resizeMode="cover"
-              ></Image>
-            </View>
-            <View style={styles.mediaImageContainer}>
-              <Image
-                source={{
-                  uri: "https://m.media-amazon.com/images/I/51TVrzNamQL._SL500_.jpg",
-                }}
-                style={styles.image}
-                resizeMode="cover"
-              ></Image>
-            </View>
-            <View style={styles.mediaImageContainer}>
-              <Image
-                source={{
-                  uri: "https://m.media-amazon.com/images/I/51nfKQgGgZL.jpg",
-                }}
-                style={styles.image}
-                resizeMode="cover"
-              ></Image>
-            </View>
-            <View style={styles.mediaImageContainer}>
-              <Image
-                source={{
-                  uri: "https://images-na.ssl-images-amazon.com/images/I/81q-n+f7cKL.jpg",
-                }}
-                style={styles.image}
-                resizeMode="cover"
-              ></Image>
-            </View>
-          </ScrollView>
-
-          <View style={styles.bookCount}>
-            <Text
-              style={[
-                styles.text,
-                { fontSize: 24, color: "#DFD8C8", fontWeight: "300" },
-              ]}
-            >
-              8
+          <View style={styles.infoContainer}>
+            <Text style={[styles.text, { fontWeight: "200", fontSize: 36 }]}>
+              Face
             </Text>
-            <Text
+            <Text style={[styles.text, { color: "#AEB5BC", fontSize: 14 }]}>
+              Napper - Hunter - Cat
+            </Text>
+          </View>
+
+          <View style={styles.statsContainer}>
+            <View style={styles.statsBox}>
+              <BooksHomedLink />
+            </View>
+            <View
               style={[
-                styles.text,
+                styles.statsBox,
                 {
-                  fontSize: 10,
-                  color: "#DFD8C8",
-                  textTransform: "uppercase",
-                  textAlign: "center",
+                  borderColor: "#DFD8C8",
+                  borderLeftWidth: 1,
+                  borderRightWidth: 1,
                 },
               ]}
             >
-              Books on offer
-            </Text>
+              <BooksOfferedLink />
+            </View>
+            <View
+              style={[
+                styles.statsBox,
+                {
+                  borderColor: "#DFD8C8",
+                  borderRightWidth: 1,
+                },
+              ]}
+            >
+              <UserRatingLink />
+            </View>
+            <View style={styles.statsBox}>
+              <TreeIcon />
+            </View>
           </View>
 
-          <View>
-            <Text style={[styles.subText, styles.fav_users]}>
-              Favourite users
-            </Text>
+          <View style={{ marginTop: 32 }}>
             <ScrollView
               horizontal={true}
               showsHorizontalScrollIndicator={false}
             >
-              <View style={styles.avatarContainer}>
-                <UserAvatar
-                  size={50}
-                  name="John Doe"
-                  src="https://cdn3.iconfinder.com/data/icons/avatars-9/145/Avatar_Cat-512.png"
-                  bgColors={["#ccc", "#fafafa", "#ccaabb"]}
-                />
+              <View style={styles.mediaImageContainer}>
+                <Image
+                  source={{ uri: `${usersbooks[0]}` }}
+                  style={styles.image}
+                  resizeMode="cover"
+                ></Image>
               </View>
-              <View style={styles.avatarContainer}>
-                <UserAvatar
-                  size={50}
-                  name="John Doe"
-                  bgColors={["#ccc", "#fafafa", "#ccaabb"]}
-                  src="https://cdn3.iconfinder.com/data/icons/avatars-9/145/Avatar_Penguin-512.png"
-                />
+              <View style={styles.mediaImageContainer}>
+                <Image
+                  source={{
+                    uri: `${usersbooks[1]}`,
+                  }}
+                  style={styles.image}
+                  resizeMode="cover"
+                ></Image>
               </View>
-              <View style={styles.avatarContainer}>
-                <UserAvatar
-                  size={50}
-                  name="John Doe"
-                  src="https://cdn3.iconfinder.com/data/icons/avatars-9/145/Avatar_Rabbit-512.png"
-                  bgColors={["#ccc", "#fafafa", "#ccaabb"]}
-                />
+              <View style={styles.mediaImageContainer}>
+                <Image
+                  source={{
+                    uri: `${usersbooks[2]}`,
+                  }}
+                  style={styles.image}
+                  resizeMode="cover"
+                ></Image>
               </View>
-              <View style={styles.avatarContainer}>
-                <UserAvatar
-                  size={50}
-                  name="John Doe"
-                  src="https://cdn3.iconfinder.com/data/icons/avatars-9/145/Avatar_Panda-512.png"
-                  bgColors={["#ccc", "#fafafa", "#ccaabb"]}
-                />
+              <View style={styles.mediaImageContainer}>
+                <Image
+                  source={{
+                    uri: `${usersbooks[3]}`,
+                  }}
+                  style={styles.image}
+                  resizeMode="cover"
+                ></Image>
               </View>
-              <View style={styles.avatarContainer}>
-                <UserAvatar
-                  size={50}
-                  name="John Doe"
-                  src="https://cdn3.iconfinder.com/data/icons/avatars-9/145/Avatar_Dog-512.png"
-                  bgColors={["#ccc", "#fafafa", "#ccaabb"]}
-                />
+              <View style={styles.mediaImageContainer}>
+                <Image
+                  source={{
+                    uri: `${usersbooks[4]}`,
+                  }}
+                  style={styles.image}
+                  resizeMode="cover"
+                ></Image>
               </View>
-              <View style={styles.avatarContainer}>
-                <UserAvatar
-                  size={50}
-                  name="John Doe"
-                  bgColors={["#ccc", "#fafafa", "#ccaabb"]}
-                  src="https://cdn3.iconfinder.com/data/icons/avatars-9/145/Avatar_Penguin-512.png"
-                />
+              <View style={styles.mediaImageContainer}>
+                <Image
+                  source={{
+                    uri: `${usersbooks[5]}`,
+                  }}
+                  style={styles.image}
+                  resizeMode="cover"
+                ></Image>
               </View>
-              <View style={styles.avatarContainer}>
-                <UserAvatar
-                  size={50}
-                  name="John Doe"
-                  src="https://cdn3.iconfinder.com/data/icons/avatars-9/145/Avatar_Cat-512.png"
-                  bgColors={["#ccc", "#fafafa", "#ccaabb"]}
-                />
+              <View style={styles.mediaImageContainer}>
+                <Image
+                  source={{
+                    uri: `${usersbooks[6]}`,
+                  }}
+                  style={styles.image}
+                  resizeMode="cover"
+                ></Image>
               </View>
-              <View style={styles.avatarContainer}>
-                <UserAvatar
-                  size={50}
-                  name="John Doe"
-                  bgColors={["#ccc", "#fafafa", "#ccaabb"]}
-                />
-              </View>
-              <View style={styles.avatarContainer}>
-                <UserAvatar
-                  size={50}
-                  name="John Doe"
-                  src="https://cdn3.iconfinder.com/data/icons/avatars-9/145/Avatar_Cat-512.png"
-                  bgColors={["#ccc", "#fafafa", "#ccaabb"]}
-                />
-              </View>
-              <View style={styles.avatarContainer}>
-                <UserAvatar
-                  size={50}
-                  name="John Doe"
-                  bgColors={["#ccc", "#fafafa", "#ccaabb"]}
-                />
-              </View>
-              <View style={styles.avatarContainer}>
-                <UserAvatar
-                  size={50}
-                  name="John Doe"
-                  src="https://cdn3.iconfinder.com/data/icons/avatars-9/145/Avatar_Cat-512.png"
-                  bgColors={["#ccc", "#fafafa", "#ccaabb"]}
-                />
-              </View>
-              <View style={styles.avatarContainer}>
-                <UserAvatar
-                  size={50}
-                  name="John Doe"
-                  bgColors={["#ccc", "#fafafa", "#ccaabb"]}
-                />
+              <View style={styles.mediaImageContainer}>
+                <Image
+                  source={{
+                    uri: `${usersbooks[7]}`,
+                  }}
+                  style={styles.image}
+                  resizeMode="cover"
+                ></Image>
               </View>
             </ScrollView>
-          </View>
+
+            <View style={styles.bookCount}>
+              <Text
+                style={[
+                  styles.text,
+                  { fontSize: 24, color: "#DFD8C8", fontWeight: "300" },
+                ]}
+              >
+                8
+              </Text>
+              <Text
+                style={[
+                  styles.text,
+                  {
+                    fontSize: 10,
+                    color: "#DFD8C8",
+                    textTransform: "uppercase",
+                    textAlign: "center",
+                  },
+                ]}
+              >
+                Books on offer
+              </Text>
+            </View>
+
+            <View>
+              <Text style={[styles.subText, styles.fav_users]}>
+                Favourite users
+              </Text>
+              <ScrollView
+                horizontal={true}
+                showsHorizontalScrollIndicator={false}
+              >
+                <View style={styles.avatarContainer}></View>
+              </ScrollView>
+            </View>
           </View>
         </View>
       </ScrollView>
