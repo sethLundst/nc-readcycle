@@ -3,9 +3,5 @@ import { View, Text } from "react-native";
 import BookList from "../components/BookList";
 
 export default function HomeScreen() {
-  return (
-    <View>
-      <BookList></BookList>
-    </View>
-  );
+  return <BookList />;
 }

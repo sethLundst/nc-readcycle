@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
   },
   bookFilter: {
     marginTop: 10,
-  }
+  },
 });
 
 const BookList = (props) => {
