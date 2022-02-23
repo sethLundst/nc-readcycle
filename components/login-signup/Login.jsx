@@ -17,7 +17,16 @@ const Login = () => {
 	const [toggleLogin, setToggleLogin] = useState(false);
 
 	const handleError = (err) => {
-		err.input = "email" ? setEmailErr(err.msg) : setPwordErr(err.msg);
+
+		switch (err.input) {
+			case "email":
+				setEmailErr(err.msg);
+				break;
+
+			case "password":
+				setPwordErr(err.msg);
+				break;
+		}
 	};
 
 	const handleChange = (text, name) => {
@@ -27,10 +36,12 @@ const Login = () => {
 	};
 
 	const handleRegisterClick = () => {
+		setEmailErr("");
+		setPwordErr("");
 		validateEmail(userObj.email)
 			.then(() => validatePassword(userObj.password))
 			.then(() => {
-				handleSignUp(userObj);
+				// handleSignUp(userObj);
 				setToggleLogin(true);
 			})
 			.catch((err) => handleError(err));

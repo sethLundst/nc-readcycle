@@ -12,6 +12,7 @@ export const validateEmail = async (email) => {
 	if (!isAvailable) {
 		return Promise.reject({ msg: "Email address in use.", input: "email" });
 	}
+  
 };
 
 export const validatePassword = async (pword) => {
