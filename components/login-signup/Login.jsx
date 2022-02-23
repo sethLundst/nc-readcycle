@@ -1,6 +1,8 @@
 import { Text, View, StyleSheet, TextInput } from "react-native";
 import React, { useState, useEffect } from "react";
 import { KeyboardAvoidingView, TouchableOpacity } from "react-native-web";
+import { validateEmail, validatePassword } from "./login-utils";
+import { handleSignUp } from "../../db/firestore";
 
 const Login = () => {
 	const [userObj, setUserObj] = useState({
@@ -12,6 +14,11 @@ const Login = () => {
 
 	const [emailErr, setEmailErr] = useState("");
 	const [pwordErr, setPwordErr] = useState("");
+	const [toggleLogin, setToggleLogin] = useState(false);
+
+	const handleError = (err) => {
+		err.input = "email" ? setEmailErr(err.msg) : setPwordErr(err.msg);
+	};
 
 	const handleChange = (text, name) => {
 		setUserObj((curr) => {
@@ -20,7 +27,13 @@ const Login = () => {
 	};
 
 	const handleRegisterClick = () => {
-		validatePasswordAndEmail(userObj.email);
+		validateEmail(userObj.email)
+			.then(() => validatePassword(userObj.password))
+			.then(() => {
+				handleSignUp(userObj);
+				setToggleLogin(true);
+			})
+			.catch((err) => handleError(err));
 	};
 
 	return (
