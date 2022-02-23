@@ -2,39 +2,27 @@ import validate from "validator";
 import { handleSignUp, checkEmail, validateUsername } from "../../db/firestore";
 
 export const validateEmail = async (email) => {
-
-  if (!validate.isEmail(email)){
-    return Promise.reject("Invalid email address.")
-  } 
-
-  const 
-
-  return checkEmail(email).then((isFree) => {
-    if (!isFree) {
-      setEmailErr("Email address in use");
-    } else if (!email) {
-      setEmailErr("Email address required.");
-    } else if (!validate.isEmail(email)) {
-      setEmailErr("Invalid email address.");
-    } else {
-      setEmailErr("");
-    }
-   
-  });
+	if (!email) {
+		return Promise.reject({ msg: "Email address required.", input: "email" });
+	}
+	if (!validate.isEmail(email)) {
+		return Promise.reject({ msg: "Invalid email address.", input: "email" });
+	}
+	const isAvailable = await checkEmail(email);
+	if (!isAvailable) {
+		return Promise.reject({ msg: "Email address in use.", input: "email" });
+	}
 };
-
 
 export const validatePassword = async (pword) => {
-  const regex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{7,20}$/;
-
-  if (!pword) {
-    setPwordErr("Password required.");
-  } else if (!regex.test(pword)) {
-    setPwordErr(
-      "Password must be 7-20 characters long\nwith at least one uppercase letter,\none lowercase letter and one number."
-    );
-  } else {
-    setPwordErr(setPwordErr(false));
-  }
+	const regex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{7,20}$/;
+	if (!pword) {
+		return Promise.reject({ msg: "Password required.", input: "password" });
+	}
+	if (!regex.test(pword)) {
+		return Promise.reject({
+			msg: "Password must be 7-20 characters long\nwith at least one uppercase letter,\none lowercase letter and one number.",
+			input: "password",
+		});
+	}
 };
-

@@ -26,17 +26,18 @@ const auth = getAuth(app);
 
 export const checkEmail = async (email) => {
 	const q = query(collection(db, "users"), where("email", "==", email));
-	const qsnap = await getDocs(q)
-  return qsnap.empty;
+	const qsnap = await getDocs(q);
+  
+	return qsnap.empty;
+};
+export function checkUsername(username) {
+	const q = query(collection(db, "users"), where("username", "==", username));
+	const qsnap = getDocs(q);
+
+	return qsnap.empty;
 }
-// export function checkUsername(username) {
-// 	const q = query(collection(db, "users"), where("username", "==", username));
-// 	const qsnap =  getDocs(q);
 
-//   return qsnap.empty;
-// }
-
-export const handleSignUp = ({email, password}) => {
+export const handleSignUp = ({ email, password }) => {
 	createUserWithEmailAndPassword(auth, email, password).then(
 		(userCredential) => {
 			console.log(userCredential.user);
