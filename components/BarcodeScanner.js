@@ -13,6 +13,7 @@ import { BarCodeScanner, requestPermissionsAsync } from "expo-barcode-scanner";
 import { api } from "../api";
 
 export default function App() {
+  // State
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
   const [submitted, setSubmitted] = useState(false);
@@ -23,6 +24,7 @@ export default function App() {
   const [category, setCategory] = useState("");
   const [pageCount, setPageCount] = useState();
 
+  // Request camera permission
   const askForCameraPermission = () => {
     (async () => {
       const { status } = await BarCodeScanner.requestPermissionsAsync();
@@ -30,10 +32,12 @@ export default function App() {
     })();
   };
 
+  // Initially renders camera permission box on load
   useEffect(() => {
     askForCameraPermission();
   }, []);
 
+  // API call after barcode is scanned
   const handleBarCodeScanned = ({ type, data }) => {
     console.log(data);
     console.log(type);
@@ -52,6 +56,7 @@ export default function App() {
       });
   };
 
+  // Controlled components - resets all state if "scan again" pressed
   const resetScanner = () => {
     setScanned(false);
     setISBN("");
@@ -63,6 +68,7 @@ export default function App() {
     setSubmitted(false);
   };
 
+  // Creates bookObject after submit is pressed
   const submitPress = () => {
     setSubmitted(true);
     const bookObject = { title, author, pageCount, ISBN, category };
@@ -70,6 +76,7 @@ export default function App() {
     // }
   };
 
+  // Renders button to ask for camera permission
   if (hasPermission === null) {
     return (
       <View style={styles.container}>
@@ -99,8 +106,9 @@ export default function App() {
           onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
           style={{ height: 400, width: 400 }}
         />
-
         <Image source={{ uri: image }} style={styles.image} />
+
+        {/* Render scan again button after barcode scanned */}
         {scanned && (
           <Button title={"Scan again"} onPress={() => resetScanner()} />
         )}
