@@ -2,8 +2,10 @@ import * as React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Ionicons from "@expo/vector-icons/Ionicons";
 
-import HomeScreen from "../screens/HomeScreen";
-import ListBookStackScreen from "../navigation/StackNavigators";
+import {
+  HomeStackScreen,
+  ListBookStackScreen,
+} from "../navigation/StackNavigators";
 import SearchScreen from "../screens/SearchScreen";
 import UserProfileScreen from "../screens/UserProfileScreen";
 
@@ -12,11 +14,11 @@ const Tab = createBottomTabNavigator();
 function BottomTabNavigator() {
   return (
     <Tab.Navigator
-      initialRouteName="Home"
+      initialRouteName="HomeStackScreen"
       screenOptions={({ route }) => ({
         tabBarIcon: ({ color, size }) => {
           let iconName;
-          if (route.name === "HomeScreen") {
+          if (route.name === "HomeStackScreen") {
             iconName = "home-outline";
           } else if (route.name === "ListBookStackScreen") {
             iconName = "book-outline";
@@ -32,8 +34,8 @@ function BottomTabNavigator() {
       })}
     >
       <Tab.Screen
-        name="HomeScreen"
-        component={HomeScreen}
+        name="HomeStackScreen"
+        component={HomeStackScreen}
         options={{ title: "Home" }}
       />
       <Tab.Screen
