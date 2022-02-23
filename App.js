@@ -1,16 +1,31 @@
+
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import BarcodeScanner from "./components/BarcodeScanner";
+
+
+
+
+
+
+import BookList from "./components/BookList";
+import * as React from "react";
+import { NavigationContainer } from "@react-navigation/native";
+import BottomTabNavigator from "./navigation/TabNavigator";
 import Login from "./components/login-signup/login";
 
-export default function App() {
+function App() {
 
   return (
+
     <View style={styles.container}>
-      {/* <Text>ReadCycle</Text>
+
+
+      {/* <Text>ReadCycle</Text> */}
       <StatusBar style="auto" />
-      <BarcodeScanner></BarcodeScanner> */}
-      <Login></Login>
+      {/* <BarcodeScanner></BarcodeScanner> */}
+      <BookList />
+
     </View>
   );
 }
@@ -18,8 +33,20 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "white",
+    backgroundColor: "#FFF",
     alignItems: "center",
     justifyContent: "center",
+
+    // alignItems: "center",
+    // justifyContent: "center",
   },
 });
+
+    <NavigationContainer>
+      <BottomTabNavigator></BottomTabNavigator>
+    </NavigationContainer>
+  );
+}
+
+export default App;
+
