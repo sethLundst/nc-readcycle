@@ -4,7 +4,7 @@ import React from "react";
 import { Button, TextInput, View, Text, StyleSheet } from "react-native";
 import { Formik } from "formik";
 import * as Yup from "yup";
-import { checkEmail, handleSignUp } from "../../db/firestore";
+import { checkEmailIsAvailable, handleSignUp } from "../../db/firestore";
 import validator from "validator";
 
 const pwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{7,20}$/;
@@ -17,7 +17,7 @@ const validationSchema = Yup.object({
 		.ensure()
 		.required("E-mail required.")
 		.test("is valid", "invalid email", validator.isEmail)
-		.test("isAvailable", "Email in use", checkEmail),
+		.test("isAvailable", "Email in use", checkEmailIsAvailable),
 	password: Yup.string()
 		.ensure()
 		.required("Password required.")

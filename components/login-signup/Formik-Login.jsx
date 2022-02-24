@@ -2,23 +2,21 @@ import React from "react";
 import { Button, TextInput, View, Text, StyleSheet } from "react-native";
 import { Formik } from "formik";
 import * as Yup from "yup";
-import { checkEmail, handleLogin} from "../../db/firestore";
+import { handleLogin, checkEmailIsOnSystem } from "../../db/firestore";
 import validator from "validator";
 
 const validationSchema = Yup.object({
 	email: Yup.string()
 		.ensure()
 		.required("E-mail required.")
-		.test("is valid", "invalid email", validator.isEmail),
-		// .test("isAvailable", "Email in use", checkEmail),
-	password: Yup.string()
-		.ensure()
-		.required("Password required.")
+		.test("is valid", "invalid email", validator.isEmail)
+		.test("isOnSystem", "Email not on system", checkEmailIsOnSystem),
+	password: Yup.string().ensure().required("Password required."),
 });
 
 export const LoginForm = (props) => (
 	<Formik
-		initialValues={{ email: "", password: ""}}
+		initialValues={{ email: "", password: "" }}
 		onSubmit={handleLogin}
 		validationSchema={validationSchema}>
 		{({ handleChange, handleBlur, handleSubmit, values, errors, touched }) => (
