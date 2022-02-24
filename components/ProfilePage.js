@@ -59,7 +59,7 @@ export default function ProfilePage() {
 
   const GetCover = ({cover}) => {
     return (
-      <View style={styles.mediaImageContainer}>
+      <View style={styles.bookCoverContainer}>
         <Image
           source={{ uri: `${cover}` }}
           style={styles.image}
@@ -77,7 +77,7 @@ export default function ProfilePage() {
     <SafeAreaView style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.scrollView}>
-          <View style={styles.titleBar}>
+          <View style={styles.headerIconBar}>
             <Ionicons
               name="ios-arrow-back"
               size={24}
@@ -92,6 +92,7 @@ export default function ProfilePage() {
                 source={require("../assets/cat.png")}
                 style={styles.image}
                 resizeMode="center"
+                
               ></Image>
             </View>
             <View style={styles.ios_settings_outline}>
@@ -101,26 +102,26 @@ export default function ProfilePage() {
                 color="#DFD8C8"
               ></Ionicons>
             </View>
-            <View style={styles.active}></View>
+            <View style={styles.activeDot}></View>
             <MapButton />
           </View>
 
-          <View style={styles.infoContainer}>
-            <Text style={[styles.text, { fontWeight: "200", fontSize: 36 }]}>
+          <View style={styles.userDetailsContainer}>
+            <Text style={[styles.text, { fontWeight: "200", fontSize: 36,  }]}>
               Face
             </Text>
-            <Text style={[styles.text, { color: "#AEB5BC", fontSize: 14 }]}>
+            <Text style={[styles.text, { color: "#AEB5BC", fontSize: 14, marginBottom: 10 }]}>
               Napper - Hunter - Cat
             </Text>
           </View>
 
-          <View style={styles.statsContainer}>
-            <View style={styles.statsBox}>
+          <View style={styles.iconsContainer}>
+            <View style={styles.iconBox}>
               <BooksHomedLink />
             </View>
             <View
               style={[
-                styles.statsBox,
+                styles.iconBox,
                 {
                   borderColor: "#DFD8C8",
                   borderLeftWidth: 1,
@@ -132,7 +133,7 @@ export default function ProfilePage() {
             </View>
             <View
               style={[
-                styles.statsBox,
+                styles.iconBox,
                 {
                   borderColor: "#DFD8C8",
                   borderRightWidth: 1,
@@ -141,7 +142,7 @@ export default function ProfilePage() {
             >
               <UserRatingLink />
             </View>
-            <View style={styles.statsBox}>
+            <View style={styles.iconBox}>
               <TreeIcon />
             </View>
           </View>
@@ -215,7 +216,7 @@ const styles = StyleSheet.create({
     height: undefined,
     width: undefined,
   },
-  titleBar: {
+  headerIconBar: {
     flexDirection: "row",
     justifyContent: "space-between",
     marginTop: 10,
@@ -232,6 +233,8 @@ const styles = StyleSheet.create({
     height: 230,
     borderRadius: 100,
     overflow: "hidden",
+    marginBottom: 0
+    
   },
   ios_settings_outline: {
     backgroundColor: "#41444B",
@@ -243,7 +246,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  active: {
+  activeDot: {
     backgroundColor: "#34FFB9",
     position: "absolute",
     bottom: 28,
@@ -264,28 +267,29 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  infoContainer: {
+  userDetailsContainer: {
     alignSelf: "center",
     alignItems: "center",
   },
-  statsContainer: {
+  iconsContainer: {
     flexDirection: "row",
     alignSelf: "center",
     marginTop: 12,
   },
-  statsBox: {
+  iconBox: {
     alignItems: "center",
     flex: 1,
     paddingLeft: 30,
     paddingRight: 30,
   },
-  mediaImageContainer: {
+  bookCoverContainer: {
     width: 180,
     height: 250,
     borderRadius: 12,
     overflow: "hidden",
     marginHorizontal: 6,
     marginTop: 10,
+    marginLeft: 15
   },
   bookCount: {
     backgroundColor: "#41444B",
