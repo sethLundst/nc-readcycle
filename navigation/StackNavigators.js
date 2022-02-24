@@ -1,29 +1,48 @@
 import * as React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
+const HomeStack = createNativeStackNavigator();
+import HomeScreen from "../screens/HomeScreen";
+import LogInScreen from "../screens/LogInScreen";
+import SignUpScreen from "../screens/SignUpScreen";
+
+const ListBookStack = createNativeStackNavigator();
 import BarcodeScannerScreen from "../screens/BarcodeScannerScreen";
 import ListBookManuallyScreen from "../screens/ListBookManuallyScreen";
 import ListBookScreen from "../screens/ListBookScreen";
 
-const Stack = createNativeStackNavigator();
-
-function ListBookStackScreen() {
+export function HomeStackScreen() {
   return (
-    <Stack.Navigator
-      initialRouteName="ListBookScreen"
+    <HomeStack.Navigator
+      initialRouteName="SignUpScreen"
       screenOptions={{ headerShown: false }}
     >
-      <Stack.Screen name="ListBookScreen" component={ListBookScreen} />
-      <Stack.Screen
-        name="BarcodeScannerScreen"
-        component={BarcodeScannerScreen}
+      <HomeStack.Screen
+        name="SignUpScreen"
+        component={SignUpScreen}
+        options={{ headerShown: false }}
       />
-      <Stack.Screen
-        name="ListBookManuallyScreen"
-        component={ListBookManuallyScreen}
-      />
-    </Stack.Navigator>
+      <HomeStack.Screen name="LogInScreen" component={LogInScreen} />
+      <HomeStack.Screen name="HomeScreen" component={HomeScreen} />
+    </HomeStack.Navigator>
   );
 }
 
-export default ListBookStackScreen;
+export function ListBookStackScreen() {
+  return (
+    <ListBookStack.Navigator
+      initialRouteName="ListBookScreen"
+      screenOptions={{ headerShown: false }}
+    >
+      <ListBookStack.Screen name="ListBookScreen" component={ListBookScreen} />
+      <ListBookStack.Screen
+        name="BarcodeScannerScreen"
+        component={BarcodeScannerScreen}
+      />
+      <ListBookStack.Screen
+        name="ListBookManuallyScreen"
+        component={ListBookManuallyScreen}
+      />
+    </ListBookStack.Navigator>
+  );
+}
