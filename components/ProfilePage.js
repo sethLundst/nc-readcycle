@@ -52,17 +52,21 @@ export default function ProfilePage() {
     },
   ];
 
-  const GetCover = () => {
+  const GetCover = ({cover}) => {
     return (
       <View style={styles.mediaImageContainer}>
         <Image
-          source={{ uri: `${usersbooks[0].cover}` }}
+          source={{ uri: `${cover}` }}
           style={styles.image}
           resizeMode="cover"
         ></Image>
       </View>
     );
   };
+
+  const renderItem = ({ item }) => (
+    <GetCover cover={item.cover} />
+  );
 
   return (
     <SafeAreaView style={styles.container}>
@@ -143,78 +147,8 @@ export default function ProfilePage() {
               showsHorizontalScrollIndicator={false}
               keyExtractor={(item) => item.id}
               data={usersbooks}
-              renderItem={GetCover}
+              renderItem={renderItem}
             >
-              {/* <View style={styles.mediaImageContainer}>
-                <Image
-                  source={{ uri: `${usersbooks[0].cover}` }}
-                  style={styles.image}
-                  resizeMode="cover"
-                ></Image>
-              </View>
-              <View style={styles.mediaImageContainer}>
-                <Image
-                  source={{
-                    uri: `${usersbooks[1].cover}`,
-                  }}
-                  style={styles.image}
-                  resizeMode="cover"
-                ></Image>
-              </View>
-              <View style={styles.mediaImageContainer}>
-                <Image
-                  source={{
-                    uri: `${usersbooks[2].cover}`,
-                  }}
-                  style={styles.image}
-                  resizeMode="cover"
-                ></Image>
-              </View>
-              <View style={styles.mediaImageContainer}>
-                <Image
-                  source={{
-                    uri: `${usersbooks[3].cover}`,
-                  }}
-                  style={styles.image}
-                  resizeMode="cover"
-                ></Image>
-              </View>
-              <View style={styles.mediaImageContainer}>
-                <Image
-                  source={{
-                    uri: `${usersbooks[4].cover}`,
-                  }}
-                  style={styles.image}
-                  resizeMode="cover"
-                ></Image>
-              </View>
-              <View style={styles.mediaImageContainer}>
-                <Image
-                  source={{
-                    uri: `${usersbooks[5].cover}`,
-                  }}
-                  style={styles.image}
-                  resizeMode="cover"
-                ></Image>
-              </View>
-              <View style={styles.mediaImageContainer}>
-                <Image
-                  source={{
-                    uri: `${usersbooks[6].cover}`,
-                  }}
-                  style={styles.image}
-                  resizeMode="cover"
-                ></Image>
-              </View>
-              <View style={styles.mediaImageContainer}>
-                <Image
-                  source={{
-                    uri: `${usersbooks[7].cover}`,
-                  }}
-                  style={styles.image}
-                  resizeMode="cover"
-                ></Image>
-              </View> */}
             </FlatList>
 
             <View style={styles.bookCount}>
