@@ -3,6 +3,7 @@ import React, { useLayoutEffect, useState } from "react";
 import { getDistance, convertDistance } from "geolib";
 import BookList from "./BookList";
 import books from "./bookdata";
+import { Text } from "react-native";
 
 const FilterByDistance = () => {
   const [bookData, setBookData] = useState([]);
@@ -76,7 +77,7 @@ const FilterByDistance = () => {
   //   console.log(books[1].users.userHas.user[0].address.geo, "<< other user");
   console.log(distance, `<< distance between this book and logged in user`);
 
-  return <div>distance</div>;
+  return <Text>distance</Text>;
 };
 
 export default FilterByDistance;
