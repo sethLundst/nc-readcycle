@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { useContext } from "react";
+import { UserContext } from "../contexts/User";
 import {
   StyleSheet,
   Text,
@@ -16,6 +18,7 @@ import BooksOfferedLink from "./BooksOfferedLink";
 import BooksHomedLink from "./BooksRehomedLink";
 
 export default function ProfilePage() {
+  const { user, setUser } = useContext(UserContext);
   const usersbooks = [
     {
       id: "Hellboy",
@@ -52,7 +55,7 @@ export default function ProfilePage() {
     },
   ];
 
-  const GetCover = ({cover}) => {
+  const GetCover = ({ cover }) => {
     return (
       <View style={styles.mediaImageContainer}>
         <Image
@@ -64,9 +67,7 @@ export default function ProfilePage() {
     );
   };
 
-  const renderItem = ({ item }) => (
-    <GetCover cover={item.cover} />
-  );
+  const renderItem = ({ item }) => <GetCover cover={item.cover} />;
 
   return (
     <SafeAreaView style={styles.container}>
@@ -102,7 +103,7 @@ export default function ProfilePage() {
 
           <View style={styles.infoContainer}>
             <Text style={[styles.text, { fontWeight: "200", fontSize: 36 }]}>
-              Face
+              {user.test}
             </Text>
             <Text style={[styles.text, { color: "#AEB5BC", fontSize: 14 }]}>
               Napper - Hunter - Cat
@@ -148,8 +149,7 @@ export default function ProfilePage() {
               keyExtractor={(item) => item.id}
               data={usersbooks}
               renderItem={renderItem}
-            >
-            </FlatList>
+            ></FlatList>
 
             <View style={styles.bookCount}>
               <Text
