@@ -72,20 +72,21 @@ const styles = StyleSheet.create({
     width: "95%",
   },
   backButtonContainer: {
-marginTop: 10,
+marginTop: 20,
   },
   bookBox: {
     flex: 1,
     flexBasis: 180,
     flexDirection: "row",
-    marginBottom: 40
+    marginBottom: 30
     },
     infoBox: {
       flexBasis: 300,
   },
   image: {
-    marginRight: 20,
-    top: 10,
+    marginRight: 30,
+    marginLeft: 10,
+    top: 20,
     width: 180,
     height: 250,
     borderRadius: 12,
@@ -112,11 +113,11 @@ marginTop: 10,
   descriptionBox: {
     height: 200,
     marginTop: 10,
-    marginBottom: 10,
+    marginBottom: 20,
     borderColor: "#DFD8C8",
     borderWidth: 1,
     borderRadius: 5,
-    padding: 5
+    padding: 10
   },
   description: {
     width: "100%",
@@ -148,16 +149,27 @@ marginTop: 10,
     padding: 10,
     width: 170,
     height: 40,
-    marginLeft: -5,
+    marginLeft: 10,
     marginBottom: -40,
+    backgroundColor: "#ffbd03",
+    shadowColor: "#52575D",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.5,
+    shadowRadius: 1,
   },
   addToWishListButton: {
     borderColor: "#52575D",
     borderWidth: 2,
     borderRadius: 12,
+    marginRight: 10,
     padding: 10,
     width: 170,
     height: 40,
+    backgroundColor: "#ffbd03",
+    shadowColor: "#52575D",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.5,
+    shadowRadius: 1,
   },
   buttonText: {
     textAlign: "center",
