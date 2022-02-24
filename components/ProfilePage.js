@@ -150,7 +150,7 @@ export default function ProfilePage() {
             <FlatList
               horizontal={true}
               showsHorizontalScrollIndicator={false}
-              keyExtractor={(item) => item.id}
+              keyExtractor={(_item, index) => index}
               data={usersbooks}
               renderItem={renderItem}
             >
@@ -160,7 +160,7 @@ export default function ProfilePage() {
               <Text
                 style={[
                   styles.text,
-                  { fontSize: 24, color: "#DFD8C8", fontWeight: "300" },
+                  { fontSize: 24, color: "#DFD8C8", fontWeight: "300", paddingTop: 0 },
                 ]}
               >
                 8
@@ -291,10 +291,10 @@ const styles = StyleSheet.create({
     backgroundColor: "#41444B",
     position: "absolute",
     top: "50%",
-    marginTop: -210,
+    marginTop: -200,
     alignSelf: "center",
-    width: 75,
-    height: 75,
+    width: 70,
+    height: 70,
     alignItems: "center",
     justifyContent: "center",
     borderRadius: 12,
