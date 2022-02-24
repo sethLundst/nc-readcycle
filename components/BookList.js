@@ -8,6 +8,10 @@ import {
   TextInput,
   Icon,
 } from "react-native";
+import FilterByDistance from "./FilterByDistance";
+import books from "./bookdata";
+
+// import users from "./Users";
 import books from "./Books"
 
 const styles = StyleSheet.create({
@@ -55,6 +59,14 @@ const styles = StyleSheet.create({
 const BookList = (props) => {
   // const books = [
   //   {
+  //     users: {
+  //       userHas: {
+  //         user: users.filter((user) => user.id === 1),
+  //       },
+  //       userWants: {
+  //         user: users.filter((user) => user.id === 2),
+  //       },
+  //     },
   //     kind: "books#volumes",
   //     totalItems: 1,
   //     items: [
@@ -1931,6 +1943,41 @@ const BookList = (props) => {
   //   },
   // ];
 
+ 
+  const loggedInUser = {
+    id: 11,
+    name: "Bruce Willis",
+    username: "Brucey.Wucey",
+    email: "bruce.willis@hotmail.biz",
+    address: {
+      street: "Liberty Street",
+      suite: "Suite 198",
+      city: "New York",
+      zipcode: "31428-2261",
+      geo: {
+        lat: "51.7123",
+        lng: "7.49147",
+      },
+    },
+    phone: "074-638-3404",
+  };
+
+  // console.log(loggedInUser, "<< logged in user");
+  // console.log(loggedInUser.address.geo, "<< logged in users location");
+
+  // console.log(
+  //   books[0].users.userHas.user[0].username,
+  //   "<< user that has this book"
+  // );
+  // console.log(
+  //   books[0].users.userHas.user[0].address.geo,
+  //   "<< users location that has this book"
+  // );
+  // console.log(
+  //   books[0].users.userWants.user[0].username,
+  //   "<< user that wants this book"
+  // );
+
   const [showSingleBook, setSingleBook] = useState(false)
   const [search, setSearch] = useState("");
   const [filteredDataSource, setFilteredDataSource] = useState(books);
@@ -1950,6 +1997,7 @@ const BookList = (props) => {
       setSearch(text);
     }
   };
+  
 
   const ItemView = ({ item }) => {
     return (
@@ -1962,9 +2010,11 @@ const BookList = (props) => {
           style={styles.image}
         />
         <Text style={styles.title}>{item.items[0].volumeInfo.title}</Text>
+        <Text style={styles.title}>{<FilterByDistance />}</Text>
       </View>
     );
   };
+  
 
   return (
     <View style={styles.container}>
@@ -1982,7 +2032,9 @@ const BookList = (props) => {
         <Text>112 trees saved</Text>
       </View>
       <View>
-        <Text>filter here ...</Text>
+        {/* <Text>filter here ...</Text> */}
+        {/* <FilterByDistance /> */}
+        {/* <Locations /> */}
       </View>
 
       <View style={styles.list}>
