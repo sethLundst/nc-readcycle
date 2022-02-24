@@ -50,6 +50,7 @@ export default function ListBookForm({ navigation, route }) {
   const afterSubmit = (values) => {
     console.log(values);
     setISBN("");
+    setAddBookButton(false);
   };
 
   // Validation schema
@@ -75,7 +76,7 @@ export default function ListBookForm({ navigation, route }) {
           onPress={() => navigation.navigate("ScannerScreen")}
         >
           <Text>
-            Open new scanner{" "}
+            Scan a barcode
             <MaterialCommunityIcons name="barcode" size={24} color="black" />
           </Text>
         </TouchableOpacity>
