@@ -90,7 +90,9 @@ export const handleSignUp = async ({ email, password, username, postcode }) => {
 };
 
 export const handleLogin = ({ password, email }) => {
-  signInWithEmailAndPassword(auth, email, password).then((userCredential) => {
-    console.log(userCredential);
-  });
+  return signInWithEmailAndPassword(auth, email, password).then(
+    (userCredential) => {
+      console.log(userCredential);
+    }
+  );
 };
