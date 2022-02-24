@@ -58,7 +58,7 @@ const Scanner = ({ navigation, route }) => {
     <View>
       <BarCodeScanner
         onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
-        style={{ height: 400, width: 400 }}
+        style={{ height: "90%" }}
       />
       <Button
         title="Mimic scan"
