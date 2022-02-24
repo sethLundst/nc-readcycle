@@ -16,6 +16,11 @@ import BooksOfferedLink from "./BooksOfferedLink";
 import BooksHomedLink from "./BooksRehomedLink";
 
 export default function ProfilePage() {
+
+  const [showSingleBook, setSingleBook] = useState(false)
+
+  
+
   const usersbooks = [
     {
       id: "Hellboy",
