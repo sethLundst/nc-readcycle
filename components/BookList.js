@@ -1931,6 +1931,7 @@ const BookList = (props) => {
   //   },
   // ];
 
+  const [showSingleBook, setSingleBook] = useState(false)
   const [search, setSearch] = useState("");
   const [filteredDataSource, setFilteredDataSource] = useState(books);
   const [masterDataSource, setMasterDataSource] = useState(books);
