@@ -6,7 +6,6 @@ import books from "./bookdata";
 import { Text } from "react-native";
 
 const FilterByDistance = () => {
-  const [bookData, setBookData] = useState([]);
   const [distance, setDistance] = useState();
   const loggedinUser = {
     id: 11,
