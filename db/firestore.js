@@ -9,6 +9,7 @@ import {
   setDoc,
   doc,
 } from "firebase/firestore";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAmmM3CBTdIeuOY7KEXouW-SFAHeyA_Ums",
@@ -19,19 +20,50 @@ const firebaseConfig = {
   messagingSenderId: "465923556747",
   appId: "1:465923556747:web:0238a1c3993ad960935b8e",
 };
-
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+const auth = getAuth(app);
 
-export function getUserByUsername(username) {
-  const q = query(collection(db, "users"), where("username", "==", username));
-  return getDocs(q).then((qSnap) => {
-    return qSnap.docs[0].data();
-  });
+
+export const checkEmailIsAvailable = async (email) => {
+	const q = query(collection(db, "users"), where("email", "==", email));
+	const qsnap = await getDocs(q);
+
+	return qsnap.empty;
+};
+
+export const checkEmailIsOnSystem = async (email) => {
+	const q = query(collection(db, "users"), where("email", "==", email));
+	const qsnap = await getDocs(q);
+  
+	return !qsnap.empty;
+};
+
+export function checkUsername(username) {
+	const q = query(collection(db, "users"), where("username", "==", username));
+	const qsnap = getDocs(q);
+
+	return qsnap.empty;
 }
 
-export function postUser(user) {
-  addDoc(collection(db, "users"), user).then((docRef) =>
-    console.log(docRef.id)
-  );
+export const handleSignUp = ({ email, password, username, postcode }) => {
+	createUserWithEmailAndPassword(auth, email, password, postcode).then(
+		(userCredential) => {
+			setDoc(doc(db, "users", userCredential.user.uid), {
+				uid: userCredential.user.uid,
+				email: email,
+        username: username,
+        postcode: postcode,
+        avatar: '',
+        books: [],
+        wishlist: []
+			});
+		}
+	);
+};
+
+export const handleLogin = ({password, email}) => {
+  signInWithEmailAndPassword(auth, email, password).then((userCredential)=>{
+    console.log(userCredential);
+  })
 }
