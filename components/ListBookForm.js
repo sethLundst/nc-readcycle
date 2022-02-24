@@ -10,105 +10,46 @@ import {
   ScrollView,
   TouchableOpacity,
 } from "react-native";
-import { BarCodeScanner, requestPermissionsAsync } from "expo-barcode-scanner";
 import { api } from "../api";
 import { Formik } from "formik";
 import * as yup from "yup";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import Scanner from "./Scanner";
 
-export default function ListBookForm({ navigation }) {
+export default function ListBookForm({ navigation, route }) {
   // State
-  const [hasPermission, setHasPermission] = useState(null);
-  const [scanned, setScanned] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
+
   const [ISBN, setISBN] = useState("");
-  const [title, setTitle] = useState("");
-  const [image, setImage] = useState();
-  const [author, setAuthor] = useState("");
-  const [category, setCategory] = useState("");
-  const [pageCount, setPageCount] = useState();
-  const [openScanner, setOpenScanner] = useState(false);
-  const [variable, setVariable] = useState("0");
+  const [addBookButton, setAddBookButton] = useState(false);
 
-  // Request camera permission
-  const askForCameraPermission = () => {
-    (async () => {
-      const { status } = await BarCodeScanner.requestPermissionsAsync();
-      setHasPermission(status === "granted");
-    })();
-  };
-
-  // Initially renders camera permission box on load
   useEffect(() => {
-    askForCameraPermission();
-  }, []);
+    if (route.params?.ISBN) {
+      setISBN(route.params?.ISBN);
+      setAddBookButton(true);
+    }
+  }, [route.params?.ISBN]);
 
   // API call after barcode is scanned
-  const handleBarCodeScanned = ({ type, data }) => {
-    console.log(data);
-    console.log(type);
-    setScanned(true);
-    setISBN(data);
+  const APIcall = (value, setFieldValue) => {
     api
       .get(
-        `/books/v1/volumes?q=isbn:${data}&key=AIzaSyAVVkhe8oG7Y5vOVfzbb4tiSNuq5r0mbhQ`
+        `/books/v1/volumes?q=isbn:${value}&key=AIzaSyAVVkhe8oG7Y5vOVfzbb4tiSNuq5r0mbhQ`
       )
       .then((response) => {
-        setTitle(response.data.items[0].volumeInfo.title);
-        setImage(response.data.items[0].volumeInfo.imageLinks.thumbnail);
-        setAuthor(response.data.items[0].volumeInfo.authors[0]);
-        setCategory(response.data.items[0].volumeInfo.categories[0]);
-        setPageCount(String(response.data.items[0].volumeInfo.pageCount));
+        console.log(response.data.items[0].volumeInfo);
+        setFieldValue("ISBN", value);
+        setFieldValue("title", response.data.items[0].volumeInfo.title);
+        setFieldValue("author", response.data.items[0].volumeInfo.authors[0]);
+        setFieldValue(
+          "category",
+          response.data.items[0].volumeInfo.categories[0]
+        );
       });
   };
-
-  // Controlled components - resets all state if "scan again" pressed
-  const resetScanner = () => {
-    setScanned(false);
-    setISBN("");
-    setTitle("");
-    setImage();
-    setAuthor("");
-    setCategory("");
-    setPageCount();
-    setSubmitted(false);
-  };
-
-  // Creates bookObject after submit is pressed
-  const submitPress = () => {
-    setSubmitted(true);
-    const bookObject = { title, author, pageCount, ISBN, category };
-    console.log(bookObject);
-    // }
-  };
-
-  // Renders button to ask for camera permission
-  if (hasPermission === null) {
-    return (
-      <View style={styles.container}>
-        <Text>Need to request permission</Text>
-      </View>
-    );
-  }
-
-  if (hasPermission === false) {
-    return (
-      <View style={styles.container}>
-        <Text>No permission</Text>
-        <Button
-          title="Allow camera permission"
-          onPress={() => {
-            askForCameraPermission();
-          }}
-        />
-      </View>
-    );
-  }
 
   // Take object from form
   const afterSubmit = (values) => {
     console.log(values);
+    setISBN("");
   };
 
   // Validation schema
@@ -131,28 +72,14 @@ export default function ListBookForm({ navigation }) {
             borderRadius: 5,
             borderWidth: 1,
           }}
-          onPress={() =>
-            navigation.navigate("ScannerScreen", { setVariable: setVariable })
-          }
+          onPress={() => navigation.navigate("ScannerScreen")}
         >
           <Text>
             Open new scanner{" "}
             <MaterialCommunityIcons name="barcode" size={24} color="black" />
           </Text>
         </TouchableOpacity>
-
-        {openScanner && (
-          <BarCodeScanner
-            onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
-            style={{ height: 400, width: 400 }}
-          />
-        )}
-
-        {/* <Image source={{ uri: image }} style={styles.image} /> */}
-        {/* Render scan again button after barcode scanned */}
-        {scanned && (
-          <Button title={"Scan again"} onPress={() => resetScanner()} />
-        )}
+        {addBookButton && <Text>{ISBN}</Text>}
 
         <Formik
           initialValues={{
@@ -171,6 +98,7 @@ export default function ListBookForm({ navigation }) {
             handleChange,
             handleBlur,
             handleSubmit,
+            setFieldValue,
             values,
             errors,
             touched,
@@ -182,6 +110,13 @@ export default function ListBookForm({ navigation }) {
                 justifyContent: "center",
               }}
             >
+              {addBookButton && (
+                <Button
+                  title="Add book"
+                  onPress={() => APIcall(ISBN, setFieldValue)}
+                />
+              )}
+
               <Text>ISBN:</Text>
               <TextInput
                 style={styles.textbox}
@@ -190,7 +125,12 @@ export default function ListBookForm({ navigation }) {
                 value={values.ISBN}
                 placeholder="e.g. 9780198829195"
               />
+              <Button
+                title="Search ISBN"
+                onPress={() => APIcall(values.ISBN, setFieldValue)}
+              />
               <Text>{touched.ISBN && errors.ISBN}</Text>
+
               <Text>Title:</Text>
               <TextInput
                 style={styles.textbox}
@@ -225,43 +165,6 @@ export default function ListBookForm({ navigation }) {
             </View>
           )}
         </Formik>
-
-        {/* <View
-          style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
-        >
-          <TextInput
-            style={styles.textbox}
-            value={title}
-            placeholder="Title Here"
-            onChangeText={setTitle}
-          />
-          <TextInput
-            style={styles.textbox}
-            value={author}
-            placeholder="Author Here"
-            onChangeText={setAuthor}
-          />
-          <TextInput
-            style={styles.textbox}
-            value={category}
-            placeholder="Category Here"
-            onChangeText={setCategory}
-          />
-          <TextInput
-            style={styles.textbox}
-            value={ISBN}
-            placeholder="ISBN Here"
-            onChangeText={setISBN}
-          />
-          <TextInput
-            style={styles.textbox}
-            value={pageCount}
-            placeholder="Page Count Here"
-            onChangeText={setPageCount}
-          />
-          {submitted && <Text style={{ color: "green" }}>Submitted</Text>}
-          <Button title="Submit" onPress={submitPress} />
-        </View> */}
       </ScrollView>
     </SafeAreaView>
   );
