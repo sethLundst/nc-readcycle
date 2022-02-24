@@ -25,12 +25,20 @@ const db = getFirestore(app);
 const auth = getAuth(app);
 
 
-export const checkEmail = async (email) => {
+export const checkEmailIsAvailable = async (email) => {
+	const q = query(collection(db, "users"), where("email", "==", email));
+	const qsnap = await getDocs(q);
+
+	return qsnap.empty;
+};
+
+export const checkEmailIsOnSystem = async (email) => {
 	const q = query(collection(db, "users"), where("email", "==", email));
 	const qsnap = await getDocs(q);
   
-	return qsnap.empty;
+	return !qsnap.empty;
 };
+
 export function checkUsername(username) {
 	const q = query(collection(db, "users"), where("username", "==", username));
 	const qsnap = getDocs(q);
