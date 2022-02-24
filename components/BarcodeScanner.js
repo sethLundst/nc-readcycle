@@ -11,6 +11,8 @@ import {
 } from "react-native";
 import { BarCodeScanner, requestPermissionsAsync } from "expo-barcode-scanner";
 import { api } from "../api";
+import { Formik } from "formik";
+import * as yup from "yup";
 
 export default function App() {
   // State
@@ -99,6 +101,19 @@ export default function App() {
     );
   }
 
+  // Take object from form
+  const afterSubmit = (values) => {
+    console.log(values);
+  };
+
+  // Validation schema
+  const bookSchema = yup.object({
+    title: yup.string().required().min(2),
+    author: yup.string().required().min(5),
+    category: yup.string().required().min(2),
+    ISBN: yup.string().required().min(10),
+  });
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
@@ -106,13 +121,86 @@ export default function App() {
           onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
           style={{ height: 400, width: 400 }}
         />
-        <Image source={{ uri: image }} style={styles.image} />
-
+        {/* <Image source={{ uri: image }} style={styles.image} /> */}
         {/* Render scan again button after barcode scanned */}
         {scanned && (
           <Button title={"Scan again"} onPress={() => resetScanner()} />
         )}
-        <View
+
+        <Formik
+          initialValues={{
+            title: "",
+            author: "",
+            category: "",
+            ISBN: "",
+          }}
+          validationSchema={bookSchema}
+          onSubmit={(values, actions) => {
+            actions.resetForm();
+            afterSubmit(values);
+          }}
+        >
+          {({
+            handleChange,
+            handleBlur,
+            handleSubmit,
+            values,
+            errors,
+            touched,
+          }) => (
+            <View
+              style={{
+                flex: 1,
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <Text>Title:</Text>
+              <TextInput
+                style={styles.textbox}
+                onChangeText={handleChange("title")}
+                onBlur={handleBlur("title")}
+                value={values.title}
+                placeholder="e.g. 1984"
+              />
+              <Text>{touched.title && errors.title}</Text>
+
+              <Text>Author:</Text>
+              <TextInput
+                style={styles.textbox}
+                onChangeText={handleChange("author")}
+                onBlur={handleBlur("author")}
+                value={values.author}
+                placeholder="e.g. George Orwell"
+              />
+              <Text>{touched.author && errors.author}</Text>
+
+              <Text>Category:</Text>
+              <TextInput
+                style={styles.textbox}
+                onChangeText={handleChange("category")}
+                onBlur={handleBlur("category")}
+                value={values.category}
+                placeholder="e.g. Fiction"
+              />
+              <Text>{touched.category && errors.category}</Text>
+
+              <Text>ISBN:</Text>
+              <TextInput
+                style={styles.textbox}
+                onChangeText={handleChange("ISBN")}
+                onBlur={handleBlur("ISBN")}
+                value={values.ISBN}
+                placeholder="e.g. 9780198829195"
+              />
+              <Text>{touched.ISBN && errors.ISBN}</Text>
+
+              <Button onPress={handleSubmit} title="Submit" />
+            </View>
+          )}
+        </Formik>
+
+        {/* <View
           style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
         >
           <TextInput
@@ -147,7 +235,7 @@ export default function App() {
           />
           {submitted && <Text style={{ color: "green" }}>Submitted</Text>}
           <Button title="Submit" onPress={submitPress} />
-        </View>
+        </View> */}
       </ScrollView>
     </SafeAreaView>
   );
