@@ -104,7 +104,7 @@ const styles = StyleSheet.create({
 		justifyContent: "center",
 		alignItems: "center",
 	},
-
+	
 	header: {
 		fontSize: "14vw",
 		fontFamily: "courier new",

@@ -8,13 +8,16 @@ import {
   Button,
   TextInput,
   ScrollView,
+  TouchableOpacity,
 } from "react-native";
 import { BarCodeScanner, requestPermissionsAsync } from "expo-barcode-scanner";
 import { api } from "../api";
 import { Formik } from "formik";
 import * as yup from "yup";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import Scanner from "./Scanner";
 
-export default function App() {
+export default function ListBookForm({ navigation }) {
   // State
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
@@ -25,6 +28,8 @@ export default function App() {
   const [author, setAuthor] = useState("");
   const [category, setCategory] = useState("");
   const [pageCount, setPageCount] = useState();
+  const [openScanner, setOpenScanner] = useState(false);
+  const [variable, setVariable] = useState("0");
 
   // Request camera permission
   const askForCameraPermission = () => {
@@ -117,10 +122,32 @@ export default function App() {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
-        <BarCodeScanner
-          onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
-          style={{ height: 400, width: 400 }}
-        />
+        <TouchableOpacity
+          style={{
+            flex: 1,
+            height: 40,
+            alignItems: "center",
+            backgroundColor: "#ddd",
+            borderRadius: 5,
+            borderWidth: 1,
+          }}
+          onPress={() =>
+            navigation.navigate("ScannerScreen", { setVariable: setVariable })
+          }
+        >
+          <Text>
+            Open new scanner{" "}
+            <MaterialCommunityIcons name="barcode" size={24} color="black" />
+          </Text>
+        </TouchableOpacity>
+
+        {openScanner && (
+          <BarCodeScanner
+            onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
+            style={{ height: 400, width: 400 }}
+          />
+        )}
+
         {/* <Image source={{ uri: image }} style={styles.image} /> */}
         {/* Render scan again button after barcode scanned */}
         {scanned && (
