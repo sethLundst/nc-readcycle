@@ -6,6 +6,6 @@ export default function ScannerScreen({ navigation, route }) {
   const setVariable = route.params;
 
   console.log(typeof setVariable);
-  return <Text>Hello</Text>;
+
   return <Scanner />;
 }

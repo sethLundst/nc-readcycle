@@ -182,6 +182,15 @@ export default function ListBookForm({ navigation }) {
                 justifyContent: "center",
               }}
             >
+              <Text>ISBN:</Text>
+              <TextInput
+                style={styles.textbox}
+                onChangeText={handleChange("ISBN")}
+                onBlur={handleBlur("ISBN")}
+                value={values.ISBN}
+                placeholder="e.g. 9780198829195"
+              />
+              <Text>{touched.ISBN && errors.ISBN}</Text>
               <Text>Title:</Text>
               <TextInput
                 style={styles.textbox}
@@ -211,16 +220,6 @@ export default function ListBookForm({ navigation }) {
                 placeholder="e.g. Fiction"
               />
               <Text>{touched.category && errors.category}</Text>
-
-              <Text>ISBN:</Text>
-              <TextInput
-                style={styles.textbox}
-                onChangeText={handleChange("ISBN")}
-                onBlur={handleBlur("ISBN")}
-                value={values.ISBN}
-                placeholder="e.g. 9780198829195"
-              />
-              <Text>{touched.ISBN && errors.ISBN}</Text>
 
               <Button onPress={handleSubmit} title="Submit" />
             </View>
