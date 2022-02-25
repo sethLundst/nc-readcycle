@@ -12,7 +12,7 @@ import FilterByDistance from "./FilterByDistance";
 import books from "./bookdata";
 
 // import users from "./Users";
-import books from "./Books"
+// import books from "./Books"
 
 const styles = StyleSheet.create({
   container: {
@@ -1943,7 +1943,6 @@ const BookList = (props) => {
   //   },
   // ];
 
- 
   const loggedInUser = {
     id: 11,
     name: "Bruce Willis",
@@ -1978,7 +1977,7 @@ const BookList = (props) => {
   //   "<< user that wants this book"
   // );
 
-  const [showSingleBook, setSingleBook] = useState(false)
+  const [showSingleBook, setSingleBook] = useState(false);
   const [search, setSearch] = useState("");
   const [filteredDataSource, setFilteredDataSource] = useState(books);
   const [masterDataSource, setMasterDataSource] = useState(books);
@@ -1997,7 +1996,6 @@ const BookList = (props) => {
       setSearch(text);
     }
   };
-  
 
   const ItemView = ({ item }) => {
     return (
@@ -2014,7 +2012,6 @@ const BookList = (props) => {
       </View>
     );
   };
-  
 
   return (
     <View style={styles.container}>
