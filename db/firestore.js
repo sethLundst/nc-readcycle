@@ -45,9 +45,9 @@ export const checkEmailIsOnSystem = async (email) => {
 	return !qsnap.empty;
 };
 
-export function checkUsername(username) {
+export const checkUsername = async (username) => {
 	const q = query(collection(db, "users"), where("username", "==", username));
-	const qsnap = getDocs(q);
+	const qsnap = await getDocs(q);
 
 	return qsnap.empty;
 }
@@ -109,3 +109,4 @@ export const handleLogin = ( password, email ) => {
 		}
 	);
 };
+
