@@ -73,7 +73,7 @@ export const handleSignUp = async ({ email, password, username, postcode }) => {
 	let newUser = {};
 
 	try {
-		const { longitude, latitude } = await convertPostcode(postcode);
+		const { longitude, latitude } = await convertPostcode(postcode).catch();
 
 		const userCredential = await createUserWithEmailAndPassword(
 			auth,
@@ -94,16 +94,17 @@ export const handleSignUp = async ({ email, password, username, postcode }) => {
 
 		await setDoc(doc(db, "users", userCredential.user.uid), newUser);
 
-		return newUser;
+		return newUser.uid;
 	} catch (err) {
 		console.log(err);
 	}
 };
 
-export const handleLogin = ({ password, email }) => {
+export const handleLogin = ( password, email ) => {
+  
 	return signInWithEmailAndPassword(auth, email, password).then(
 		(userCredential) => {
-			console.log(userCredential);
+			return userCredential.user.uid;
 		}
 	);
 };

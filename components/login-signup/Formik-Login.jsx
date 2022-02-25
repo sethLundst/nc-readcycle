@@ -1,24 +1,30 @@
-import React from "react";
+import React, {useContext} from "react";
 import { Button, TextInput, View, Text, StyleSheet } from "react-native";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import { handleLogin, checkEmailIsOnSystem } from "../../db/firestore";
 import validator from "validator";
+import { UserContext } from "../../contexts/User";
+
 
 const validationSchema = Yup.object({
   email: Yup.string()
     .ensure()
-    .required("E-mail required.")
     .test("is valid", "invalid email", validator.isEmail)
-    .test("isOnSystem", "Email not on system", checkEmailIsOnSystem),
-  password: Yup.string().ensure().required("Password required."),
+    .test("isOnSystem", "Email not on system", checkEmailIsOnSystem)
+    .required("E-mail required."),
+    password: Yup.string().ensure().required("Password required."),
 });
 
-export const LoginForm = ({ navigation }) => (
+export const LoginForm = ({ navigation }) => {
+  const { user, setUser } = useContext(UserContext);
+  console.log(user, '<= user');
+  return (
   <Formik
     initialValues={{ email: "", password: "" }}
     onSubmit={(values) =>
-      handleLogin(values).then(() => {
+      handleLogin(values.password, values.email).then((uid) => {
+        setUser(uid)
         navigation.navigate("HomeScreen");
       })
     }
@@ -47,7 +53,7 @@ export const LoginForm = ({ navigation }) => (
       </View>
     )}
   </Formik>
-);
+)};
 
 const styles = StyleSheet.create({
   textInput: {
