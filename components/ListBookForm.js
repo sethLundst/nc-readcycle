@@ -78,12 +78,8 @@ export default function ListBookForm({ navigation, route }) {
     }
 
     console.log(bookObj);
-    // values.description = description;
-    // values.pageCount = pageCount;
-    // values.language = language;
-    // values.publishedDate = publishedDate;
 
-    // sendBook(values, user);
+    sendBook(values, user);
     setTitle("");
     setImageLink("");
     setAuthor("");
