@@ -14,12 +14,18 @@ import { api } from "../api";
 import { Formik } from "formik";
 import * as yup from "yup";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { sendBook } from "../db/firestore";
 
 export default function ListBookForm({ navigation, route }) {
   // State
 
   const [ISBN, setISBN] = useState("");
   const [addBookButton, setAddBookButton] = useState(false);
+  const [description, setDescription] = useState("");
+  const [imageLink, setImageLink] = useState("");
+  const [pageCount, setPageCount] = useState("");
+  const [language, setLanguage] = useState("");
+  const [publishedDate, setPublishedDate] = useState("");
 
   useEffect(() => {
     if (route.params?.ISBN) {
@@ -35,7 +41,6 @@ export default function ListBookForm({ navigation, route }) {
         `/books/v1/volumes?q=isbn:${value}&key=AIzaSyAVVkhe8oG7Y5vOVfzbb4tiSNuq5r0mbhQ`
       )
       .then((response) => {
-        console.log(response.data.items[0].volumeInfo);
         setFieldValue("ISBN", value);
         setFieldValue("title", response.data.items[0].volumeInfo.title);
         setFieldValue("author", response.data.items[0].volumeInfo.authors[0]);
@@ -43,12 +48,23 @@ export default function ListBookForm({ navigation, route }) {
           "category",
           response.data.items[0].volumeInfo.categories[0]
         );
+        setDescription(response.data.items[0].volumeInfo.description);
+        // setImageLink(response.data.items[0].volumeInfo.imageLinks.thumbnail);
+        setPageCount(response.data.items[0].volumeInfo.pageCount);
+        setLanguage(response.data.items[0].volumeInfo.language);
+        setPublishedDate(response.data.items[0].volumeInfo.publishedDate);
       });
   };
 
   // Take object from form
   const afterSubmit = (values) => {
+    values.description = description;
+    values.pageCount = pageCount;
+    values.language = language;
+    values.publishedDate = publishedDate;
+
     console.log(values);
+    sendBook(values);
     setISBN("");
     setAddBookButton(false);
   };
