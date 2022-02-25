@@ -1,3 +1,4 @@
+import { Ionicons } from "@expo/vector-icons";
 import React from "react";
 import {
   View,
@@ -6,12 +7,16 @@ import {
   Text,
   SafeAreaView,
   TouchableOpacity,
+  ScrollView,
 } from "react-native";
 import books from "./Books";
 
 export default function SingleBookPage() {
   return (
     <SafeAreaView style={styles.container}>
+      <View style={styles.backButtonContainer}>
+        <Ionicons name="ios-arrow-back" size={24} color="#52575D"></Ionicons>
+      </View>
       <View style={styles.bookBox}>
         <Image
           style={styles.image}
@@ -38,9 +43,11 @@ export default function SingleBookPage() {
       </View>
       <View>
         <Text style={styles.descriptionHeader}>Description</Text>
-        <Text style={styles.description}>
-          {books[2].items[0].volumeInfo.description}
-        </Text>
+        <ScrollView style={styles.descriptionBox}>
+          <Text style={styles.description}>
+            {books[2].items[0].volumeInfo.description}
+          </Text>
+        </ScrollView>
       </View>
       <View style={styles.buttonsContainer}>
         <TouchableOpacity style={styles.offerButton}>
@@ -57,22 +64,24 @@ export default function SingleBookPage() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    width: "90%",
+    width: "95%",
+  },
+  backButtonContainer: {
+    marginTop: 20,
   },
   bookBox: {
     flex: 1,
-    width: "100%",
-    display: "flex",
+    flexBasis: 180,
     flexDirection: "row",
-    justifyContent: "center",
-    },
-    infoBox: {
-      
+    marginBottom: 30,
+  },
+  infoBox: {
+    flexBasis: 300,
   },
   image: {
-    marginLeft: 160,
-    marginRight: 20,
-    top: 10,
+    marginRight: 30,
+    marginLeft: 10,
+    top: 20,
     width: 180,
     height: 250,
     borderRadius: 12,
@@ -86,26 +95,37 @@ const styles = StyleSheet.create({
     width: "60%",
     fontFamily: "HelveticaNeue",
     color: "#52575D",
-    fontWeight: "600",
+    fontWeight: "700",
     fontSize: 15,
     paddingBottom: 15,
   },
   bookInfo: {
     paddingBottom: 8,
+    fontFamily: "HelveticaNeue",
+    color: "#52575D",
+    fontWeight: "600",
+  },
+  descriptionBox: {
+    height: 200,
+    marginTop: 10,
+    marginBottom: 20,
+    borderColor: "#DFD8C8",
+    borderWidth: 1,
+    borderRadius: 5,
+    padding: 10,
   },
   description: {
     width: "100%",
-    marginTop: -5,
-    marginBottom: 0,
+    marginTop: 0,
+    marginBottom: 5,
     fontFamily: "HelveticaNeue",
     color: "#52575D",
-    marginLeft: -5,
   },
   descriptionHeader: {
-    marginLeft: -5,
     fontSize: 30,
     fontWeight: "500",
-    marginBottom: 15,
+    marginTop: 15,
+    marginBottom: 10,
     fontFamily: "HelveticaNeue",
     color: "#52575D",
   },
@@ -113,8 +133,8 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "row",
     justifyContent: "space-between",
-    marginTop: 30,
-    marginBottom: -220,
+    marginTop: 10,
+    marginBottom: 20,
   },
   offerButton: {
     borderColor: "#52575D",
@@ -123,16 +143,27 @@ const styles = StyleSheet.create({
     padding: 10,
     width: 170,
     height: 40,
-    marginLeft: -5,
+    marginLeft: 10,
     marginBottom: -40,
+    backgroundColor: "#ffbd03",
+    shadowColor: "#52575D",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.5,
+    shadowRadius: 1,
   },
   addToWishListButton: {
     borderColor: "#52575D",
     borderWidth: 2,
     borderRadius: 12,
+    marginRight: 10,
     padding: 10,
     width: 170,
     height: 40,
+    backgroundColor: "#ffbd03",
+    shadowColor: "#52575D",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.5,
+    shadowRadius: 1,
   },
   buttonText: {
     textAlign: "center",
