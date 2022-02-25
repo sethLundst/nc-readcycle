@@ -17,9 +17,15 @@ const ListBookStack = createNativeStackNavigator();
 import ListBookScreen from "../screens/ListBookScreen";
 import ScannerScreen from "../screens/ScannerScreen";
 
-const ProfileStack = createNativeStackNavigator();
+const MessagesStack = createNativeStackNavigator();
+import MessagesScreen from "../screens/MessagesScreen";
 import UserProfileScreen from "../screens/UserProfileScreen";
 import SingleBookScreen from "../screens/SingleBookScreen";
+
+const ProfileStack = createNativeStackNavigator();
+
+const SearchStack = createNativeStackNavigator();
+import SearchScreen from "../screens/SearchScreen";
 
 export function MainStackNavigator() {
   return (
@@ -67,19 +73,6 @@ export function LogInStackScreen() {
   );
 }
 
-export function ProfileStackScreen() {
-  <ProfileStack.Navigator
-    initialRouteName="UserProfileScreen"
-    screenOptions={{ headerShown: false }}
-  >
-    <ProfileStack.Screen
-      name="UserProfileScreen"
-      component={UserProfileScreen}
-    />
-    <ProfileStack.Screen name="SingleBookScreen" component={SingleBookScreen} />
-  </ProfileStack.Navigator>;
-}
-
 export function ListBookStackScreen() {
   return (
     <ListBookStack.Navigator
@@ -89,5 +82,61 @@ export function ListBookStackScreen() {
       <ListBookStack.Screen name="ListBookScreen" component={ListBookScreen} />
       <ListBookStack.Screen name="ScannerScreen" component={ScannerScreen} />
     </ListBookStack.Navigator>
+  );
+}
+
+export function MessagesStackScreen() {
+  return (
+    <MessagesStack.Navigator
+      initialRouteName="MessagesScreen"
+      screenOptions={{ headerShown: false }}
+    >
+      <MessagesStack.Screen name="MessagesScreen" component={MessagesScreen} />
+      <MessagesStack.Screen
+        name="SingleBookScreen"
+        component={SingleBookScreen}
+      />
+      <MessagesStack.Screen
+        name="UserProfileScreen"
+        component={UserProfileScreen}
+      />
+    </MessagesStack.Navigator>
+  );
+}
+
+export function ProfileStackScreen() {
+  return (
+    <ProfileStack.Navigator
+      initialRouteName="UserProfileScreen"
+      screenOptions={{ headerShown: false }}
+    >
+      <ProfileStack.Screen
+        name="UserProfileScreen"
+        component={UserProfileScreen}
+      />
+      <ProfileStack.Screen
+        name="SingleBookScreen"
+        component={SingleBookScreen}
+      />
+    </ProfileStack.Navigator>
+  );
+}
+
+export function SearchStackScreen() {
+  return (
+    <SearchStack.Navigator
+      initialRouteName="SearchScreen"
+      screenOptions={{ headerShown: false }}
+    >
+      <SearchStack.Screen name="SearchScreen" component={SearchScreen} />
+      <SearchStack.Screen
+        name="UserProfileScreen"
+        component={UserProfileScreen}
+      />
+      <SearchStack.Screen
+        name="SingleBookScreen"
+        component={SingleBookScreen}
+      />
+    </SearchStack.Navigator>
   );
 }
