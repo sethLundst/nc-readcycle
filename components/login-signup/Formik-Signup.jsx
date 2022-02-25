@@ -1,7 +1,7 @@
 //TODO : password confirm, validate email
 import axios from "axios";
 import React, { useContext } from "react";
-import { Button, TextInput, View, Text, StyleSheet } from "react-native";
+import { Button, TextInput, View, Text, StyleSheet, useWindowDimensions } from "react-native";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import { checkEmailIsAvailable, handleSignUp } from "../../db/firestore";
@@ -41,20 +41,20 @@ const validationSchema = Yup.object({
 		.required("Username required."),
 	postcode: Yup.string()
 		.ensure()
+		.required("Postcode required.")
 		.matches(postcodeRegex, "Invalid post code.")
-		.test("Postcode exists", "Postcode does not exist", validatePostcode)
-		.required("Postcode required."),
+		.test("Postcode exists", "Postcode does not exist", validatePostcode),
 });
 
 export const SignupForm = ({ navigation }) => {
 	const { user, setUser } = useContext(UserContext);
-
+  console.log(user, '<= user');
 	return (
 		<Formik
 			initialValues={{ email: "", password: "", username: "", postcode: "" }}
 			onSubmit={(values) =>
-				handleSignUp(values).then((newUser) => {
-					setUser(newUser);
+				handleSignUp(values).then((uid) => {
+					setUser(uid);
 					return navigation.navigate("HomeScreen");
 				})
 			}
