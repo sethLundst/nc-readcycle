@@ -1,4 +1,4 @@
-//TODO : password confirm, validate email
+//TODO : password confirm
 import axios from "axios";
 import React, { useContext } from "react";
 import { Button, TextInput, View, Text, StyleSheet, useWindowDimensions } from "react-native";
