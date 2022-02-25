@@ -79,7 +79,7 @@ export default function ListBookForm({ navigation, route }) {
 
     console.log(bookObj);
 
-    sendBook(values, user);
+    sendBook(bookObj, user);
     setTitle("");
     setImageLink("");
     setAuthor("");
