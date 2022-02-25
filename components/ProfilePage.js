@@ -58,7 +58,7 @@ export default function ProfilePage() {
   const GetCover = ({ cover }) => {
     return (
       <View style={styles.bookCoverContainer}>
-        <MaterialIcons style={styles.removeBook} onPress={() => { <RemoveBook /> }} name="highlight-remove" size={28} color="white" />
+        <MaterialIcons style={styles.removeBook} onPress={() => {  }} name="highlight-remove" size={28} color="white" />
         <Image
           source={{ uri: `${cover}` }}
           style={styles.image}
