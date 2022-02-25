@@ -1,15 +1,12 @@
 import * as React from "react";
-import { UserProvider } from "./contexts/User";
 import { NavigationContainer } from "@react-navigation/native";
-import BottomTabNavigator from "./navigation/TabNavigator";
+import { MainStackNavigator } from "./navigation/StackNavigators";
 
 function App() {
   return (
-    <UserProvider>
-      <NavigationContainer>
-        <BottomTabNavigator></BottomTabNavigator>
-      </NavigationContainer>
-    </UserProvider>
+    <NavigationContainer>
+      <MainStackNavigator></MainStackNavigator>
+    </NavigationContainer>
   );
 }
 export default App;
