@@ -87,9 +87,10 @@ export const handleSignUp = async ({ email, password, username, postcode }) => {
 			username: username,
 			longitude: longitude,
 			latitude: latitude,
-			avatar: "",
+			avatar_url: "",
 			books: [],
-			wishlist: [],
+			chats: [],
+      lent: 0,
 		};
 
 		await setDoc(doc(db, "users", userCredential.user.uid), newUser);
