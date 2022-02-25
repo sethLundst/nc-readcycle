@@ -9,9 +9,8 @@ import LogInScreen from "../screens/LogInScreen";
 import SignUpScreen from "../screens/SignUpScreen";
 
 const ListBookStack = createNativeStackNavigator();
-import BarcodeScannerScreen from "../screens/BarcodeScannerScreen";
-import ListBookManuallyScreen from "../screens/ListBookManuallyScreen";
 import ListBookScreen from "../screens/ListBookScreen";
+import ScannerScreen from "../screens/ScannerScreen";
 
 export function HomeStackScreen() {
   return (
@@ -37,14 +36,8 @@ export function ListBookStackScreen() {
       screenOptions={{ headerShown: false }}
     >
       <ListBookStack.Screen name="ListBookScreen" component={ListBookScreen} />
-      <ListBookStack.Screen
-        name="BarcodeScannerScreen"
-        component={BarcodeScannerScreen}
-      />
-      <ListBookStack.Screen
-        name="ListBookManuallyScreen"
-        component={ListBookManuallyScreen}
-      />
+
+      <ListBookStack.Screen name="ScannerScreen" component={ScannerScreen} />
     </ListBookStack.Navigator>
   );
 }
