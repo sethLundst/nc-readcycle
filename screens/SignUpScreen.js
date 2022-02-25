@@ -13,7 +13,7 @@ export default function SignUpScreen({ navigation }) {
         onPress={() => navigation.navigate("LogInScreen")}
       />
       <Button
-        title="Go to app without logging in"
+        title="Go to site without logging in"
         onPress={() => navigation.navigate("BottomTabNavigator")}
       />
     </View>
