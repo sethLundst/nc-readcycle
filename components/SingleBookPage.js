@@ -11,7 +11,7 @@ import {
 } from "react-native";
 import books from "./Books";
 
-export default function SingleBookPage() {
+export default function SingleBookPage(item) {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.backButtonContainer}>
@@ -54,27 +54,25 @@ export default function SingleBookPage() {
             {books[2].items[0].volumeInfo.description}
           </Text>
         </ScrollView>
-        
-          <View style={styles.userHasBook}>
-            <View style={styles.avatarContainer}>
-              <Image
-                source={require("../assets/cat.png")}
-                style={styles.avatarImage}
-                resizeMode="center"
-              ></Image>
-            </View>
-            <View style={styles.userInfo}>
-              <Text style={styles.userName}>Kirsty has this!</Text>
-              <Text style={styles.userDistance}>0.6 miles away</Text>
-            </View>
-            <View style={styles.messageIcon}>
-              <TouchableOpacity>
-                <AntDesign name="message1" size={24} color="black" />
-              </TouchableOpacity>
-            </View>
+
+        <View style={styles.userHasBook}>
+          <View style={styles.avatarContainer}>
+            <Image
+              source={require("../assets/cat.png")}
+              style={styles.avatarImage}
+              resizeMode="center"
+            ></Image>
           </View>
-        
-        
+          <View style={styles.userInfo}>
+            <Text style={styles.userName}>Kirsty has this!</Text>
+            <Text style={styles.userDistance}>0.6 miles away</Text>
+          </View>
+          <View style={styles.messageIcon}>
+            <TouchableOpacity>
+              <AntDesign name="message1" size={24} color="black" />
+            </TouchableOpacity>
+          </View>
+        </View>
       </View>
     </SafeAreaView>
   );
@@ -178,11 +176,11 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    marginBottom: 10
+    marginBottom: 10,
   },
   avatarContainer: {
     height: 50,
-    width:50,
+    width: 50,
     borderRadius: 40,
     borderWidth: 1,
     marginLeft: 20,
@@ -198,15 +196,15 @@ const styles = StyleSheet.create({
     height: 48,
     width: 48,
     borderRadius: 40,
-    overflow: "hidden"
+    overflow: "hidden",
   },
   messageIcon: {
     marginRight: 20,
   },
-  
+
   userAvatarsBox: {
     height: 100,
     padding: 10,
-    marginBottom: 30
-  }
+    marginBottom: 30,
+  },
 });
