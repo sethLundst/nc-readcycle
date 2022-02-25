@@ -4,7 +4,7 @@ import React, { useContext } from "react";
 import { Button, TextInput, View, Text, StyleSheet, useWindowDimensions } from "react-native";
 import { Formik } from "formik";
 import * as Yup from "yup";
-import { checkEmailIsAvailable, handleSignUp } from "../../db/firestore";
+import { checkEmailIsAvailable, handleSignUp, checkUsername } from "../../db/firestore";
 import validator from "validator";
 import { UserContext } from "../../contexts/User";
 
@@ -38,7 +38,8 @@ const validationSchema = Yup.object({
 	username: Yup.string()
 		.ensure()
 		.max(20, "Username must be 20 characters or under")
-		.required("Username required."),
+		.required("Username required.")
+    .test("is available", "username in use", checkUsername),
 	postcode: Yup.string()
 		.ensure()
 		.required("Postcode required.")
