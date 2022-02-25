@@ -61,7 +61,7 @@ const Scanner = ({ navigation, route }) => {
         style={{ height: "90%" }}
       />
       <Button
-        title="Mimic scan"
+        title="Mimic scan - For desktop/laptop testing"
         onPress={() => handleBarCodeScanned({ data: "9780003700862" })}
       />
     </View>
