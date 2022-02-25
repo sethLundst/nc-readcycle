@@ -9,6 +9,7 @@ import {
   Image,
   ScrollView,
   FlatList,
+  TouchableOpacity,
 } from "react-native";
 import { Ionicons, Foundation, MaterialIcons } from "@expo/vector-icons";
 import MapButton from "./MapButton";
@@ -16,7 +17,6 @@ import TreeIcon from "./TreeIconLink";
 import UserRatingLink from "./UserRatingLink";
 import BooksOfferedLink from "./BooksOfferedLink";
 import BooksHomedLink from "./BooksRehomedLink";
-import { TouchableOpacity } from "react-native-web";
 
 export default function ProfilePage({ navigation }) {
   const [showSingleBook, setSingleBook] = useState(false);
