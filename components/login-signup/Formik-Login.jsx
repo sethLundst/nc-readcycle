@@ -2,7 +2,7 @@ import React, {useContext} from "react";
 import { Button, TextInput, View, Text, StyleSheet } from "react-native";
 import { Formik } from "formik";
 import * as Yup from "yup";
-import { handleLogin, checkEmailIsOnSystem } from "../../db/firestore";
+import { handleLogin, checkEmailIsOnSystem, getUserDetails } from "../../db/firestore";
 import validator from "validator";
 import { UserContext } from "../../contexts/User";
 
