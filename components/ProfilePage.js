@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { useContext } from "react";
+import { UserContext } from "../contexts/User";
 import {
   StyleSheet,
   Text,
@@ -16,7 +18,9 @@ import BooksOfferedLink from "./BooksOfferedLink";
 import BooksHomedLink from "./BooksRehomedLink";
 
 export default function ProfilePage() {
+
   const [showSingleBook, setSingleBook] = useState(false);
+
 
   const usersbooks = [
     {
@@ -102,7 +106,7 @@ export default function ProfilePage() {
 
           <View style={styles.userDetailsContainer}>
             <Text style={[styles.text, { fontWeight: "200", fontSize: 36 }]}>
-              Face
+              {user.test}
             </Text>
             <Text
               style={[
