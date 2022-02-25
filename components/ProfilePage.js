@@ -16,12 +16,10 @@ import TreeIcon from "./TreeIconLink";
 import UserRatingLink from "./UserRatingLink";
 import BooksOfferedLink from "./BooksOfferedLink";
 import BooksHomedLink from "./BooksRehomedLink";
-import RemoveBook from "./RemoveBook";
+import { TouchableOpacity } from "react-native-web";
 
-export default function ProfilePage() {
-
+export default function ProfilePage({ navigation }) {
   const [showSingleBook, setSingleBook] = useState(false);
-
 
   const usersbooks = [
     {
@@ -62,17 +60,24 @@ export default function ProfilePage() {
   const GetCover = ({ cover }) => {
     return (
       <View style={styles.bookCoverContainer}>
-        <MaterialIcons style={styles.removeBook} onPress={() => {  }} name="highlight-remove" size={28} color="white" />
         <Image
           source={{ uri: `${cover}` }}
           style={styles.image}
           resizeMode="cover"
-        ></Image>
+        />
       </View>
     );
   };
 
-  const renderItem = ({ item }) => <GetCover cover={item.cover} />;
+  const renderItem = ({ item }) => (
+    <TouchableOpacity
+      onPress={() => {
+        return navigation.navigate("SingleBookScreen", { item: item });
+      }}
+    >
+      <GetCover cover={item.cover} />
+    </TouchableOpacity>
+  );
 
   return (
     <SafeAreaView style={styles.container}>
@@ -108,7 +113,7 @@ export default function ProfilePage() {
 
           <View style={styles.userDetailsContainer}>
             <Text style={[styles.text, { fontWeight: "200", fontSize: 36 }]}>
-              {user.test}
+              User
             </Text>
             <Text
               style={[
@@ -296,9 +301,8 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     overflow: "hidden",
     marginHorizontal: 6,
-    marginTop: 5,
+    marginTop: 10,
     marginLeft: 15,
-    padding: 5
   },
   bookCount: {
     backgroundColor: "#41444B",
@@ -329,11 +333,5 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: "800",
     textAlign: "center",
-  },
-  removeBook: {
-    position: "absolute",
-    top: 2,
-    right: 2,
-    zIndex: 1,
   },
 });
