@@ -14,6 +14,7 @@ import TreeIcon from "./TreeIconLink";
 import UserRatingLink from "./UserRatingLink";
 import BooksOfferedLink from "./BooksOfferedLink";
 import BooksHomedLink from "./BooksRehomedLink";
+import RemoveBook from "./RemoveBook";
 
 export default function ProfilePage() {
   const [showSingleBook, setSingleBook] = useState(false);
@@ -57,6 +58,7 @@ export default function ProfilePage() {
   const GetCover = ({ cover }) => {
     return (
       <View style={styles.bookCoverContainer}>
+        <MaterialIcons style={styles.removeBook} onPress={() => { <RemoveBook /> }} name="highlight-remove" size={28} color="white" />
         <Image
           source={{ uri: `${cover}` }}
           style={styles.image}
@@ -290,8 +292,9 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     overflow: "hidden",
     marginHorizontal: 6,
-    marginTop: 10,
+    marginTop: 5,
     marginLeft: 15,
+    padding: 5
   },
   bookCount: {
     backgroundColor: "#41444B",
@@ -322,5 +325,11 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: "800",
     textAlign: "center",
+  },
+  removeBook: {
+    position: "absolute",
+    top: 2,
+    right: 2,
+    zIndex: 1,
   },
 });
