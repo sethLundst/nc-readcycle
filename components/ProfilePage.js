@@ -16,10 +16,7 @@ import BooksOfferedLink from "./BooksOfferedLink";
 import BooksHomedLink from "./BooksRehomedLink";
 
 export default function ProfilePage() {
-
-  const [showSingleBook, setSingleBook] = useState(false)
-
-  
+  const [showSingleBook, setSingleBook] = useState(false);
 
   const usersbooks = [
     {
@@ -57,7 +54,7 @@ export default function ProfilePage() {
     },
   ];
 
-  const GetCover = ({cover}) => {
+  const GetCover = ({ cover }) => {
     return (
       <View style={styles.bookCoverContainer}>
         <Image
@@ -69,9 +66,7 @@ export default function ProfilePage() {
     );
   };
 
-  const renderItem = ({ item }) => (
-    <GetCover cover={item.cover} />
-  );
+  const renderItem = ({ item }) => <GetCover cover={item.cover} />;
 
   return (
     <SafeAreaView style={styles.container}>
@@ -92,7 +87,6 @@ export default function ProfilePage() {
                 source={require("../assets/cat.png")}
                 style={styles.image}
                 resizeMode="center"
-                
               ></Image>
             </View>
             <View style={styles.ios_settings_outline}>
@@ -107,10 +101,15 @@ export default function ProfilePage() {
           </View>
 
           <View style={styles.userDetailsContainer}>
-            <Text style={[styles.text, { fontWeight: "200", fontSize: 36,  }]}>
+            <Text style={[styles.text, { fontWeight: "200", fontSize: 36 }]}>
               Face
             </Text>
-            <Text style={[styles.text, { color: "#AEB5BC", fontSize: 14, marginBottom: 10 }]}>
+            <Text
+              style={[
+                styles.text,
+                { color: "#AEB5BC", fontSize: 14, marginBottom: 10 },
+              ]}
+            >
               Napper - Hunter - Cat
             </Text>
           </View>
@@ -154,17 +153,21 @@ export default function ProfilePage() {
               keyExtractor={(_item, index) => index}
               data={usersbooks}
               renderItem={renderItem}
-            >
-            </FlatList>
+            ></FlatList>
 
             <View style={styles.bookCount}>
               <Text
                 style={[
                   styles.text,
-                  { fontSize: 24, color: "#DFD8C8", fontWeight: "300", paddingTop: 0 },
+                  {
+                    fontSize: 24,
+                    color: "#DFD8C8",
+                    fontWeight: "300",
+                    paddingTop: 0,
+                  },
                 ]}
               >
-                8
+                {usersbooks.length}
               </Text>
               <Text
                 style={[
@@ -233,8 +236,7 @@ const styles = StyleSheet.create({
     height: 230,
     borderRadius: 100,
     overflow: "hidden",
-    marginBottom: 0
-    
+    marginBottom: 0,
   },
   ios_settings_outline: {
     backgroundColor: "#41444B",
@@ -289,7 +291,7 @@ const styles = StyleSheet.create({
     overflow: "hidden",
     marginHorizontal: 6,
     marginTop: 10,
-    marginLeft: 15
+    marginLeft: 15,
   },
   bookCount: {
     backgroundColor: "#41444B",

@@ -15,11 +15,7 @@ export default function SingleBookPage() {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.backButtonContainer}>
-      <Ionicons
-              name="ios-arrow-back"
-              size={24}
-              color="#52575D"
-            ></Ionicons>
+        <Ionicons name="ios-arrow-back" size={24} color="#52575D"></Ionicons>
       </View>
       <View style={styles.bookBox}>
         <Image
@@ -48,11 +44,10 @@ export default function SingleBookPage() {
       <View>
         <Text style={styles.descriptionHeader}>Description</Text>
         <ScrollView style={styles.descriptionBox}>
-        <Text style={styles.description}>
-          {books[2].items[0].volumeInfo.description}
-        </Text>
+          <Text style={styles.description}>
+            {books[2].items[0].volumeInfo.description}
+          </Text>
         </ScrollView>
-        
       </View>
       <View style={styles.buttonsContainer}>
         <TouchableOpacity style={styles.offerButton}>
@@ -72,16 +67,16 @@ const styles = StyleSheet.create({
     width: "95%",
   },
   backButtonContainer: {
-marginTop: 20,
+    marginTop: 20,
   },
   bookBox: {
     flex: 1,
     flexBasis: 180,
     flexDirection: "row",
-    marginBottom: 30
-    },
-    infoBox: {
-      flexBasis: 300,
+    marginBottom: 30,
+  },
+  infoBox: {
+    flexBasis: 300,
   },
   image: {
     marginRight: 30,
@@ -117,7 +112,7 @@ marginTop: 20,
     borderColor: "#DFD8C8",
     borderWidth: 1,
     borderRadius: 5,
-    padding: 10
+    padding: 10,
   },
   description: {
     width: "100%",
@@ -139,8 +134,7 @@ marginTop: 20,
     flexDirection: "row",
     justifyContent: "space-between",
     marginTop: 10,
-    marginBottom: 20
-    
+    marginBottom: 20,
   },
   offerButton: {
     borderColor: "#52575D",
