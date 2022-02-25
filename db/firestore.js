@@ -89,7 +89,7 @@ export const handleSignUp = async ({ email, password, username, postcode }) => {
       username: username,
       longitude: longitude,
       latitude: latitude,
-      avatar_url: "",
+      avatar_url: "", //placeholder
       books: [],
       chats: [],
       lent: 0,
@@ -129,5 +129,5 @@ export const getUserDetails = async (uid) => {
 
   const user = await getDoc(docRef)
   const data = user.data()
-  return data.email
+  return data
 }
