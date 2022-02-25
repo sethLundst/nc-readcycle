@@ -106,7 +106,6 @@ export const handleSignUp = async ({ email, password, username, postcode }) => {
 export const handleLogin = async (password, email) => {
   return signInWithEmailAndPassword(auth, email, password).then(
     (userCredential) => {
-    
       return userCredential.user.uid;
     }
   );
@@ -125,9 +124,18 @@ export const sendBook = async (bookObject, user) => {
 // }
 
 export const getUserDetails = async (uid) => {
-  const docRef = doc(db, 'users', `${uid}`);
+  try {
+    const docRef = doc(db, "users", `${uid}`);
 
-  const user = await getDoc(docRef)
-  const data = user.data()
-  return data
-}
+    const user = await getDoc(docRef);
+    const data = user.data();
+    return data;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const getCurrentUserDetails = (uid) => {
+  const docRef = doc(db, "users", `${uid}`);
+  return getDoc(docRef);
+};
