@@ -5,9 +5,10 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import {
   HomeStackScreen,
   ListBookStackScreen,
+  MessagesStackScreen,
+  ProfileStackScreen,
+  SearchStackScreen,
 } from "../navigation/StackNavigators";
-import SearchScreen from "../screens/SearchScreen";
-import UserProfileScreen from "../screens/UserProfileScreen";
 
 const Tab = createBottomTabNavigator();
 
@@ -22,9 +23,11 @@ function BottomTabNavigator() {
             iconName = "home-outline";
           } else if (route.name === "ListBookStackScreen") {
             iconName = "book-outline";
-          } else if (route.name === "SearchScreen") {
+          } else if (route.name === "SearchStackScreen") {
             iconName = "search-outline";
-          } else if (route.name === "UserProfileScreen") {
+          } else if (route.name === "MessagesStackScreen") {
+            iconName = "chatbubbles-outline";
+          } else if (route.name === "ProfileStackScreen") {
             iconName = "person-outline";
           }
           return <Ionicons name={iconName} size={size} color={color} />;
@@ -44,13 +47,18 @@ function BottomTabNavigator() {
         options={{ title: "List Book" }}
       />
       <Tab.Screen
-        name="SearchScreen"
-        component={SearchScreen}
+        name="SearchStackScreen"
+        component={SearchStackScreen}
         options={{ title: "Search" }}
       />
       <Tab.Screen
-        name="UserProfileScreen"
-        component={UserProfileScreen}
+        name="MessagesStackScreen"
+        component={MessagesStackScreen}
+        options={{ title: "Messages" }}
+      />
+      <Tab.Screen
+        name="ProfileStackScreen"
+        component={ProfileStackScreen}
         options={{ title: "Profile" }}
       />
     </Tab.Navigator>
