@@ -103,18 +103,31 @@ export const handleSignUp = async ({ email, password, username, postcode }) => {
   }
 };
 
-export const handleLogin = (password, email) => {
+export const handleLogin = async (password, email) => {
   return signInWithEmailAndPassword(auth, email, password).then(
     (userCredential) => {
+    
       return userCredential.user.uid;
     }
   );
 };
 
-export const sendBook = (bookObject, user) => {
+export const sendBook = async (bookObject, user) => {
   const docRef = doc(db, "users", user);
 
-  updateDoc(docRef, {
+  await updateDoc(docRef, {
     books: arrayUnion(bookObject),
   });
 };
+
+// export const getBooksByLocation(lat, long, distance) {
+
+// }
+
+export const getUserDetails = async (uid) => {
+  const docRef = doc(db, 'users', `${uid}`);
+
+  const user = await getDoc(docRef)
+  const data = user.data()
+  return data.email
+}
