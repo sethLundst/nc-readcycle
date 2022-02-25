@@ -111,10 +111,10 @@ export const handleLogin = (password, email) => {
   );
 };
 
-export const sendBook = (bookObject) => {
-  const docRef = doc(db, "users", "Book-test-user");
+export const sendBook = (bookObject, user) => {
+  const docRef = doc(db, "users", user);
 
   updateDoc(docRef, {
-    book: arrayUnion(bookObject),
+    books: arrayUnion(bookObject),
   });
 };

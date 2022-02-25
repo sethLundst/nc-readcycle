@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useEffect } from "react";
+import React, { useCallback, useState, useEffect, useContext } from "react";
 import {
   SafeAreaView,
   StyleSheet,
@@ -15,10 +15,12 @@ import { Formik } from "formik";
 import * as yup from "yup";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { sendBook } from "../db/firestore";
+import { UserContext } from "../contexts/User";
 
 export default function ListBookForm({ navigation, route }) {
   // State
 
+  const { user, setUser } = useContext(UserContext);
   const [ISBN, setISBN] = useState("");
   const [addBookButton, setAddBookButton] = useState(false);
   const [description, setDescription] = useState("");
@@ -63,8 +65,7 @@ export default function ListBookForm({ navigation, route }) {
     values.language = language;
     values.publishedDate = publishedDate;
 
-    console.log(values);
-    sendBook(values);
+    sendBook(values, user);
     setISBN("");
     setAddBookButton(false);
   };
