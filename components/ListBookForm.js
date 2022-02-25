@@ -28,11 +28,15 @@ export default function ListBookForm({ navigation, route }) {
   const [pageCount, setPageCount] = useState("");
   const [language, setLanguage] = useState("");
   const [publishedDate, setPublishedDate] = useState("");
+  const [title, setTitle] = useState("");
+  const [author, setAuthor] = useState("");
+  const [category, setCategory] = useState("");
 
   useEffect(() => {
     if (route.params?.ISBN) {
       setISBN(route.params?.ISBN);
       setAddBookButton(true);
+      APIcall(route.params?.ISBN);
     }
   }, [route.params?.ISBN]);
 
@@ -43,15 +47,11 @@ export default function ListBookForm({ navigation, route }) {
         `/books/v1/volumes?q=isbn:${value}&key=AIzaSyAVVkhe8oG7Y5vOVfzbb4tiSNuq5r0mbhQ`
       )
       .then((response) => {
-        setFieldValue("ISBN", value);
-        setFieldValue("title", response.data.items[0].volumeInfo.title);
-        setFieldValue("author", response.data.items[0].volumeInfo.authors[0]);
-        setFieldValue(
-          "category",
-          response.data.items[0].volumeInfo.categories[0]
-        );
+        setTitle(response.data.items[0].volumeInfo.title);
+        setImageLink(response.data.items[0].volumeInfo.imageLinks.thumbnail);
+        setAuthor(response.data.items[0].volumeInfo.authors[0]);
+        setCategory(response.data.items[0].volumeInfo.categories[0]);
         setDescription(response.data.items[0].volumeInfo.description);
-        // setImageLink(response.data.items[0].volumeInfo.imageLinks.thumbnail);
         setPageCount(response.data.items[0].volumeInfo.pageCount);
         setLanguage(response.data.items[0].volumeInfo.language);
         setPublishedDate(response.data.items[0].volumeInfo.publishedDate);
@@ -59,13 +59,35 @@ export default function ListBookForm({ navigation, route }) {
   };
 
   // Take object from form
-  const afterSubmit = (values) => {
-    values.description = description;
-    values.pageCount = pageCount;
-    values.language = language;
-    values.publishedDate = publishedDate;
+  const afterSubmit = (formIsbn) => {
+    const bookObj = {
+      title: title,
+      image: imageLink,
+      author: author,
+      category: category,
+      description: description,
+      pageCount: pageCount,
+      language: language,
+      publishedDate: publishedDate,
+    };
 
-    sendBook(values, user);
+    if (!formIsbn) {
+      bookObj.ISBN = ISBN;
+    } else {
+      bookObj.ISBN = formIsbn;
+    }
+
+    console.log(bookObj);
+
+    sendBook(bookObj, user);
+    setTitle("");
+    setImageLink("");
+    setAuthor("");
+    setCategory("");
+    setDescription("");
+    setPageCount("");
+    setLanguage("");
+    setPublishedDate("");
     setISBN("");
     setAddBookButton(false);
   };
@@ -97,13 +119,26 @@ export default function ListBookForm({ navigation, route }) {
             <MaterialCommunityIcons name="barcode" size={24} color="black" />
           </Text>
         </TouchableOpacity>
-        {addBookButton && <Text>{ISBN}</Text>}
+        {/* {addBookButton && <Text>{ISBN}</Text>} */}
+
+        <View style={styles.imageBox}>
+          <Text>{title}</Text>
+          <Image
+            style={styles.image}
+            source={{
+              uri: imageLink,
+            }}
+          />
+        </View>
+
+        {addBookButton && (
+          <Button title={"Submit?"} onPress={() => afterSubmit()}></Button>
+        )}
+
+        <Text style={{ textAlign: "center" }}>OR</Text>
 
         <Formik
           initialValues={{
-            title: "",
-            author: "",
-            category: "",
             ISBN: "",
           }}
           validationSchema={bookSchema}
@@ -128,12 +163,12 @@ export default function ListBookForm({ navigation, route }) {
                 justifyContent: "center",
               }}
             >
-              {addBookButton && (
+              {/* {addBookButton && (
                 <Button
                   title="Add book"
                   onPress={() => APIcall(ISBN, setFieldValue)}
                 />
-              )}
+              )} */}
 
               <Text>ISBN:</Text>
               <TextInput
@@ -149,6 +184,8 @@ export default function ListBookForm({ navigation, route }) {
               />
               <Text>{touched.ISBN && errors.ISBN}</Text>
 
+              <Button onPress={() => afterSubmit(values.ISBN)} title="Submit" />
+              {/* 
               <Text>Title:</Text>
               <TextInput
                 style={styles.textbox}
@@ -177,9 +214,7 @@ export default function ListBookForm({ navigation, route }) {
                 value={values.category}
                 placeholder="e.g. Fiction"
               />
-              <Text>{touched.category && errors.category}</Text>
-
-              <Button onPress={handleSubmit} title="Submit" />
+              <Text>{touched.category && errors.category}</Text> */}
             </View>
           )}
         </Formik>
@@ -197,9 +232,17 @@ const styles = StyleSheet.create({
   },
   image: {
     flex: 1,
-    aspectRatio: 0.3,
-    resizeMode: "contain",
+    justifyContent: "center",
+    alignItems: "center",
+    width: "80%",
+    height: 250,
   },
+  imageBox: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+
   textbox: {
     flex: 1,
     width: 200,
