@@ -7,12 +7,15 @@ export default function SignUpScreen({ navigation }) {
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
       <Text>READCYCLE</Text>
       <Text>Sign Up.</Text>
-      <SignupForm navigation={navigation} />
+      <SignupForm />
       <Button
         title="Already have an account?"
         onPress={() => navigation.navigate("LogInScreen")}
       />
-      <Button title="Home" onPress={() => navigation.navigate("HomeScreen")} />
+      <Button
+        title="Go to site without logging in"
+        onPress={() => navigation.navigate("BottomTabNavigator")}
+      />
     </View>
   );
 }
