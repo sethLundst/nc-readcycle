@@ -7,7 +7,7 @@ export default function SignUpScreen({ navigation }) {
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
       <Text>READCYCLE</Text>
       <Text>Sign Up.</Text>
-      <SignupForm />
+      <SignupForm navigation={navigation}/>
       <Button
         title="Already have an account?"
         onPress={() => navigation.navigate("LogInScreen")}

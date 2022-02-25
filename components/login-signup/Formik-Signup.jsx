@@ -49,14 +49,14 @@ const validationSchema = Yup.object({
 
 export const SignupForm = ({ navigation }) => {
 	const { user, setUser } = useContext(UserContext);
-  // console.log(user, '<= user');
+  console.log(user, '<= user');
 	return (
 		<Formik
 			initialValues={{ email: "", password: "", username: "", postcode: "" }}
 			onSubmit={(values) =>
 				handleSignUp(values).then((uid) => {
 					setUser(uid);
-					return navigation.navigate("HomeScreen");
+					return navigation.navigate("BottomTabNavigator");
 				})
 			}
 			validationSchema={validationSchema}>

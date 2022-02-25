@@ -25,7 +25,7 @@ export const LoginForm = ({ navigation }) => {
     onSubmit={(values) =>
       handleLogin(values.password, values.email).then((uid) => {
         setUser(uid)
-        navigation.navigate("HomeScreen");
+        navigation.navigate("BottomTabNavigator");
       })
     }
     validationSchema={validationSchema}
