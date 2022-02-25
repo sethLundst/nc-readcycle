@@ -1,4 +1,4 @@
-import { Ionicons } from "@expo/vector-icons";
+import { Ionicons, AntDesign } from "@expo/vector-icons";
 import React from "react";
 import {
   View,
@@ -28,6 +28,9 @@ export default function SingleBookPage() {
         <View style={styles.infoBox}>
           <Text style={styles.title}>{books[2].items[0].volumeInfo.title}</Text>
           <Text style={styles.bookInfo}>
+            Average rating: {books[2].items[0].volumeInfo.averageRating}
+          </Text>
+          <Text style={styles.bookInfo}>
             {books[2].items[0].volumeInfo.authors}
           </Text>
           <Text style={styles.bookInfo}>
@@ -39,6 +42,9 @@ export default function SingleBookPage() {
           <Text style={styles.bookInfo}>
             Language: {books[2].items[0].volumeInfo.language}
           </Text>
+          <TouchableOpacity style={styles.addToWishListButton}>
+            <Text style={styles.buttonText}>Add to Wishlist</Text>
+          </TouchableOpacity>
         </View>
       </View>
       <View>
@@ -48,14 +54,63 @@ export default function SingleBookPage() {
             {books[2].items[0].volumeInfo.description}
           </Text>
         </ScrollView>
-      </View>
-      <View style={styles.buttonsContainer}>
-        <TouchableOpacity style={styles.offerButton}>
-          <Text style={styles.buttonText}>Add to Offered Books</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.addToWishListButton}>
-          <Text style={styles.buttonText}>Add to Wishlist</Text>
-        </TouchableOpacity>
+        <ScrollView style={styles.userAvatarsBox}>
+          <View style={styles.userHasBook}>
+            <View style={styles.avatar}>
+              <Image
+                source={require("../assets/cat.png")}
+                style={styles.avatarImage}
+                resizeMode="center"
+              ></Image>
+            </View>
+            <View style={styles.userInfo}>
+              <Text style={styles.userName}>Kirsty</Text>
+              <Text style={styles.userDistance}>0.6 miles away</Text>
+            </View>
+            <View style={styles.messageIcon}>
+              <TouchableOpacity>
+                <AntDesign name="message1" size={24} color="black" />
+              </TouchableOpacity>
+            </View>
+          </View>
+          <View style={styles.userHasBook}>
+            <View style={styles.avatar}>
+              <Image
+                source={require("../assets/cat.png")}
+                style={styles.avatarImage}
+                resizeMode="center"
+              ></Image>
+            </View>
+            <View style={styles.userInfo}>
+              <Text style={styles.userName}>Kirsty</Text>
+              <Text style={styles.userDistance}>0.6 miles away</Text>
+            </View>
+            <View style={styles.messageIcon}>
+              <TouchableOpacity>
+                <AntDesign name="message1" size={24} color="black" />
+              </TouchableOpacity>
+            </View>
+          </View>
+          <View style={styles.userHasBook}>
+            <View style={styles.avatar}>
+              <Image
+                source={require("../assets/cat.png")}
+                style={styles.avatarImage}
+                resizeMode="center"
+              ></Image>
+            </View>
+            <View style={styles.userInfo}>
+              <Text style={styles.userName}>Kirsty</Text>
+              <Text style={styles.userDistance}>0.6 miles away</Text>
+            </View>
+            <View style={styles.messageIcon}>
+              <TouchableOpacity>
+                <AntDesign name="message1" size={24} color="black" />
+              </TouchableOpacity>
+            </View>
+          </View>
+        
+        </ScrollView>
       </View>
     </SafeAreaView>
   );
@@ -100,7 +155,7 @@ const styles = StyleSheet.create({
     paddingBottom: 15,
   },
   bookInfo: {
-    paddingBottom: 8,
+    paddingBottom: 6,
     fontFamily: "HelveticaNeue",
     color: "#52575D",
     fontWeight: "600",
@@ -108,7 +163,7 @@ const styles = StyleSheet.create({
   descriptionBox: {
     height: 200,
     marginTop: 10,
-    marginBottom: 20,
+    marginBottom: 10,
     borderColor: "#DFD8C8",
     borderWidth: 1,
     borderRadius: 5,
@@ -130,34 +185,17 @@ const styles = StyleSheet.create({
     color: "#52575D",
   },
   buttonsContainer: {
-    flex: 1,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    marginTop: 10,
-    marginBottom: 20,
+    marginTop: 0,
+    marginBottom: 0,
   },
-  offerButton: {
-    borderColor: "#52575D",
-    borderWidth: 2,
-    borderRadius: 12,
-    padding: 10,
-    width: 170,
-    height: 40,
-    marginLeft: 10,
-    marginBottom: -40,
-    backgroundColor: "#ffbd03",
-    shadowColor: "#52575D",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.5,
-    shadowRadius: 1,
-  },
+
   addToWishListButton: {
     borderColor: "#52575D",
     borderWidth: 2,
     borderRadius: 12,
-    marginRight: 10,
+    marginTop: 14,
     padding: 10,
-    width: 170,
+    width: 140,
     height: 40,
     backgroundColor: "#ffbd03",
     shadowColor: "#52575D",
@@ -171,4 +209,24 @@ const styles = StyleSheet.create({
     color: "#52575D",
     fontWeight: "700",
   },
+  userHasBook: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between"
+  },
+  avatarImage: {
+    height: 50,
+    width: 50,
+    borderRadius: 50,
+    marginLeft: 20
+  },
+  messageIcon: {
+    marginRight: 20,
+  },
+  userAvatarsBox: {
+    height: 50,
+    padding: 10,
+    marginBottom: 30
+  }
 });
