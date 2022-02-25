@@ -43,7 +43,7 @@ export default function SingleBookPage() {
             Language: {books[2].items[0].volumeInfo.language}
           </Text>
           <TouchableOpacity style={styles.addToWishListButton}>
-            <Text style={styles.buttonText}>Add to Wishlist</Text>
+            <Text style={styles.buttonText}>Reserve</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -54,9 +54,9 @@ export default function SingleBookPage() {
             {books[2].items[0].volumeInfo.description}
           </Text>
         </ScrollView>
-        <ScrollView style={styles.userAvatarsBox}>
+        
           <View style={styles.userHasBook}>
-            <View style={styles.avatar}>
+            <View style={styles.avatarContainer}>
               <Image
                 source={require("../assets/cat.png")}
                 style={styles.avatarImage}
@@ -64,43 +64,7 @@ export default function SingleBookPage() {
               ></Image>
             </View>
             <View style={styles.userInfo}>
-              <Text style={styles.userName}>Kirsty</Text>
-              <Text style={styles.userDistance}>0.6 miles away</Text>
-            </View>
-            <View style={styles.messageIcon}>
-              <TouchableOpacity>
-                <AntDesign name="message1" size={24} color="black" />
-              </TouchableOpacity>
-            </View>
-          </View>
-          <View style={styles.userHasBook}>
-            <View style={styles.avatar}>
-              <Image
-                source={require("../assets/cat.png")}
-                style={styles.avatarImage}
-                resizeMode="center"
-              ></Image>
-            </View>
-            <View style={styles.userInfo}>
-              <Text style={styles.userName}>Kirsty</Text>
-              <Text style={styles.userDistance}>0.6 miles away</Text>
-            </View>
-            <View style={styles.messageIcon}>
-              <TouchableOpacity>
-                <AntDesign name="message1" size={24} color="black" />
-              </TouchableOpacity>
-            </View>
-          </View>
-          <View style={styles.userHasBook}>
-            <View style={styles.avatar}>
-              <Image
-                source={require("../assets/cat.png")}
-                style={styles.avatarImage}
-                resizeMode="center"
-              ></Image>
-            </View>
-            <View style={styles.userInfo}>
-              <Text style={styles.userName}>Kirsty</Text>
+              <Text style={styles.userName}>Kirsty has this!</Text>
               <Text style={styles.userDistance}>0.6 miles away</Text>
             </View>
             <View style={styles.messageIcon}>
@@ -110,7 +74,7 @@ export default function SingleBookPage() {
             </View>
           </View>
         
-        </ScrollView>
+        
       </View>
     </SafeAreaView>
   );
@@ -195,7 +159,7 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     marginTop: 14,
     padding: 10,
-    width: 140,
+    width: 120,
     height: 40,
     backgroundColor: "#ffbd03",
     shadowColor: "#52575D",
@@ -213,19 +177,35 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-between"
+    justifyContent: "space-between",
+    marginBottom: 10
+  },
+  avatarContainer: {
+    height: 50,
+    width:50,
+    borderRadius: 40,
+    borderWidth: 1,
+    marginLeft: 20,
+    marginTop: 10,
+    marginBottom: 5,
+    borderColor: "#41444B",
+    shadowColor: "#52575D",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.5,
+    shadowRadius: 2,
   },
   avatarImage: {
-    height: 50,
-    width: 50,
-    borderRadius: 50,
-    marginLeft: 20
+    height: 48,
+    width: 48,
+    borderRadius: 40,
+    overflow: "hidden"
   },
   messageIcon: {
     marginRight: 20,
   },
+  
   userAvatarsBox: {
-    height: 50,
+    height: 100,
     padding: 10,
     marginBottom: 30
   }
