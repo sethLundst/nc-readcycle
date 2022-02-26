@@ -74,7 +74,7 @@ async function convertPostcode(postcode) {
 	}
 }
 
-export const handleSignUp = async ({ email, password, username, postcode }) => {
+export const handleSignUp = async ({ email, password, username, postcode, city }) => {
 	let newUser = {};
 
 	try {
@@ -95,7 +95,8 @@ export const handleSignUp = async ({ email, password, username, postcode }) => {
 			chats: [],
 			lent: 0,
 			coordinates: { latitude: latitude, longitude: longitude },
-      region: region
+      region: region,
+      city: city
 		};
 
 		await setDoc(doc(db, "users", userCredential.user.uid), newUser);
@@ -122,10 +123,10 @@ export const sendBook = async (bookObject, user) => {
 	});
 };
 
-export const getUsersByLocation = async (userLocation) => {
+export const getUsersByLocation = async (region) => {
 	const q = query(
 		collection(db, "users"),
-		where("location", "==", userLocation)
+		where("location", "==", region)
 	);
 };
 
@@ -136,3 +137,4 @@ export const getUserDetails = async (uid) => {
 };
 
 export const deleteBook = async (book, isLent) => {};
+

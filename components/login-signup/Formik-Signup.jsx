@@ -45,6 +45,9 @@ const validationSchema = Yup.object({
 		.required("Postcode required.")
 		.matches(postcodeRegex, "Invalid post code.")
 		.test("Postcode exists", "Postcode does not exist", validatePostcode),
+  city: Yup.string()
+  .ensure()
+  .required("City/town required.")
 });
 
 export const SignupForm = ({ navigation }) => {
@@ -52,7 +55,7 @@ export const SignupForm = ({ navigation }) => {
   console.log(user, '<= user');
 	return (
 		<Formik
-			initialValues={{ email: "", password: "", username: "", postcode: "" }}
+			initialValues={{ email: "", password: "", username: "", postcode: "", city:"" }}
 			onSubmit={(values) =>
 				handleSignUp(values).then((uid) => {
 					setUser(uid);
@@ -98,6 +101,13 @@ export const SignupForm = ({ navigation }) => {
 					{errors.username && touched.username && (
 						<Text>{errors.username}</Text>
 					)}
+          	<TextInput
+						placeholder="city/town"
+						style={styles.textInput}
+						onChangeText={handleChange("city")}
+						onBlur={handleBlur("city")}
+						value={values.city}
+					/>
 					<TextInput
 						placeholder="postcode"
 						style={styles.textInput}
