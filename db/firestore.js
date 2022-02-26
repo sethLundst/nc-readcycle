@@ -30,9 +30,9 @@ const firebaseConfig = {
   messagingSenderId: "465923556747",
   appId: "1:465923556747:web:0238a1c3993ad960935b8e",
 };
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-const auth = getAuth(app);
+export const app = initializeApp(firebaseConfig);
+export const db = getFirestore(app);
+export const auth = getAuth(app);
 
 export const checkEmailIsAvailable = async (email) => {
   const q = query(collection(db, "users"), where("email", "==", email));
@@ -120,8 +120,8 @@ export const sendBook = async (bookObject, user) => {
   });
 };
 
-export const getUsersByLocation = async (userLocation, dist) => {
-  const q = query(collection(db, "users"), where("email", "==", email));
+export const getUsersByLocation = async (userLocation) => {
+  const q = query(collection(db, "users"), where("location", "==", userLocation));
 };
 
 export const getUserDetails = async (uid) => {
@@ -132,4 +132,4 @@ export const getUserDetails = async (uid) => {
 
 export const deleteBook = async (book, isLent) => {
 
-}
+};
