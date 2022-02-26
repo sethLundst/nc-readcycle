@@ -19,7 +19,7 @@ import BooksOfferedLink from "./BooksOfferedLink";
 import BooksHomedLink from "./BooksRehomedLink";
 import { getUserDetails } from "../db/firestore";
 
-export default function ProfilePage() {
+export default function ProfilePage({ navigation }) {
   const [currentUser, setCurrentUser] = useState({ books: [] });
 
   const { user, setUser } = useContext(UserContext);
@@ -33,10 +33,16 @@ export default function ProfilePage() {
     fetchUserDetails();
   }, [user, getUserDetails]);
 
-  const ItemView = ({ item }) => {
+  function ItemView({ item }) {
     return (
       <View style={styles.bookCoverContainer}>
-        <TouchableOpacity key={item.id} style={styles.image}>
+        <TouchableOpacity
+          key={item.id}
+          style={styles.image}
+          onPress={() => {
+            navigation.navigate("SingleBookScreen", { item });
+          }}
+        >
           <Image
             source={{
               uri: item.highResImage,
@@ -46,7 +52,7 @@ export default function ProfilePage() {
         </TouchableOpacity>
       </View>
     );
-  };
+  }
 
   return (
     <SafeAreaView style={styles.container}>
