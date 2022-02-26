@@ -119,14 +119,6 @@ export const sendBook = async (bookObject, user) => {
 	});
 };
 
-export const getUserDetails = async (uid) => {
-	const docRef = doc(db, "users", `${uid}`);
-
-	const user = await getDoc(docRef);
-	const data = user.data();
-	return data;
-};
-
 export const getUsersByLocation = async (userLocation, dist) => {
 
   const q = query(collection(db, "users"), where("email", "==", email));}
@@ -147,3 +139,7 @@ export const getCurrentUserDetails = (uid) => {
   const docRef = doc(db, "users", `${uid}`);
   return getDoc(docRef);
 };
+
+export const deleteBook = async (book, isLent) => {
+  
+}
