@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { useContext } from "react";
 import { UserContext } from "../contexts/User";
 import {
+  Alert,
+  Modal,
   StyleSheet,
   Text,
   View,
@@ -10,6 +12,8 @@ import {
   ScrollView,
   FlatList,
   TouchableOpacity,
+  Pressable,
+  Button,
 } from "react-native";
 import { Ionicons, Foundation, MaterialIcons } from "@expo/vector-icons";
 import MapButton from "./MapButton";
@@ -20,6 +24,7 @@ import BooksHomedLink from "./BooksRehomedLink";
 
 export default function ProfilePage({ navigation }) {
   const [showSingleBook, setSingleBook] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
   const usersbooks = [
     {
@@ -60,6 +65,61 @@ export default function ProfilePage({ navigation }) {
   const GetCover = ({ cover }) => {
     return (
       <View style={styles.bookCoverContainer}>
+        <SafeAreaView>
+          <View>
+            <Modal
+              hasBackdrop={true}
+              animationType={"fade"}
+              transparent
+              visible={showModal}
+            >
+              <View style={styles.modalBackground}>
+                <View style={styles.modalContainer}>
+                  <Pressable onPress={() => setShowModal(!showModal)}>
+                    <View style={styles.removeBookIcon}>
+                      <MaterialIcons
+                        name="highlight-remove"
+                        size={28}
+                        color="black"
+                        style={styles.removeBookIcon}
+                      />
+                    </View>
+                  </Pressable>
+                  <View style={styles.modalInfo}>
+                    <Text style={styles.modalText}>
+                      Did you rehome this book?
+                    </Text>
+
+                    <TouchableOpacity style={styles.yesButton}>
+                      <Text style={styles.yesText}>Yes</Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity style={styles.noButton}>
+                      <Text style={styles.noText}>No</Text>
+                    </TouchableOpacity>
+                  </View>
+                </View>
+              </View>
+            </Modal>
+            <Modal
+              hasBackdrop={true}
+              animationType={"fade"}
+              transparent
+              visible={showModal}
+            >
+              <View style={styles.modalBackground}>
+                <View style={styles.modalContainer}></View>
+              </View>
+            </Modal>
+          </View>
+        </SafeAreaView>
+        <MaterialIcons
+          onPress={() => setShowModal(!showModal)}
+          style={styles.removeBookIconCover}
+          name="highlight-remove"
+          size={28}
+          color="white"
+        />
         <Image
           source={{ uri: `${cover}` }}
           style={styles.image}
@@ -83,14 +143,14 @@ export default function ProfilePage({ navigation }) {
     <SafeAreaView style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.scrollView}>
-          <View style={styles.headerIconBar}>
+          {/* <View style={styles.headerIconBar}>
             <Ionicons
               name="ios-arrow-back"
               size={24}
               color="#52575D"
             ></Ionicons>
             <MaterialIcons name="more-vert" size={24} color="black" />
-          </View>
+          </View> */}
 
           <View style={{ alignSelf: "center" }}>
             <View style={styles.profileImage}>
@@ -100,13 +160,13 @@ export default function ProfilePage({ navigation }) {
                 resizeMode="center"
               ></Image>
             </View>
-            <View style={styles.ios_settings_outline}>
+            {/* <View style={styles.ios_settings_outline}>
               <Ionicons
                 name="ios-settings-outline"
                 size={22}
                 color="#DFD8C8"
               ></Ionicons>
-            </View>
+            </View> */}
             <View style={styles.activeDot}></View>
             <MapButton />
           </View>
@@ -296,8 +356,8 @@ const styles = StyleSheet.create({
     paddingRight: 30,
   },
   bookCoverContainer: {
-    width: 180,
-    height: 250,
+    width: 110,
+    height: 170,
     borderRadius: 12,
     overflow: "hidden",
     marginHorizontal: 6,
@@ -333,5 +393,67 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: "800",
     textAlign: "center",
+  },
+  removeBookIcon: {
+    marginBottom: 5,
+  },
+  removeBookIconCover: {
+    position: "absolute",
+    zIndex: 100,
+    right: 1,
+  },
+
+  // modal
+  modalContainer: {
+    // flex: 1,
+    justifyContent: "center",
+    // marginTop: 250,
+    // marginBottom: 250,
+    // marginLeft: 50,
+    // marginRight: 50,
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 25,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  modalText: {
+    fontSize: 20,
+    marginBottom: 10,
+  },
+  modalBackground: {
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  modalInfo: {
+    alignItems: "center",
+  },
+  yesButton: {
+    borderWidth: 1,
+    borderRadius: 25,
+    alignItems: "center",
+    width: 80,
+    marginBottom: 10,
+  },
+  noButton: {
+    borderWidth: 1,
+    borderRadius: 25,
+    alignItems: "center",
+    width: 80,
+  },
+  yesText: {
+    fontSize: 20,
+  },
+  noText: {
+    fontSize: 20,
   },
 });
