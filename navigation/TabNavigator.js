@@ -34,12 +34,13 @@ function BottomTabNavigator() {
         },
         tabBarActiveTintColor: "green",
         tabBarInactiveTintColor: "gray",
+        tabBarLabel: "",
       })}
     >
       <Tab.Screen
         name="HomeStackScreen"
         component={HomeStackScreen}
-        options={{ title: "Home" }}
+        options={{ title: "Home", showLabel: false }}
       />
       <Tab.Screen
         name="ListBookStackScreen"
