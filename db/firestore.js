@@ -3,6 +3,7 @@ import { initializeApp } from "firebase/app";
 import React, { useContext } from "react";
 import { UserContext } from "../contexts/User";
 import { getDoc, getFirestore } from "firebase/firestore";
+import { getDistance, convertDistance } from "geolib";
 import {
   collection,
   query,
@@ -87,16 +88,15 @@ export const handleSignUp = async ({ email, password, username, postcode }) => {
       uid: userCredential.user.uid,
       email: email,
       username: username,
-      longitude: longitude,
-      latitude: latitude,
-      avatar_url: "", //placeholder
+      avatar_url: "", //placeholder?
       books: [],
       chats: [],
       lent: 0,
+      location: { latitude: latitude, longitude: longitude },
     };
 
     await setDoc(doc(db, "users", userCredential.user.uid), newUser);
-
+    console.log("done");
     return newUser.uid;
   } catch (err) {
     console.log(err);
@@ -119,23 +119,12 @@ export const sendBook = async (bookObject, user) => {
   });
 };
 
-// export const getBooksByLocation(lat, long, distance) {
-
-// }
-
-export const getUserDetails = async (uid) => {
-  try {
-    const docRef = doc(db, "users", `${uid}`);
-
-    const user = await getDoc(docRef);
-    const data = user.data();
-    return data;
-  } catch (err) {
-    console.log(err);
-  }
+export const getUsersByLocation = async (userLocation, dist) => {
+  const q = query(collection(db, "users"), where("email", "==", email));
 };
 
-export const getCurrentUserDetails = (uid) => {
+export const getUserDetails = async (uid) => {
   const docRef = doc(db, "users", `${uid}`);
-  return getDoc(docRef);
+  const docSnap = await getDoc(docRef);
+  return docSnap.data();
 };
