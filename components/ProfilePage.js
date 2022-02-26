@@ -36,7 +36,7 @@ export default function ProfilePage() {
   const ItemView = ({ item }) => {
     return (
       <View style={styles.bookCoverContainer}>
-        <TouchableOpacity>
+        <TouchableOpacity key={item.id} style={styles.image}>
           <Image
             source={{
               uri: item.highResImage,
