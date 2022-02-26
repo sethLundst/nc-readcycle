@@ -74,11 +74,19 @@ async function convertPostcode(postcode) {
 	}
 }
 
-export const handleSignUp = async ({ email, password, username, postcode, city }) => {
+export const handleSignUp = async ({
+	email,
+	password,
+	username,
+	postcode,
+	city,
+}) => {
 	let newUser = {};
 
 	try {
-		const { longitude, latitude, region } = await convertPostcode(postcode).catch();
+		const { longitude, latitude, region } = await convertPostcode(
+			postcode
+		).catch();
 
 		const userCredential = await createUserWithEmailAndPassword(
 			auth,
@@ -95,8 +103,8 @@ export const handleSignUp = async ({ email, password, username, postcode, city }
 			chats: [],
 			lent: 0,
 			coordinates: { latitude: latitude, longitude: longitude },
-      region: region,
-      city: city
+			region: region,
+			city: city,
 		};
 
 		await setDoc(doc(db, "users", userCredential.user.uid), newUser);
@@ -124,10 +132,7 @@ export const sendBook = async (bookObject, user) => {
 };
 
 export const getUsersByLocation = async (region) => {
-	const q = query(
-		collection(db, "users"),
-		where("location", "==", region)
-	);
+	const q = query(collection(db, "users"), where("location", "==", region));
 };
 
 export const getUserDetails = async (uid) => {
@@ -138,3 +143,13 @@ export const getUserDetails = async (uid) => {
 
 export const deleteBook = async (book, isLent) => {};
 
+export const getAllUsers = async () => {
+	let result = [];
+
+	const querySnapshot = await getDocs(collection(db, "users"));
+	querySnapshot.forEach((doc) => {
+		result.push(doc.data());
+	});
+
+	return result;
+};
