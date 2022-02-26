@@ -25,7 +25,7 @@ const FilterByDistance = () => {
     phone: "074-638-3404",
   };
 
-  console.log(books, "<< list of books on app");
+  // console.log(books, "<< list of books on app");
 
   //only calculate distance once
   useLayoutEffect(() => {
@@ -74,7 +74,7 @@ const FilterByDistance = () => {
   };
 
   //   console.log(books[1].users.userHas.user[0].address.geo, "<< other user");
-  console.log(distance, `<< distance between this book and logged in user`);
+  // console.log(distance, `<< distance between this book and logged in user`);
 
   return <Text>distance</Text>;
 };
