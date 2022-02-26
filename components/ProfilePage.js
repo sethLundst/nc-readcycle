@@ -17,25 +17,10 @@ import TreeIcon from "./TreeIconLink";
 import UserRatingLink from "./UserRatingLink";
 import BooksOfferedLink from "./BooksOfferedLink";
 import BooksHomedLink from "./BooksRehomedLink";
-import { getCurrentUserDetails, getUserDetails } from "../db/firestore";
-
-import { getDoc, getFirestore } from "firebase/firestore";
-import {
-  collection,
-  query,
-  where,
-  getDocs,
-  addDoc,
-  setDoc,
-  doc,
-  arrayUnion,
-  updateDoc,
-} from "firebase/firestore";
+import { getUserDetails } from "../db/firestore";
 
 export default function ProfilePage() {
-  const [showSingleBook, setSingleBook] = useState(false);
   const [currentUser, setCurrentUser] = useState({ books: [] });
-  const [books, setBooks] = useState([]);
 
   const { user, setUser } = useContext(UserContext);
 
@@ -43,6 +28,7 @@ export default function ProfilePage() {
     const fetchUserDetails = async () => {
       const result = await getUserDetails(user);
       setCurrentUser(result);
+      console.log(currentUser.books);
     };
     fetchUserDetails();
   }, [user, getUserDetails]);
@@ -52,7 +38,6 @@ export default function ProfilePage() {
       <View style={styles.bookCoverContainer}>
         <TouchableOpacity>
           <Image
-            style={styles.image}
             source={{
               uri: item.highResImage,
             }}
@@ -214,6 +199,7 @@ const styles = StyleSheet.create({
     flex: 1,
     height: 200,
     width: 200,
+    resizeMode: "cover",
   },
   headerIconBar: {
     flexDirection: "row",
