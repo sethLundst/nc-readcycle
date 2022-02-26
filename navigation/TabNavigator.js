@@ -22,7 +22,7 @@ function BottomTabNavigator() {
           if (route.name === "HomeStackScreen") {
             iconName = "home-outline";
           } else if (route.name === "ListBookStackScreen") {
-            iconName = "book-outline";
+            iconName = "barcode-outline";
           } else if (route.name === "SearchStackScreen") {
             iconName = "search-outline";
           } else if (route.name === "MessagesStackScreen") {
