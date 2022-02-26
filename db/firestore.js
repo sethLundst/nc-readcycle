@@ -92,11 +92,11 @@ export const handleSignUp = async ({ email, password, username, postcode }) => {
       books: [],
       chats: [],
       lent: 0,
-      location: { latidute: latitude, longitude: longitude },
+      location: { latitude: latitude, longitude: longitude },
     };
 
     await setDoc(doc(db, "users", userCredential.user.uid), newUser);
-
+    console.log("done");
     return newUser.uid;
   } catch (err) {
     console.log(err);
@@ -124,17 +124,7 @@ export const getUsersByLocation = async (userLocation, dist) => {
 };
 
 export const getUserDetails = async (uid) => {
-  try {
-    const docRef = doc(db, "users", `${uid}`);
-    const user = await getDoc(docRef);
-    const data = user.data();
-    return data;
-  } catch (err) {
-    console.log(err);
-  }
-};
-
-export const getCurrentUserDetails = (uid) => {
   const docRef = doc(db, "users", `${uid}`);
-  return getDoc(docRef);
+  const docSnap = await getDoc(docRef);
+  return docSnap.data();
 };
