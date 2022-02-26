@@ -8,15 +8,15 @@ import { getDoc, getFirestore } from "firebase/firestore";
 
 
 
-// const Chat = (props) => {
+const Chat = (props) => {
 
-//   const createChat = (uid1, uid2) {
+  // const createChat = (uid1, uid2) {
 
-//   }
+  // }
 
-//   return ( 
-//     <Text>yo</Text>
-//    );
-// }
+  return ( 
+    <Text>yo</Text>
+   );
+}
  
-// export default Chat;
+export default Chat;
