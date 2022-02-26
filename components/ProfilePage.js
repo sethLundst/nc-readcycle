@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useContext } from "react";
 import { UserContext } from "../contexts/User";
 import {
@@ -17,67 +17,42 @@ import TreeIcon from "./TreeIconLink";
 import UserRatingLink from "./UserRatingLink";
 import BooksOfferedLink from "./BooksOfferedLink";
 import BooksHomedLink from "./BooksRehomedLink";
+import { getUserDetails } from "../db/firestore";
 
 export default function ProfilePage({ navigation }) {
-  const [showSingleBook, setSingleBook] = useState(false);
+  const [currentUser, setCurrentUser] = useState({ books: [] });
 
-  const usersbooks = [
-    {
-      id: "Hellboy",
-      cover:
-        "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1396092162l/21797255.jpg",
-    },
-    {
-      id: "Ender",
-      cover:
-        "https://upload.wikimedia.org/wikipedia/en/thumb/e/e4/Ender%27s_game_cover_ISBN_0312932081.jpg/220px-Ender%27s_game_cover_ISBN_0312932081.jpg",
-    },
-    {
-      id: "Hellbound",
-      cover: "https://m.media-amazon.com/images/I/51TVrzNamQL._SL500_.jpg",
-    },
-    {
-      id: "Rings",
-      cover: "https://m.media-amazon.com/images/I/51nfKQgGgZL.jpg",
-    },
-    { cover: "https://blackwells.co.uk/jacket/l/9780062094353.jpg" },
-    {
-      id: "Kitchen",
-      cover:
-        "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1566425108l/33.jpg",
-    },
-    {
-      id: "Watchers",
-      cover: "https://images-na.ssl-images-amazon.com/images/I/71UttNn8ZcL.jpg",
-    },
-    {
-      id: "Cloud",
-      cover:
-        "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1532695250l/32423._SY475_.jpg",
-    },
-  ];
+  const { user, setUser } = useContext(UserContext);
 
-  const GetCover = ({ cover }) => {
+  useEffect(() => {
+    const fetchUserDetails = async () => {
+      const result = await getUserDetails(user);
+      setCurrentUser(result);
+      console.log(currentUser.books);
+    };
+    fetchUserDetails();
+  }, [user, getUserDetails]);
+
+  function ItemView({ item }) {
     return (
       <View style={styles.bookCoverContainer}>
-        <Image
-          source={{ uri: `${cover}` }}
+        <TouchableOpacity
+          key={item.id}
           style={styles.image}
-          resizeMode="cover"
-        />
+          onPress={() => {
+            navigation.navigate("SingleBookScreen", { item });
+          }}
+        >
+          <Image
+            source={{
+              uri: item.highResImage,
+            }}
+            style={styles.image}
+          />
+        </TouchableOpacity>
       </View>
     );
-  };
-
-  const renderItem = ({ item }) => (
-    <TouchableOpacity
-      onPress={() => {
-        return navigation.navigate("SingleBookScreen", { item: item });
-      }}
-    >
-      <GetCover cover={item.cover} />
-    </TouchableOpacity>
-  );
+  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -113,8 +88,9 @@ export default function ProfilePage({ navigation }) {
 
           <View style={styles.userDetailsContainer}>
             <Text style={[styles.text, { fontWeight: "200", fontSize: 36 }]}>
-              User
+              {}
             </Text>
+            <Text>{currentUser ? currentUser.username : "Loading..."}</Text>
             <Text
               style={[
                 styles.text,
@@ -162,8 +138,8 @@ export default function ProfilePage({ navigation }) {
               horizontal={true}
               showsHorizontalScrollIndicator={false}
               keyExtractor={(_item, index) => index}
-              data={usersbooks}
-              renderItem={renderItem}
+              data={currentUser.books}
+              renderItem={ItemView}
             ></FlatList>
 
             <View style={styles.bookCount}>
@@ -178,7 +154,7 @@ export default function ProfilePage({ navigation }) {
                   },
                 ]}
               >
-                {usersbooks.length}
+                {}
               </Text>
               <Text
                 style={[
@@ -227,8 +203,9 @@ const styles = StyleSheet.create({
   },
   image: {
     flex: 1,
-    height: undefined,
-    width: undefined,
+    height: 200,
+    width: 200,
+    resizeMode: "cover",
   },
   headerIconBar: {
     flexDirection: "row",

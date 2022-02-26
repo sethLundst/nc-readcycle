@@ -22,7 +22,7 @@ function BottomTabNavigator() {
           if (route.name === "HomeStackScreen") {
             iconName = "home-outline";
           } else if (route.name === "ListBookStackScreen") {
-            iconName = "book-outline";
+            iconName = "barcode-outline";
           } else if (route.name === "SearchStackScreen") {
             iconName = "search-outline";
           } else if (route.name === "MessagesStackScreen") {
@@ -34,12 +34,13 @@ function BottomTabNavigator() {
         },
         tabBarActiveTintColor: "green",
         tabBarInactiveTintColor: "gray",
+        tabBarLabel: "",
       })}
     >
       <Tab.Screen
         name="HomeStackScreen"
         component={HomeStackScreen}
-        options={{ title: "Home" }}
+        options={{ title: "Home", showLabel: false }}
       />
       <Tab.Screen
         name="ListBookStackScreen"

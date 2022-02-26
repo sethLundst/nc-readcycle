@@ -24,7 +24,9 @@ export default function ListBookForm({ navigation, route }) {
   const [ISBN, setISBN] = useState("");
   const [addBookButton, setAddBookButton] = useState(false);
   const [description, setDescription] = useState("");
-  const [imageLink, setImageLink] = useState("");
+  const [id, setId] = useState("");
+  const [highResImageLink, setHighResImageLink] = useState("");
+  const [altImageLink, setAltImageLink] = useState("");
   const [pageCount, setPageCount] = useState("");
   const [language, setLanguage] = useState("");
   const [publishedDate, setPublishedDate] = useState("");
@@ -48,7 +50,11 @@ export default function ListBookForm({ navigation, route }) {
       )
       .then((response) => {
         setTitle(response.data.items[0].volumeInfo.title);
-        setImageLink(response.data.items[0].volumeInfo.imageLinks.thumbnail);
+        setId(response.data.items[0].id);
+        setHighResImageLink(
+          `https://books.google.com/books/publisher/content/images/frontcover/${response.data.items[0].id}?fife=w400-h600&source=gbs_api`
+        );
+        setAltImageLink(response.data.items[0].volumeInfo.imageLinks.thumbnail);
         setAuthor(response.data.items[0].volumeInfo.authors[0]);
         setCategory(response.data.items[0].volumeInfo.categories[0]);
         setDescription(response.data.items[0].volumeInfo.description);
@@ -62,7 +68,9 @@ export default function ListBookForm({ navigation, route }) {
   const afterSubmit = (formIsbn) => {
     const bookObj = {
       title: title,
-      image: imageLink,
+      id: id,
+      highResImage: highResImageLink,
+      altImage: altImageLink,
       author: author,
       category: category,
       description: description,
@@ -81,7 +89,8 @@ export default function ListBookForm({ navigation, route }) {
 
     sendBook(bookObj, user);
     setTitle("");
-    setImageLink("");
+    setHighResImageLink("");
+    setAltImageLink("");
     setAuthor("");
     setCategory("");
     setDescription("");
@@ -126,7 +135,7 @@ export default function ListBookForm({ navigation, route }) {
           <Image
             style={styles.image}
             source={{
-              uri: imageLink,
+              uri: highResImageLink,
             }}
           />
         </View>
