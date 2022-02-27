@@ -143,6 +143,7 @@ export const getUserDetails = async (uid) => {
 
 export const deleteBook = async (book, isLent) => {};
 
+
 export const createChat = async (book, members) => {
 	const docRef = await addDoc(collection(db, "chats"), {
 		members: members,
@@ -158,3 +159,15 @@ export const createChat = async (book, members) => {
 export const addMessage = async (chatID, username, data) => {
   
 };
+
+export const getAllUsers = async () => {
+	let result = [];
+
+	const querySnapshot = await getDocs(collection(db, "users"));
+	querySnapshot.forEach((doc) => {
+		result.push(doc.data());
+	});
+
+	return result;
+};
+
