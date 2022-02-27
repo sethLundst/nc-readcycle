@@ -1,7 +1,8 @@
 import * as React from "react";
-import { Text } from "react-native";
-// import Chat from "../components/chat/Chat";
+import { Text, View } from "react-native";
+
+import Chat from "../components/chat/Chat";
 
 export default function MessagesScreen() {
-  return (<Text>yo</Text>)
+  return (<Chat>yo</Chat>)
 }
