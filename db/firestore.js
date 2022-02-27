@@ -143,6 +143,23 @@ export const getUserDetails = async (uid) => {
 
 export const deleteBook = async (book, isLent) => {};
 
+
+export const createChat = async (book, members) => {
+	const docRef = await addDoc(collection(db, "chats"), {
+		members: members,
+		book: book.title,
+		picture: book.altImage,
+		messages: {},
+	});
+	await updateDoc(docRef, {
+		chatID: docRef.id,
+	});
+};
+
+export const addMessage = async (chatID, username, data) => {
+  
+};
+
 export const getAllUsers = async () => {
 	let result = [];
 
@@ -153,3 +170,4 @@ export const getAllUsers = async () => {
 
 	return result;
 };
+
