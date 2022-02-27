@@ -1,22 +1,25 @@
-import React, {useContext} from "react";
-import { Button, TextInput, View, Text, StyleSheet } from "react-native";
+import React, { useContext, useEffect, useState } from "react";
 import { Formik } from "formik";
-import {getUserDetails, db, app, auth} from "../../db/firestore"
+import { getUserDetails, db, app, auth } from "../../db/firestore";
 import { UserContext } from "../../contexts/User";
 import { getDoc, getFirestore } from "firebase/firestore";
+import {
+	Button,
+	TextInput,
+	View,
+	Text,
+	StyleSheet,
+	useWindowDimensions,
+} from "react-native";
 
+const Chat = ({chatID}) => {
 
+  const [chatLog, setChatLog] = useState(null)
+  useEffect(()=>{
 
+  }, {})
 
-const Chat = (props) => {
+	return <View>yo</View>;
+};
 
-  // const createChat = (uid1, uid2) {
-
-  // }
-
-  return ( 
-    <Text>yo</Text>
-   );
-}
- 
 export default Chat;
