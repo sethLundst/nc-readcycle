@@ -11,11 +11,9 @@ import {
 } from "react-native";
 import { Formik } from "formik";
 import * as Yup from "yup";
-import {
-	checkEmailIsAvailable,
-	handleSignUp,
-	checkUsername,
-} from "../../db/firestore";
+
+import { checkEmailIsAvailable, handleSignUp, checkUsername, getAllUsers } from "../../db/firestore";
+
 import validator from "validator";
 import { UserContext } from "../../contexts/User";
 
@@ -61,7 +59,6 @@ const validationSchema = Yup.object({
 
 export const SignupForm = ({ navigation }) => {
 	const { user, setUser } = useContext(UserContext);
-	console.log(user, "<= user");
 	return (
 		<Formik
 			initialValues={{
