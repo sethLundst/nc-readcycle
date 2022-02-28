@@ -15,7 +15,6 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import Feather from "react-native-vector-icons/Feather";
 import { getUserDetails } from "../db/firestore";
-import { pickImage } from "../components/ProfileImagePicker";
 
 const EditProfileScreen = () => {
   //   bs = React.createRef();
@@ -209,7 +208,7 @@ const styles = StyleSheet.create({
   },
   textInput: {
     flex: 1,
-    marginTop: Platform.OS === "ios" ? 0 : -12,
+    // marginTop: Platform.OS === "ios" ? 0 : -12,
     paddingLeft: 10,
     color: "#333333",
   },
