@@ -19,6 +19,9 @@ import {
 	getAuth,
 	createUserWithEmailAndPassword,
 	signInWithEmailAndPassword,
+  setPersistence,
+  browserLocalPersistence,
+  onAuthStateChanged,
 } from "firebase/auth";
 
 const firebaseConfig = {
@@ -33,6 +36,8 @@ const firebaseConfig = {
 export const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);
 export const auth = getAuth(app);
+
+
 
 export const checkEmailIsAvailable = async (email) => {
 	const q = query(collection(db, "users"), where("email", "==", email));
@@ -82,8 +87,10 @@ export const handleSignUp = async ({
 	city,
 }) => {
 	let newUser = {};
-
+  
 	try {
+    await setPersistence(auth, browserLocalPersistence)
+
 		const { longitude, latitude, region } = await convertPostcode(
 			postcode
 		).catch();
@@ -135,6 +142,7 @@ export const getUsersByLocation = async (region) => {
 	const q = query(collection(db, "users"), where("location", "==", region));
 };
 
+
 export const getUserDetails = async (uid) => {
 	const docRef = doc(db, "users", `${uid}`);
 	const docSnap = await getDoc(docRef);
@@ -142,7 +150,6 @@ export const getUserDetails = async (uid) => {
 };
 
 export const deleteBook = async (book, isLent) => {};
-
 
 export const createChat = async (book, members) => {
 	const docRef = await addDoc(collection(db, "chats"), {
@@ -156,18 +163,5 @@ export const createChat = async (book, members) => {
 	});
 };
 
-export const addMessage = async (chatID, username, data) => {
-  
-};
-
-export const getAllUsers = async () => {
-	let result = [];
-
-	const querySnapshot = await getDocs(collection(db, "users"));
-	querySnapshot.forEach((doc) => {
-		result.push(doc.data());
-	});
-
-	return result;
-};
+export const addMessage = async (chatID, username, data) => {};
 
