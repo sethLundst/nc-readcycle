@@ -17,6 +17,7 @@ import ScannerScreen from "../screens/ScannerScreen";
 const MessagesStack = createNativeStackNavigator();
 import MessagesScreen from "../screens/MessagesScreen";
 import UserProfileScreen from "../screens/UserProfileScreen";
+import EditProfileScreen from "../screens/EditProfileScreen";
 import SingleBookScreen from "../screens/SingleBookScreen";
 
 const ProfileStack = createNativeStackNavigator();
@@ -85,20 +86,27 @@ export function MessagesStackScreen() {
 }
 
 export function ProfileStackScreen() {
-	return (
-		<ProfileStack.Navigator
-			initialRouteName="UserProfileScreen"
-			screenOptions={{ headerShown: false }}>
-			<ProfileStack.Screen
-				name="UserProfileScreen"
-				component={UserProfileScreen}
-			/>
-			<ProfileStack.Screen
-				name="SingleBookScreen"
-				component={SingleBookScreen}
-			/>
-		</ProfileStack.Navigator>
-	);
+
+  return (
+    <ProfileStack.Navigator
+      initialRouteName="UserProfileScreen"
+      screenOptions={{ headerShown: false }}
+    >
+      <ProfileStack.Screen
+        name="UserProfileScreen"
+        component={UserProfileScreen}
+      />
+      <ProfileStack.Screen
+        name="EditProfileScreen"
+        component={EditProfileScreen}
+      />
+      <ProfileStack.Screen
+        name="SingleBookScreen"
+        component={SingleBookScreen}
+      />
+    </ProfileStack.Navigator>
+  );
+
 }
 
 export function SearchStackScreen() {

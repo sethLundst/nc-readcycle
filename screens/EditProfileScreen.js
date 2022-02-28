@@ -75,6 +75,19 @@ const EditProfileScreen = () => {
                         alignItems: "center",
                       }}
                     >
+                      <Icon
+                        name="camera"
+                        size={35}
+                        color="#FFF"
+                        style={{
+                          opacity: 0.4,
+                          justifyContent: "center",
+                          alignItems: "center",
+                          borderWidth: 1,
+                          borderColor: "#FFF",
+                          borderRadius: 10,
+                        }}
+                      ></Icon>
                       <TouchableOpacity onPress={() => pickImage}>
                         <Icon
                           name="camera"
