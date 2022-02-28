@@ -59,7 +59,7 @@ const validationSchema = Yup.object({
 
 export const SignupForm = ({ navigation }) => {
 	const { user, setUser } = useContext(UserContext);
- console.log(user);
+
 	return (
 		<Formik
 			initialValues={{

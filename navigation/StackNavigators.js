@@ -2,9 +2,9 @@
 
 import * as React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import BottomTabNavigator from "./TabNavigator";
 
-const MainStack = createNativeStackNavigator();
+
+
 
 const HomeStack = createNativeStackNavigator();
 import HomeScreen from "../screens/HomeScreen";
@@ -27,21 +27,21 @@ const ProfileStack = createNativeStackNavigator();
 const SearchStack = createNativeStackNavigator();
 import SearchScreen from "../screens/SearchScreen";
 
-export function MainStackNavigator() {
-  return (
-    <MainStack.Navigator
-      initialRouteName="SignUpScreen"
-      screenOptions={{ headerShown: false }}
-    >
-      <MainStack.Screen name="SignUpScreen" component={SignUpScreen} />
-      <MainStack.Screen name="LogInScreen" component={LogInScreen} />
-      <MainStack.Screen
-        name="BottomTabNavigator"
-        component={BottomTabNavigator}
-      />
-    </MainStack.Navigator>
-  );
-}
+// export function MainStackNavigator() {
+//   return (
+//     <MainStack.Navigator
+//       initialRouteName="SignUpScreen"
+//       screenOptions={{ headerShown: false }}
+//     >
+//       <MainStack.Screen name="SignUpScreen" component={SignUpScreen} />
+//       <MainStack.Screen name="LogInScreen" component={LogInScreen} />
+//       <MainStack.Screen
+//         name="BottomTabNavigator"
+//         component={BottomTabNavigator}
+//       />
+//     </MainStack.Navigator>
+//   );
+// }
 
 export function HomeStackScreen() {
   return (
