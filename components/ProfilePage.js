@@ -36,9 +36,6 @@ export default function ProfilePage({ navigation }) {
     fetchUserDetails();
   }, [user, getUserDetails]);
 
-
-  
-
   function ItemView({ item }) {
     return (
       <View style={styles.bookCoverContainer}>
@@ -208,7 +205,7 @@ export default function ProfilePage({ navigation }) {
               horizontal={true}
               showsHorizontalScrollIndicator={false}
               keyExtractor={(_item, index) => index}
-              // data={currentUser.books}
+              data={currentUser.books}
               renderItem={ItemView}
             ></FlatList>
 
@@ -244,13 +241,11 @@ export default function ProfilePage({ navigation }) {
                 
             </View> */}
 
-
             <View>
               {/* <Text style={[styles.subText, styles.fav_users]}>
                 Favourite users
               </Text> */}
 
-              
               <ScrollView
                 horizontal={true}
                 showsHorizontalScrollIndicator={false}
