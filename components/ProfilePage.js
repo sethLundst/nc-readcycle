@@ -94,6 +94,7 @@ export default function ProfilePage({ navigation }) {
           size={28}
           color="white"
         />
+
         <TouchableOpacity
           key={item.id}
           style={styles.image}
@@ -117,11 +118,11 @@ export default function ProfilePage({ navigation }) {
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.scrollView}>
           <View style={styles.headerIconBar}>
-            <Ionicons
+            {/* <Ionicons
               name="ios-arrow-back"
               size={24}
               color="#52575D"
-            ></Ionicons>
+            ></Ionicons> */}
             <MaterialIcons name="more-vert" size={24} color="black" />
           </View>
 
@@ -269,13 +270,13 @@ const styles = StyleSheet.create({
   },
   image: {
     flex: 1,
-    height: 200,
-    width: 200,
+    height: 150,
+    width: 150,
     resizeMode: "cover",
   },
   headerIconBar: {
     flexDirection: "row",
-    justifyContent: "space-between",
+    justifyContent: "flex-end",
     marginTop: 10,
     marginHorizontal: 16,
   },
@@ -286,8 +287,8 @@ const styles = StyleSheet.create({
     fontWeight: "500",
   },
   profileImage: {
-    width: 230,
-    height: 230,
+    width: 150,
+    height: 150,
     borderRadius: 100,
     overflow: "hidden",
     marginBottom: 0,
@@ -326,6 +327,7 @@ const styles = StyleSheet.create({
   userDetailsContainer: {
     alignSelf: "center",
     alignItems: "center",
+    paddingTop: 0,
   },
   iconsContainer: {
     flexDirection: "row",
@@ -339,8 +341,8 @@ const styles = StyleSheet.create({
     paddingRight: 30,
   },
   bookCoverContainer: {
-    width: 180,
-    height: 250,
+    width: 140,
+    height: 200,
     borderRadius: 12,
     overflow: "hidden",
     marginHorizontal: 6,

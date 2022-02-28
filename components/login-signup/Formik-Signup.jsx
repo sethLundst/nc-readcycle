@@ -1,10 +1,19 @@
 //TODO : password confirm
 import axios from "axios";
 import React, { useContext } from "react";
-import { Button, TextInput, View, Text, StyleSheet, useWindowDimensions } from "react-native";
+import {
+	Button,
+	TextInput,
+	View,
+	Text,
+	StyleSheet,
+	useWindowDimensions,
+} from "react-native";
 import { Formik } from "formik";
 import * as Yup from "yup";
-import { checkEmailIsAvailable, handleSignUp, checkUsername, getAllUsers } from "../../db/firestore";
+
+import { checkEmailIsAvailable, handleSignUp, checkUsername, getCurrentUser } from "../../db/firestore";
+
 import validator from "validator";
 import { UserContext } from "../../contexts/User";
 
@@ -39,23 +48,27 @@ const validationSchema = Yup.object({
 		.ensure()
 		.max(20, "Username must be 20 characters or under")
 		.required("Username required.")
-    .test("is available", "username in use", checkUsername),
+		.test("is available", "username in use", checkUsername),
 	postcode: Yup.string()
 		.ensure()
 		.required("Postcode required.")
 		.matches(postcodeRegex, "Invalid post code.")
 		.test("Postcode exists", "Postcode does not exist", validatePostcode),
-  city: Yup.string()
-  .ensure()
-  .required("City/town required.")
+	city: Yup.string().ensure().required("City/town required."),
 });
 
 export const SignupForm = ({ navigation }) => {
 	const { user, setUser } = useContext(UserContext);
-  
+
 	return (
 		<Formik
-			initialValues={{ email: "", password: "", username: "", postcode: "", city:"" }}
+			initialValues={{
+				email: "",
+				password: "",
+				username: "",
+				postcode: "",
+				city: "",
+			}}
 			onSubmit={(values) =>
 				handleSignUp(values).then((uid) => {
 					setUser(uid);
@@ -72,49 +85,65 @@ export const SignupForm = ({ navigation }) => {
 				touched,
 			}) => (
 				<View>
-					<TextInput
-						placeholder="email"
-						style={styles.textInput}
-						onChangeText={handleChange("email")}
-						onBlur={handleBlur("email")}
-						value={values.email}
-					/>
+					<View style={styles.formSection}>
+						<Text>Email:</Text>
+						<TextInput
+							placeholder="email"
+							style={styles.textInput}
+							onChangeText={handleChange("email")}
+							onBlur={handleBlur("email")}
+							value={values.email}
+						/>
+					</View>
 					{errors.email && touched.password && <Text>{errors.email}</Text>}
-					<TextInput
-						placeholder="password"
-						style={styles.textInput}
-						onChangeText={handleChange("password")}
-						onBlur={handleBlur("password")}
-						value={values.password}
-						secureTextEntry={true}
-					/>
+					<View style={styles.formSection}>
+						<Text>Password:</Text>
+						<TextInput
+							placeholder="password"
+							style={styles.textInput}
+							onChangeText={handleChange("password")}
+							onBlur={handleBlur("password")}
+							value={values.password}
+							secureTextEntry={true}
+						/>
+					</View>
 					{errors.password && touched.password && (
 						<Text>{errors.password}</Text>
 					)}
-					<TextInput
-						placeholder="username"
-						style={styles.textInput}
-						onChangeText={handleChange("username")}
-						onBlur={handleBlur("username")}
-						value={values.username}
-					/>
+					<View style={styles.formSection}>
+						<Text>Username:</Text>
+						<TextInput
+							placeholder="username"
+							style={styles.textInput}
+							onChangeText={handleChange("username")}
+							onBlur={handleBlur("username")}
+							value={values.username}
+						/>
+					</View>
 					{errors.username && touched.username && (
 						<Text>{errors.username}</Text>
 					)}
-          	<TextInput
-						placeholder="city/town"
-						style={styles.textInput}
-						onChangeText={handleChange("city")}
-						onBlur={handleBlur("city")}
-						value={values.city}
-					/>
-					<TextInput
-						placeholder="postcode"
-						style={styles.textInput}
-						onChangeText={handleChange("postcode")}
-						onBlur={handleBlur("postcode")}
-						value={values.postcode}
-					/>
+					<View style={styles.formSection}>
+						<Text>City/town:</Text>
+						<TextInput
+							placeholder="city/town"
+							style={styles.textInput}
+							onChangeText={handleChange("city")}
+							onBlur={handleBlur("city")}
+							value={values.city}
+						/>
+					</View>
+					{errors.city && touched.city && <Text>{errors.city}</Text>}
+					<View style={styles.formSection}>
+						<Text>Postcode:</Text>
+						<TextInput
+							placeholder="postcode"
+							style={styles.textInput}
+							onChangeText={handleChange("postcode")}
+							onBlur={handleBlur("postcode")}
+							value={values.postcode}
+						/>
+					</View>
 					{errors.postcode && touched.postcode && (
 						<Text>{errors.postcode}</Text>
 					)}
@@ -134,6 +163,11 @@ export const SignupForm = ({ navigation }) => {
 const styles = StyleSheet.create({
 	textInput: {
 		borderWidth: 1,
+		marginLeft: 5,
+		paddingLeft: 5,
+	},
+	formSection: {
+		flexDirection: "row",
 		margin: 5,
 	},
 });
