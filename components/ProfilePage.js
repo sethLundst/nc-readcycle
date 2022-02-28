@@ -32,7 +32,6 @@ export default function ProfilePage({ navigation }) {
     const fetchUserDetails = async () => {
       const result = await getUserDetails(user);
       setCurrentUser(result);
-      console.log(currentUser.books);
     };
     fetchUserDetails();
   }, [user, getUserDetails]);
@@ -159,6 +158,14 @@ export default function ProfilePage({ navigation }) {
             >
               Napper - Hunter - Cat
             </Text>
+            <TouchableOpacity
+              style={styles.userBtn}
+              onPress={() => {
+                navigation.navigate("EditProfileScreen");
+              }}
+            >
+              <Text style={styles.userBtnText}>Edit</Text>
+            </TouchableOpacity>
           </View>
 
           <View style={styles.iconsContainer}>
@@ -198,11 +205,11 @@ export default function ProfilePage({ navigation }) {
               horizontal={true}
               showsHorizontalScrollIndicator={false}
               keyExtractor={(_item, index) => index}
-              data={currentUser.books}
+              // data={currentUser.books}
               renderItem={ItemView}
             ></FlatList>
 
-            <View style={styles.bookCount}>
+            {/* <View style={styles.bookCount}>
               <Text
                 style={[
                   styles.text,
@@ -229,7 +236,7 @@ export default function ProfilePage({ navigation }) {
               >
                 Books on offer
               </Text>
-            </View>
+            </View> */}
 
             <View>
               <Text style={[styles.subText, styles.fav_users]}>

@@ -20,6 +20,7 @@ import ScannerScreen from "../screens/ScannerScreen";
 const MessagesStack = createNativeStackNavigator();
 import MessagesScreen from "../screens/MessagesScreen";
 import UserProfileScreen from "../screens/UserProfileScreen";
+import EditProfileScreen from "../screens/EditProfileScreen";
 import SingleBookScreen from "../screens/SingleBookScreen";
 
 const ProfileStack = createNativeStackNavigator();
@@ -113,6 +114,10 @@ export function ProfileStackScreen() {
       <ProfileStack.Screen
         name="UserProfileScreen"
         component={UserProfileScreen}
+      />
+      <ProfileStack.Screen
+        name="EditProfileScreen"
+        component={EditProfileScreen}
       />
       <ProfileStack.Screen
         name="SingleBookScreen"
