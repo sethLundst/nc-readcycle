@@ -33,15 +33,17 @@ const styles = StyleSheet.create({
     marginBottom: 5,
     width: 130,
     height: 165,
+    alignItems: "center",
   },
   title: {
     width: 130,
     textAlign: "center",
+    paddingTop: 30,
   },
   bookBox: {
     alignItems: "center",
-    display: "flex",
-    flex: 1,
+    justifyContent: "center",
+    paddingLeft: 0,
   },
   searchbarInput: {
     borderColor: "#1323",
@@ -60,22 +62,6 @@ const styles = StyleSheet.create({
 });
 
 const BookList = ({ navigation }) => {
-  // console.log(loggedInUser, "<< logged in user");
-  // console.log(loggedInUser.address.geo, "<< logged in users location");
-
-  // console.log(
-  //   books[0].users.userHas.user[0].username,
-  //   "<< user that has this book"
-  // );
-  // console.log(
-  //   books[0].users.userHas.user[0].address.geo,
-  //   "<< users location that has this book"
-  // );
-  // console.log(
-  //   books[0].users.userWants.user[0].username,
-  //   "<< user that wants this book"
-  // );r0
-
   const [search, setSearch] = useState("");
 
   const [filteredDataSource, setFilteredDataSource] = useState([]);
