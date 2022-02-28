@@ -95,6 +95,7 @@ export default function ProfilePage({ navigation }) {
           size={28}
           color="white"
         />
+
         <TouchableOpacity
           key={item.id}
           style={styles.image}
