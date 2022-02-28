@@ -1,5 +1,6 @@
 import { Ionicons, AntDesign } from "@expo/vector-icons";
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
+import { getAllUsers } from "../db/firestore";
 import {
   View,
   StyleSheet,
@@ -11,7 +12,25 @@ import {
 } from "react-native";
 
 export default function SingleBookPage({ item }) {
-  console.log(item);
+  const [userHasBook, setUserHasBook] = useState("");
+
+  console.log(item, "<< single book");
+  console.log(userHasBook.username, "<< user that has book");
+
+  useEffect(() => {
+    const fetchUserDetails = async () => {
+      const result = await getAllUsers();
+      console.log(result, "<< all users");
+      // setUserHasBook(result);
+      for (let i = 0; i < result.length; i++) {
+        if (result[i].uid === item.uid) {
+          setUserHasBook(result[i]);
+        }
+      }
+    };
+    fetchUserDetails();
+  }, [item]);
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.backButtonContainer}>
@@ -52,7 +71,9 @@ export default function SingleBookPage({ item }) {
             ></Image>
           </View>
           <View style={styles.userInfo}>
-            <Text style={styles.userName}>{} has this!</Text>
+            <Text style={styles.userName}>
+              {userHasBook.username} has this!
+            </Text>
             <Text style={styles.userDistance}>0.6 miles away</Text>
           </View>
           <View style={styles.messageIcon}>
