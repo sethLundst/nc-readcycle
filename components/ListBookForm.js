@@ -77,6 +77,7 @@ export default function ListBookForm({ navigation, route }) {
       pageCount: pageCount,
       language: language,
       publishedDate: publishedDate,
+      uid: user,
     };
 
     if (!formIsbn) {
