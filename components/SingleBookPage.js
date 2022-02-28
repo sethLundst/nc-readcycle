@@ -9,9 +9,9 @@ import {
   TouchableOpacity,
   ScrollView,
 } from "react-native";
-import books from "./Books";
 
-export default function SingleBookPage(item) {
+export default function SingleBookPage({ item }) {
+  console.log(item);
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.backButtonContainer}>
@@ -21,27 +21,17 @@ export default function SingleBookPage(item) {
         <Image
           style={styles.image}
           source={{
-            uri: `${books[2].items[0].volumeInfo.imageLinks.thumbnail}`,
+            uri: item.highResImage,
           }}
           style={styles.image}
         />
         <View style={styles.infoBox}>
-          <Text style={styles.title}>{books[2].items[0].volumeInfo.title}</Text>
-          <Text style={styles.bookInfo}>
-            Average rating: {books[2].items[0].volumeInfo.averageRating}
-          </Text>
-          <Text style={styles.bookInfo}>
-            {books[2].items[0].volumeInfo.authors}
-          </Text>
-          <Text style={styles.bookInfo}>
-            {books[2].items[0].volumeInfo.publishedDate}
-          </Text>
-          <Text style={styles.bookInfo}>
-            {books[2].items[0].volumeInfo.pageCount} Pages
-          </Text>
-          <Text style={styles.bookInfo}>
-            Language: {books[2].items[0].volumeInfo.language}
-          </Text>
+          <Text style={styles.title}>{item.title}</Text>
+          <Text style={styles.bookInfo}>Average rating: {"TBD"}</Text>
+          <Text style={styles.bookInfo}>{item.author}</Text>
+          <Text style={styles.bookInfo}>{item.publishedDate}</Text>
+          <Text style={styles.bookInfo}>{item.pageCount} Pages</Text>
+          <Text style={styles.bookInfo}>Language: {item.language}</Text>
           <TouchableOpacity style={styles.addToWishListButton}>
             <Text style={styles.buttonText}>Reserve</Text>
           </TouchableOpacity>
@@ -50,9 +40,7 @@ export default function SingleBookPage(item) {
       <View>
         <Text style={styles.descriptionHeader}>Description</Text>
         <ScrollView style={styles.descriptionBox}>
-          <Text style={styles.description}>
-            {books[2].items[0].volumeInfo.description}
-          </Text>
+          <Text style={styles.description}>{item.description}</Text>
         </ScrollView>
 
         <View style={styles.userHasBook}>
@@ -64,7 +52,7 @@ export default function SingleBookPage(item) {
             ></Image>
           </View>
           <View style={styles.userInfo}>
-            <Text style={styles.userName}>Kirsty has this!</Text>
+            <Text style={styles.userName}>{} has this!</Text>
             <Text style={styles.userDistance}>0.6 miles away</Text>
           </View>
           <View style={styles.messageIcon}>

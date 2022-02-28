@@ -1,8 +1,7 @@
 import React, { useLayoutEffect, useState } from "react";
 // import * as geolib from 'geolib';
 import { getDistance, convertDistance } from "geolib";
-import BookList from "./BookList";
-import books from "./bookdata";
+
 import { Text } from "react-native";
 
 const FilterByDistance = () => {
