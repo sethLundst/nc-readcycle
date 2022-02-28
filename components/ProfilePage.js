@@ -123,7 +123,7 @@ export default function ProfilePage({ navigation }) {
               size={24}
               color="#52575D"
             ></Ionicons> */}
-            <MaterialIcons name="more-vert" size={24} color="black" />
+            <MaterialIcons name="more-vert" size={30} color="black" />
           </View>
 
           <View style={{ alignSelf: "center" }}>
@@ -236,12 +236,16 @@ export default function ProfilePage({ navigation }) {
               >
                 Books on offer
               </Text>
+
+            </View>
+                
             </View> */}
 
             <View>
-              <Text style={[styles.subText, styles.fav_users]}>
+              {/* <Text style={[styles.subText, styles.fav_users]}>
                 Favourite users
-              </Text>
+              </Text> */}
+
               <ScrollView
                 horizontal={true}
                 showsHorizontalScrollIndicator={false}
