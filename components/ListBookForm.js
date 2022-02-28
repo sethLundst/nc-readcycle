@@ -13,7 +13,7 @@ import {
 import { api } from "../api";
 import { Formik } from "formik";
 import * as yup from "yup";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { MaterialCommunityIcons, AntDesign } from "@expo/vector-icons";
 import { sendBook } from "../db/firestore";
 import { UserContext } from "../contexts/User";
 
@@ -33,22 +33,29 @@ export default function ListBookForm({ navigation, route }) {
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [category, setCategory] = useState("");
+  const [searchISBN, setSearchISBN] = useState("");
 
   useEffect(() => {
     if (route.params?.ISBN) {
       setISBN(route.params?.ISBN);
-      setAddBookButton(true);
       APIcall(route.params?.ISBN);
     }
   }, [route.params?.ISBN]);
 
   // API call after barcode is scanned
-  const APIcall = (value, setFieldValue) => {
+  const APIcall = (searchISBN) => {
     api
       .get(
-        `/books/v1/volumes?q=isbn:${value}&key=AIzaSyAVVkhe8oG7Y5vOVfzbb4tiSNuq5r0mbhQ`
+        `/books/v1/volumes?q=isbn:${searchISBN}&key=AIzaSyAVVkhe8oG7Y5vOVfzbb4tiSNuq5r0mbhQ`
       )
       .then((response) => {
+        setISBN(
+          response.data.items[0].volumeInfo.industryIdentifiers.filter(
+            (object) => {
+              return object.type === "ISBN_13";
+            }
+          )[0].identifier
+        );
         setTitle(response.data.items[0].volumeInfo.title);
         setId(response.data.items[0].id);
         setHighResImageLink(
@@ -61,11 +68,12 @@ export default function ListBookForm({ navigation, route }) {
         setPageCount(response.data.items[0].volumeInfo.pageCount);
         setLanguage(response.data.items[0].volumeInfo.language);
         setPublishedDate(response.data.items[0].volumeInfo.publishedDate);
+        setAddBookButton(true);
       });
   };
 
   // Take object from form
-  const afterSubmit = (formIsbn) => {
+  const afterSubmit = (ISBN) => {
     const bookObj = {
       title: title,
       id: id,
@@ -78,17 +86,15 @@ export default function ListBookForm({ navigation, route }) {
       language: language,
       publishedDate: publishedDate,
       uid: user,
+      ISBN: ISBN,
     };
 
-    if (!formIsbn) {
-      bookObj.ISBN = ISBN;
-    } else {
-      bookObj.ISBN = formIsbn;
-    }
-
     console.log(bookObj);
-
     sendBook(bookObj, user);
+    resetState();
+  };
+
+  const resetState = () => {
     setTitle("");
     setHighResImageLink("");
     setAltImageLink("");
@@ -99,135 +105,67 @@ export default function ListBookForm({ navigation, route }) {
     setLanguage("");
     setPublishedDate("");
     setISBN("");
+    setSearchISBN("");
     setAddBookButton(false);
   };
 
   // Validation schema
-  const bookSchema = yup.object({
-    title: yup.string().required().min(2),
-    author: yup.string().required().min(5),
-    category: yup.string().required().min(2),
-    ISBN: yup.string().required().min(10),
-  });
+  // const bookSchema = yup.object({
+  //   title: yup.string().required().min(2),
+  //   author: yup.string().required().min(5),
+  //   category: yup.string().required().min(2),
+  //   ISBN: yup.string().required().min(10),
+  // });
 
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
+        {/* Barcode Button */}
         <TouchableOpacity
-          style={{
-            flex: 1,
-            height: 40,
-            alignItems: "center",
-            backgroundColor: "#ddd",
-            borderRadius: 5,
-            borderWidth: 1,
-          }}
+          style={styles.barcodeButton}
           onPress={() => navigation.navigate("ScannerScreen")}
         >
-          <Text>
-            Scan a barcode
-            <MaterialCommunityIcons name="barcode" size={24} color="black" />
-          </Text>
+          <Text style={styles.barcodeText}>Scan a barcode</Text>
+          <MaterialCommunityIcons
+            style={{ margin: 0, padding: 0 }}
+            name="barcode"
+            size={24}
+            color="black"
+          />
         </TouchableOpacity>
-        {/* {addBookButton && <Text>{ISBN}</Text>} */}
 
+        {/* Text */}
+        <Text style={{ textAlign: "center" }}>or Search by ISBN:</Text>
+
+        {/* ISBN Search Box */}
+        <View style={{ flex: 1, flexDirection: "row" }}>
+          <TextInput
+            style={styles.textbox}
+            value={searchISBN}
+            onChangeText={(value) => setSearchISBN(value)}
+            placeholder="e.g. 9780198829195"
+          />
+          <TouchableOpacity onPress={() => APIcall(searchISBN)}>
+            <AntDesign name="search1" size={24} color="black" />
+          </TouchableOpacity>
+        </View>
+
+        {/* Book picture box  */}
         <View style={styles.imageBox}>
-          <Text>{title}</Text>
           <Image
             style={styles.image}
             source={{
               uri: highResImageLink,
             }}
           />
+          <Text style={styles.bookTitle}>{title}</Text>
         </View>
 
+        {/* Submit Button */}
         {addBookButton && (
-          <Button title={"Submit?"} onPress={() => afterSubmit()}></Button>
+          <Button onPress={() => afterSubmit(ISBN)} title="Submit" />
         )}
-
-        <Text style={{ textAlign: "center" }}>OR</Text>
-
-        <Formik
-          initialValues={{
-            ISBN: "",
-          }}
-          validationSchema={bookSchema}
-          onSubmit={(values, actions) => {
-            actions.resetForm();
-            afterSubmit(values);
-          }}
-        >
-          {({
-            handleChange,
-            handleBlur,
-            handleSubmit,
-            setFieldValue,
-            values,
-            errors,
-            touched,
-          }) => (
-            <View
-              style={{
-                flex: 1,
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              {/* {addBookButton && (
-                <Button
-                  title="Add book"
-                  onPress={() => APIcall(ISBN, setFieldValue)}
-                />
-              )} */}
-
-              <Text>ISBN:</Text>
-              <TextInput
-                style={styles.textbox}
-                onChangeText={handleChange("ISBN")}
-                onBlur={handleBlur("ISBN")}
-                value={values.ISBN}
-                placeholder="e.g. 9780198829195"
-              />
-              <Button
-                title="Search ISBN"
-                onPress={() => APIcall(values.ISBN, setFieldValue)}
-              />
-              <Text>{touched.ISBN && errors.ISBN}</Text>
-
-              <Button onPress={() => afterSubmit(values.ISBN)} title="Submit" />
-              {/* 
-              <Text>Title:</Text>
-              <TextInput
-                style={styles.textbox}
-                onChangeText={handleChange("title")}
-                onBlur={handleBlur("title")}
-                value={values.title}
-                placeholder="e.g. 1984"
-              />
-              <Text>{touched.title && errors.title}</Text>
-
-              <Text>Author:</Text>
-              <TextInput
-                style={styles.textbox}
-                onChangeText={handleChange("author")}
-                onBlur={handleBlur("author")}
-                value={values.author}
-                placeholder="e.g. George Orwell"
-              />
-              <Text>{touched.author && errors.author}</Text>
-
-              <Text>Category:</Text>
-              <TextInput
-                style={styles.textbox}
-                onChangeText={handleChange("category")}
-                onBlur={handleBlur("category")}
-                value={values.category}
-                placeholder="e.g. Fiction"
-              />
-              <Text>{touched.category && errors.category}</Text> */}
-            </View>
-          )}
-        </Formik>
+        {addBookButton && <Button onPress={() => resetState()} title="Clear" />}
       </ScrollView>
     </SafeAreaView>
   );
@@ -235,8 +173,9 @@ export default function ListBookForm({ navigation, route }) {
 
 const styles = StyleSheet.create({
   container: {
+    width: "95%",
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#d3d3d3",
     alignItems: "center",
     justifyContent: "center",
   },
@@ -246,19 +185,41 @@ const styles = StyleSheet.create({
     alignItems: "center",
     width: "80%",
     height: 250,
+    aspectRatio: 0.75,
   },
   imageBox: {
     flex: 1,
+    margin: 5,
     justifyContent: "center",
     alignItems: "center",
+    borderWidth: 1,
+    borderColor: "black",
+    borderStyle: "dashed",
+    borderRadius: 1,
   },
 
   textbox: {
+    alignSelf: "center",
     flex: 1,
     width: 200,
     height: 40,
     borderWidth: 1,
     margin: 10,
   },
+
+  barcodeButton: {
+    flex: 1,
+    flexDirection: "row",
+    height: 40,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#ddd",
+    borderRadius: 5,
+    borderWidth: 1,
+  },
+
+  bookTitle: {
+    color: "red",
+    fontWeight: "200",
+  },
 });
-<></>;
