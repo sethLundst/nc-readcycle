@@ -82,6 +82,11 @@ const BookList = ({ navigation }) => {
     }
   };
 
+  
+      
+    
+  
+
   const ItemView = ({ item }) => {
     return (
       <View style={styles.bookBox}>
@@ -101,6 +106,7 @@ const BookList = ({ navigation }) => {
           />
         </TouchableOpacity>
         <Text style={styles.title}>{item.title}</Text>
+        <Text>{<FilterByDistance item={item}/>}</Text>
         {/* <Text style={styles.title}>{<FilterByDistance />}</Text> */}
       </View>
     );

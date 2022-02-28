@@ -205,7 +205,7 @@ export default function ProfilePage({ navigation }) {
               horizontal={true}
               showsHorizontalScrollIndicator={false}
               keyExtractor={(_item, index) => index}
-              // data={currentUser.books}
+              data={currentUser.books}
               renderItem={ItemView}
             ></FlatList>
 
