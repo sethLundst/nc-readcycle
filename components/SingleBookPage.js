@@ -9,9 +9,9 @@ import {
   TouchableOpacity,
   ScrollView,
 } from "react-native";
-import books from "./Books";
 
-export default function SingleBookPage(item) {
+export default function SingleBookPage({ item }) {
+  console.log(item);
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.backButtonContainer}>
@@ -21,27 +21,17 @@ export default function SingleBookPage(item) {
         <Image
           style={styles.image}
           source={{
-            uri: `${books[2].items[0].volumeInfo.imageLinks.thumbnail}`,
+            uri: item.highResImage,
           }}
           style={styles.image}
         />
         <View style={styles.infoBox}>
-          <Text style={styles.title}>{books[2].items[0].volumeInfo.title}</Text>
-          <Text style={styles.bookInfo}>
-            Average rating: {books[2].items[0].volumeInfo.averageRating}
-          </Text>
-          <Text style={styles.bookInfo}>
-            {books[2].items[0].volumeInfo.authors}
-          </Text>
-          <Text style={styles.bookInfo}>
-            {books[2].items[0].volumeInfo.publishedDate}
-          </Text>
-          <Text style={styles.bookInfo}>
-            {books[2].items[0].volumeInfo.pageCount} Pages
-          </Text>
-          <Text style={styles.bookInfo}>
-            Language: {books[2].items[0].volumeInfo.language}
-          </Text>
+          <Text style={styles.title}>{item.title}</Text>
+          <Text style={styles.bookInfo}>Average rating: {"TBD"}</Text>
+          <Text style={styles.bookInfo}>{item.author}</Text>
+          <Text style={styles.bookInfo}>{item.publishedDate}</Text>
+          <Text style={styles.bookInfo}>{item.pageCount} Pages</Text>
+          <Text style={styles.bookInfo}>Language: {item.language}</Text>
           <TouchableOpacity style={styles.addToWishListButton}>
             <Text style={styles.buttonText}>Reserve</Text>
           </TouchableOpacity>
@@ -50,9 +40,7 @@ export default function SingleBookPage(item) {
       <View>
         <Text style={styles.descriptionHeader}>Description</Text>
         <ScrollView style={styles.descriptionBox}>
-          <Text style={styles.description}>
-            {books[2].items[0].volumeInfo.description}
-          </Text>
+          <Text style={styles.description}>{item.description}</Text>
         </ScrollView>
 
         <View style={styles.userHasBook}>
@@ -64,7 +52,7 @@ export default function SingleBookPage(item) {
             ></Image>
           </View>
           <View style={styles.userInfo}>
-            <Text style={styles.userName}>Kirsty has this!</Text>
+            <Text style={styles.userName}>{} has this!</Text>
             <Text style={styles.userDistance}>0.6 miles away</Text>
           </View>
           <View style={styles.messageIcon}>
@@ -99,8 +87,8 @@ const styles = StyleSheet.create({
     marginRight: 30,
     marginLeft: 10,
     top: 20,
-    width: 180,
-    height: 250,
+    width: 150,
+    height: 220,
     borderRadius: 12,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
@@ -123,7 +111,7 @@ const styles = StyleSheet.create({
     fontWeight: "600",
   },
   descriptionBox: {
-    height: 200,
+    height: 150,
     marginTop: 10,
     marginBottom: 10,
     borderColor: "#DFD8C8",
@@ -139,10 +127,11 @@ const styles = StyleSheet.create({
     color: "#52575D",
   },
   descriptionHeader: {
-    fontSize: 30,
+    fontSize: 22,
     fontWeight: "500",
-    marginTop: 15,
-    marginBottom: 10,
+    marginTop: 35,
+    marginBottom: 0,
+    marginLeft: 11,
     fontFamily: "HelveticaNeue",
     color: "#52575D",
   },
@@ -179,23 +168,24 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   avatarContainer: {
-    height: 50,
+    height: 30,
     width: 50,
     borderRadius: 40,
     borderWidth: 1,
     marginLeft: 20,
     marginTop: 10,
-    marginBottom: 5,
+    marginBottom: 10,
     borderColor: "#41444B",
     shadowColor: "#52575D",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.5,
     shadowRadius: 2,
+    justifyContent: "center",
   },
   avatarImage: {
     height: 48,
     width: 48,
-    borderRadius: 40,
+    borderRadius: 20,
     overflow: "hidden",
   },
   messageIcon: {
