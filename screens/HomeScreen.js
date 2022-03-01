@@ -193,7 +193,7 @@ export default function HomeScreen({ navigation }) {
             searchFilterFunction(text);
           }}
         />
-        <Text style={{ fontSize: 18 }}> up to {distance.toFixed(2)} miles</Text>
+        <Text style={{ fontSize: 18 }}>up to {Math.round(distance)} miles</Text>
         <Slider
           style={{ width: 200, height: 40 }}
           value={distance}
