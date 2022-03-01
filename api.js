@@ -4,7 +4,6 @@ export const api = axios.create({
   baseURL: "https://www.googleapis.com",
 });
 
-
 const ISBN = 9780191623042;
 const apiKey = "AIzaSyAVVkhe8oG7Y5vOVfzbb4tiSNuq5r0mbhQ";
 
@@ -20,4 +19,3 @@ export default async function getBook(ISBN) {
 }
 
 getBook(ISBN);
-

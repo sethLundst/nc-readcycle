@@ -12,10 +12,15 @@ import {
   useWindowDimensions,
 } from "react-native";
 
-export default function SingleMessageScreen() {
+const Chat = ({ chatID }) => {
+  const [chatLog, setChatLog] = useState(null);
+  useEffect(() => {}, {});
+
   return (
-    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-      <Text>Single msg screen</Text>
+    <View>
+      <Text>yo</Text>
     </View>
   );
-}
+};
+
+export default Chat;

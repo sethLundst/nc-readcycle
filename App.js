@@ -14,25 +14,24 @@ import LoadingScreen from "./screens/LoadingScreen";
 const MainStack = createNativeStackNavigator();
 
 function App() {
-
-
-	return (
-		<UserProvider>
-			<NavigationContainer>
-				<MainStack.Navigator
-					initialRouteName={"LoadingScreen"}
-					screenOptions={{ headerShown: false }}>
-					<MainStack.Screen name="SignUpScreen" component={SignUpScreen} />
-					<MainStack.Screen name="LogInScreen" component={LogInScreen} />
-					<MainStack.Screen
-						name="BottomTabNavigator"
-						component={BottomTabNavigator}
-					/>
-					<MainStack.Screen name="LoadingScreen" component={LoadingScreen} />
-				</MainStack.Navigator>
-			</NavigationContainer>
-		</UserProvider>
-	);
+  return (
+    <UserProvider>
+      <NavigationContainer>
+        <MainStack.Navigator
+          initialRouteName={"LoadingScreen"}
+          screenOptions={{ headerShown: false }}
+        >
+          <MainStack.Screen name="SignUpScreen" component={SignUpScreen} />
+          <MainStack.Screen name="LogInScreen" component={LogInScreen} />
+          <MainStack.Screen
+            name="BottomTabNavigator"
+            component={BottomTabNavigator}
+          />
+          <MainStack.Screen name="LoadingScreen" component={LoadingScreen} />
+        </MainStack.Navigator>
+      </NavigationContainer>
+    </UserProvider>
+  );
 }
 
 export default App;
