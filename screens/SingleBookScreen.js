@@ -62,7 +62,7 @@ export default function SingleBookScreen(props) {
           <Text style={styles.bookInfo}>{item.publishedDate}</Text>
           <Text style={styles.bookInfo}>{item.pageCount} Pages</Text>
           <Text style={styles.bookInfo}>Language: {item.language}</Text>
-          <TouchableOpacity style={styles.addToWishListButton}>
+          <TouchableOpacity style={styles.messageOwnerButton}>
             <Text style={styles.buttonText}>Message Owner</Text>
           </TouchableOpacity>
         </View>
@@ -171,8 +171,7 @@ const styles = StyleSheet.create({
     marginTop: 0,
     marginBottom: 0,
   },
-
-  addToWishListButton: {
+  messageOwnerButton: {
     borderColor: "#52575D",
     borderWidth: 2,
     borderRadius: 12,
