@@ -16,6 +16,7 @@ import { UserContext } from "../contexts/User";
 export default function SingleBookScreen({ route, navigation }) {
   const { item } = route.params;
   console.log(item);
+
   const [userHasBook, setUserHasBook] = useState("");
 
   const { user, setUser } = useContext(UserContext);
@@ -61,12 +62,12 @@ export default function SingleBookScreen({ route, navigation }) {
           <Text style={styles.bookInfo}>{item.publishedDate}</Text>
           <Text style={styles.bookInfo}>{item.pageCount} Pages</Text>
           <Text style={styles.bookInfo}>Language: {item.language}</Text>
-          <TouchableOpacity style={styles.addToWishListButton}>
+          <TouchableOpacity style={styles.messageOwnerButton}>
             <Text style={styles.buttonText}>
               {user === userHasBook.uid ? (
                 <Text>Remove</Text>
               ) : (
-                <Text>Reserve</Text>
+                <Text>Message</Text>
               )}
             </Text>
           </TouchableOpacity>
@@ -180,8 +181,7 @@ const styles = StyleSheet.create({
     marginTop: 0,
     marginBottom: 0,
   },
-
-  addToWishListButton: {
+  messageOwnerButton: {
     borderColor: "#52575D",
     borderWidth: 2,
     borderRadius: 12,

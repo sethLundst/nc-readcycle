@@ -55,83 +55,81 @@ export default function UserProfileScreen({ navigation }) {
 
   function ItemView({ item }) {
     return (
-      <View style={styles.bookCoverContainer}>
-        <LinearGradient
-          colors={["white", "purple", "blue"]}
-          style={styles.background}
-        />
-        <SafeAreaView>
-          <View>
-            <Modal
-              hasBackdrop={true}
-              animationType={"fade"}
-              transparent
-              visible={showModal}
-            >
-              <View style={styles.modalBackground}>
-                <View style={styles.modalContainer}>
-                  <Pressable onPress={() => setShowModal(!showModal)}>
-                    <View style={styles.removeBookIconContainer}>
-                      <MaterialIcons
-                        name="highlight-remove"
-                        size={28}
-                        color="black"
-                        style={styles.removeBookIcon}
-                      />
+      <View style={styles.bookCoverContainerShadow}>
+        <View style={styles.bookCoverContainer}>
+          <SafeAreaView>
+            <View>
+              <Modal
+                hasBackdrop={true}
+                animationType={"fade"}
+                transparent
+                visible={showModal}
+              >
+                <View style={styles.modalBackground}>
+                  <View style={styles.modalContainer}>
+                    <Pressable onPress={() => setShowModal(!showModal)}>
+                      <View style={styles.removeBookIconContainer}>
+                        <MaterialIcons
+                          name="highlight-remove"
+                          size={28}
+                          color="black"
+                          style={styles.removeBookIcon}
+                        />
+                      </View>
+                    </Pressable>
+                    <View style={styles.modalInfo}>
+                      <Text style={styles.modalText}>
+                        Did you rehome this book?
+                      </Text>
+
+                      <TouchableOpacity style={styles.yesButton}>
+                        <Text style={styles.yesText}>Yes</Text>
+                      </TouchableOpacity>
+
+                      <TouchableOpacity style={styles.noButton}>
+                        <Text style={styles.noText}>No</Text>
+                      </TouchableOpacity>
                     </View>
-                  </Pressable>
-                  <View style={styles.modalInfo}>
-                    <Text style={styles.modalText}>
-                      Did you rehome this book?
-                    </Text>
-
-                    <TouchableOpacity style={styles.yesButton}>
-                      <Text style={styles.yesText}>Yes</Text>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity style={styles.noButton}>
-                      <Text style={styles.noText}>No</Text>
-                    </TouchableOpacity>
                   </View>
                 </View>
-              </View>
-            </Modal>
-            <Modal
-              hasBackdrop={true}
-              animationType={"fade"}
-              transparent
-              visible={showModal}
-            >
-              <View style={styles.modalBackground}>
-                <View style={styles.modalContainer}></View>
-              </View>
-            </Modal>
+              </Modal>
+              <Modal
+                hasBackdrop={true}
+                animationType={"fade"}
+                transparent
+                visible={showModal}
+              >
+                <View style={styles.modalBackground}>
+                  <View style={styles.modalContainer}></View>
+                </View>
+              </Modal>
+            </View>
+          </SafeAreaView>
+          <View style={styles.iconBackground}>
+            <MaterialIcons
+              onPress={() => setShowModal(!showModal)}
+              style={styles.removeBookIconCover}
+              name="highlight-remove"
+              size={28}
+              color="white"
+            />
           </View>
-        </SafeAreaView>
-        <View style={styles.iconBackground}>
-          <MaterialIcons
-            onPress={() => setShowModal(!showModal)}
-            style={styles.removeBookIconCover}
-            name="highlight-remove"
-            size={28}
-            color="white"
-          />
-        </View>
 
-        <TouchableOpacity
-          key={item.id}
-          style={styles.image}
-          onPress={() => {
-            navigation.navigate("SingleBookScreen", { item });
-          }}
-        >
-          <Image
-            source={{
-              uri: item.highResImage,
+          <TouchableOpacity
+            key={item.id}
+            style={styles.image}
+            onPress={() => {
+              navigation.navigate("SingleBookScreen", { item });
             }}
-            style={styles.coverImage}
-          />
-        </TouchableOpacity>
+          >
+            <Image
+              source={{
+                uri: item.highResImage,
+              }}
+              style={styles.coverImage}
+            />
+          </TouchableOpacity>
+        </View>
       </View>
     );
   }
@@ -305,8 +303,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     shadowColor: "white",
     shadowOffset: {
-      width: 0,
-      height: 5,
+      width: 2,
+      height: 4,
     },
     shadowOpacity: 5,
     shadowRadius: 15,
@@ -318,7 +316,7 @@ const styles = StyleSheet.create({
     shadowColor: "white",
     shadowOffset: {
       width: 0,
-      height: 5,
+      height: 3,
     },
     shadowOpacity: 5,
     shadowRadius: 15,
@@ -351,8 +349,8 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     shadowColor: "white",
     shadowOffset: {
-      width: 8,
-      height: 9,
+      width: 2,
+      height: 4,
     },
     shadowOpacity: 5,
     shadowRadius: 15,
@@ -398,30 +396,6 @@ const styles = StyleSheet.create({
     paddingLeft: 30,
     paddingRight: 30,
   },
-  bookCoverContainer: {
-    borderRadius: 5,
-    width: 180,
-    height: 265,
-    marginHorizontal: 13,
-    marginTop: 55,
-    marginBottom: 10,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 6,
-    },
-    shadowOpacity: 0.5,
-    shadowRadius: 7,
-
-    elevation: 7,
-  },
-  coverImage: {
-    width: 185,
-    height: 270,
-    borderColor: "#8d99ae",
-    borderWidth: 0.5,
-    borderRadius: 5,
-  },
   bookCount: {
     backgroundColor: "#41444B",
     position: "absolute",
@@ -435,13 +409,41 @@ const styles = StyleSheet.create({
 
     shadowColor: "white",
     shadowOffset: {
-      width: 10,
-      height: 15,
+      width: 2,
+      height: 4,
     },
-    shadowOpacity: 1,
-    shadowRadius: 20,
+    shadowOpacity: 5,
+    shadowRadius: 15,
 
     elevation: 7,
+  },
+  bookCoverContainerShadow: {
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowOpacity: 0.5,
+    shadowRadius: 7,
+
+    elevation: 10,
+  },
+  bookCoverContainer: {
+    borderRadius: 10,
+    borderColor: "#8d99ae",
+    borderWidth: 0.5,
+    overflow: "hidden",
+    width: 180,
+    height: 270,
+    marginHorizontal: 13,
+    marginTop: 45,
+    marginBottom: 10,
+  },
+  coverImage: {
+    width: 185,
+    height: 270,
+
+    borderRadius: 5,
   },
 
   removeBookIcon: {
