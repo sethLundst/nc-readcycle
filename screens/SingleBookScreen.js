@@ -25,7 +25,7 @@ export default function SingleBookScreen({route, navigation}) {
 
   const handleChat = async () => {
     const chatID = await createChat([user, userHasBook.uid], item);
-    navigation.navigate("SingleMessageScreen", chatID);
+    navigation.navigate("SingleMessageScreen", {chatID:chatID});
   };
 
   useEffect(() => {

@@ -191,3 +191,12 @@ export const uploadProfilePic = async (uri) => {
     avatar_url: profilePicture,
   });
 };
+
+
+export const getChat = async (chatID) => {
+
+  const docRef = doc(db, "chats", `${chatID}`);
+  const docSnap = await getDoc(docRef);
+  return docSnap.data();
+  
+}
