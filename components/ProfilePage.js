@@ -137,7 +137,7 @@ export default function ProfilePage({ navigation }) {
       />
       <View style={styles.scrollView}>
         <View style={styles.headerIconBar}>
-          <Ionicons name="ios-arrow-back" size={24} color="#52575D"></Ionicons>
+          <Ionicons name="ios-arrow-back" size={24} color="#52575D" ></Ionicons>
           <TouchableOpacity
             onPress={() => {
               navigation.navigate("EditProfileScreen");
@@ -279,6 +279,27 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginHorizontal: 16,
   },
+  backButton: {
+    
+  },
+  ios_settings_outline: {
+    marginTop: 10,
+    backgroundColor: "#41444B",
+    width: 30,
+    height: 30,
+    borderRadius: 20,
+    alignItems: "center",
+    justifyContent: "center",
+    shadowColor: "white",
+    shadowOffset: {
+      width: 0,
+      height: 5,
+    },
+    shadowOpacity: 5,
+    shadowRadius: 15,
+
+    elevation: 7,
+  },
   profileShadow: {
     alignItems: "center",
     shadowColor: "white",
@@ -342,24 +363,7 @@ const styles = StyleSheet.create({
     fontWeight: "500",
   },
 
-  ios_settings_outline: {
-    marginRight: 0,
-    backgroundColor: "#41444B",
-    width: 30,
-    height: 30,
-    borderRadius: 20,
-    alignItems: "center",
-    justifyContent: "center",
-    shadowColor: "white",
-    shadowOffset: {
-      width: 0,
-      height: 5,
-    },
-    shadowOpacity: 5,
-    shadowRadius: 15,
-
-    elevation: 7,
-  },
+  
   // activeDot: {
   //   backgroundColor: "#34FFB9",
   //   position: "absolute",
@@ -385,9 +389,9 @@ const styles = StyleSheet.create({
   },
   bookCoverContainer: {
     borderRadius: 5,
-    width: 175,
-    height: 260,
-    marginHorizontal: 10,
+    width: 180,
+    height: 265,
+    marginHorizontal: 13,
     marginTop: 55,
     marginBottom: 10,
     shadowColor: "#000",
@@ -401,8 +405,8 @@ const styles = StyleSheet.create({
     elevation: 7,
   },
   coverImage: {
-    width: 178,
-    height: 260,
+    width: 185,
+    height: 270,
     borderColor: "#8d99ae",
     borderWidth: 0.5,
     borderRadius: 5,
