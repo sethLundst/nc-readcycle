@@ -15,7 +15,7 @@ import {
   Pressable,
   Button,
 } from "react-native";
-import { Ionicons, Foundation, MaterialIcons } from "@expo/vector-icons";
+import { Ionicons, AntDesign, MaterialIcons } from "@expo/vector-icons";
 import MapButton from "./MapButton";
 import TreeIcon from "./TreeIconLink";
 import UserRatingLink from "./UserRatingLink";
@@ -50,7 +50,7 @@ export default function ProfilePage({ navigation }) {
               <View style={styles.modalBackground}>
                 <View style={styles.modalContainer}>
                   <Pressable onPress={() => setShowModal(!showModal)}>
-                    <View style={styles.removeBookIcon}>
+                    <View style={styles.removeBookIconContainer}>
                       <MaterialIcons
                         name="highlight-remove"
                         size={28}
@@ -87,6 +87,7 @@ export default function ProfilePage({ navigation }) {
             </Modal>
           </View>
         </SafeAreaView>
+        <View style={styles.iconBackground}>
         <MaterialIcons
           onPress={() => setShowModal(!showModal)}
           style={styles.removeBookIconCover}
@@ -94,6 +95,9 @@ export default function ProfilePage({ navigation }) {
           size={28}
           color="white"
         />
+        </View>
+        
+        
 
         <TouchableOpacity
           key={item.id}
@@ -106,7 +110,7 @@ export default function ProfilePage({ navigation }) {
             source={{
               uri: item.highResImage,
             }}
-            style={styles.image}
+            style={styles.coverImage}
           />
         </TouchableOpacity>
       </View>
@@ -115,7 +119,7 @@ export default function ProfilePage({ navigation }) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView showsVerticalScrollIndicator={false}>
+      
         <View style={styles.scrollView}>
           <View style={styles.headerIconBar}>
             {/* <Ionicons
@@ -209,7 +213,7 @@ export default function ProfilePage({ navigation }) {
               renderItem={ItemView}
             ></FlatList>
 
-            {/* <View style={styles.bookCount}>
+            <View style={styles.bookCount}>
               <Text
                 style={[
                   styles.text,
@@ -221,7 +225,7 @@ export default function ProfilePage({ navigation }) {
                   },
                 ]}
               >
-                {}
+                {currentUser.books.length}
               </Text>
               <Text
                 style={[
@@ -239,7 +243,7 @@ export default function ProfilePage({ navigation }) {
 
             </View>
                 
-            </View> */}
+            </View>
 
             <View>
               {/* <Text style={[styles.subText, styles.fav_users]}>
@@ -254,8 +258,8 @@ export default function ProfilePage({ navigation }) {
               </ScrollView>
             </View>
           </View>
-        </View>
-      </ScrollView>
+        
+      
     </SafeAreaView>
   );
 }
@@ -345,29 +349,47 @@ const styles = StyleSheet.create({
     paddingRight: 30,
   },
   bookCoverContainer: {
-    width: 140,
-    height: 200,
-    borderRadius: 12,
-    overflow: "hidden",
-    marginHorizontal: 6,
-    marginTop: 10,
-    marginLeft: 15,
+    width: 178,
+    height: 250,
+    marginHorizontal: 10,
+    marginTop: 55,
+    marginBottom: 15,
+    shadowColor: "#000",
+shadowOffset: {
+	width: 0,
+	height: 3,
+},
+shadowOpacity: 0.29,
+shadowRadius: 4.65,
+
+elevation: 7,
   },
+  coverImage: {
+    width: 175,
+    height: 250,
+    borderRadius: 12,
+    borderColor: "#DFD8C8",
+    borderWidth: 1,
+},
   bookCount: {
     backgroundColor: "#41444B",
     position: "absolute",
-    top: "50%",
-    marginTop: -200,
+    marginTop: -25,
     alignSelf: "center",
     width: 70,
     height: 70,
     alignItems: "center",
     justifyContent: "center",
     borderRadius: 12,
-    shadowColor: "#f6f4f3",
-    shadowOffset: { width: 0, height: 6 },
-    shadowRadius: 20,
-    shadowOpacity: 2,
+    shadowColor: "#000",
+shadowOffset: {
+	width: 0,
+	height: 3,
+},
+shadowOpacity: 0.29,
+shadowRadius: 4.65,
+
+elevation: 7,
   },
   avatarContainer: {
     width: 50,
@@ -383,13 +405,41 @@ const styles = StyleSheet.create({
     fontWeight: "800",
     textAlign: "center",
   },
+  removeBookIconContainer: {
+    backgroundColor: "black",
+    borderRadius: 50,
+    position: "absolute",
+  },
   removeBookIcon: {
     marginBottom: 5,
   },
   removeBookIconCover: {
     position: "absolute",
+    alignSelf: "center",
     zIndex: 100,
-    right: 1,
+    right:1,
+  },
+  iconBackground: {
+    flex: 1,
+    justifyContent:"center",
+      alignItems:"center",
+    height: 25,
+    width: 25,
+    borderRadius: 12.5,
+    position: "absolute",
+    top: 2,
+    zIndex: 105,
+    right: 5,
+    backgroundColor: "#41444B",
+    shadowColor: "#f6f4f3",
+    shadowOffset: {
+      width: 0,
+      height: 12,
+    },
+    shadowOpacity: 0.58,
+    shadowRadius: 16.00,
+    
+    elevation: 24,
   },
 
   // modal
