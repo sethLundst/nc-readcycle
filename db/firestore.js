@@ -148,16 +148,19 @@ export const getUserDetails = async (uid) => {
 
 export const deleteBook = async (book, isLent) => {};
 
-export const createChat = async (book, members) => {
+export const createChat = async (members, book) => {
+  
   const docRef = await addDoc(collection(db, "chats"), {
     members: members,
     book: book.title,
-    picture: book.altImage,
+    // picture: book.altImage,
     messages: {},
   });
   await updateDoc(docRef, {
     chatID: docRef.id,
   });
+  return docRef.id
+  
 };
 
 export const getAllUsers = async () => {
