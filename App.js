@@ -2,7 +2,7 @@ import * as React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { MainStackNavigator } from "./navigation/StackNavigators";
 import { UserProvider } from "./contexts/User";
-import { auth } from "./db/firestore";
+
 import { useState, useEffect } from "react";
 import { Text } from "react-native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";

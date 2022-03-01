@@ -8,6 +8,7 @@ import {
   MessagesStackScreen,
   ProfileStackScreen,
   SearchStackScreen,
+  LogOutStackScreen,
 } from "../navigation/StackNavigators";
 
 const Tab = createBottomTabNavigator();
@@ -23,12 +24,12 @@ function BottomTabNavigator() {
             iconName = "home-outline";
           } else if (route.name === "ListBookStackScreen") {
             iconName = "barcode-outline";
-          } else if (route.name === "SearchStackScreen") {
-            iconName = "search-outline";
           } else if (route.name === "MessagesStackScreen") {
             iconName = "chatbubbles-outline";
           } else if (route.name === "ProfileStackScreen") {
             iconName = "person-outline";
+          } else if (route.name === "LogOutStackScreen") {
+            iconName = "log-out-outline";
           }
           return <Ionicons name={iconName} size={size} color={color} />;
         },
@@ -48,11 +49,6 @@ function BottomTabNavigator() {
         options={{ title: "List Book" }}
       />
       <Tab.Screen
-        name="SearchStackScreen"
-        component={SearchStackScreen}
-        options={{ title: "Search" }}
-      />
-      <Tab.Screen
         name="MessagesStackScreen"
         component={MessagesStackScreen}
         options={{ title: "Messages" }}
@@ -61,6 +57,11 @@ function BottomTabNavigator() {
         name="ProfileStackScreen"
         component={ProfileStackScreen}
         options={{ title: "Profile" }}
+      />
+      <Tab.Screen
+        name="LogOutStackScreen"
+        component={LogOutStackScreen}
+        options={{ title: "Log Out" }}
       />
     </Tab.Navigator>
   );
