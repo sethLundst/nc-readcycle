@@ -15,7 +15,7 @@ import {
   Pressable,
   Button,
 } from "react-native";
-import { Ionicons, Foundation, MaterialIcons } from "@expo/vector-icons";
+import { Ionicons, AntDesign, MaterialIcons } from "@expo/vector-icons";
 import MapButton from "./MapButton";
 import TreeIcon from "./TreeIconLink";
 import UserRatingLink from "./UserRatingLink";
@@ -23,6 +23,9 @@ import BooksOfferedLink from "./BooksOfferedLink";
 import BooksHomedLink from "./BooksRehomedLink";
 import { getUserDetails, uploadProfilePic } from "../db/firestore";
 import * as ImagePicker from "expo-image-picker";
+import { getUserDetails } from "../db/firestore";
+import { LinearGradient } from "expo-linear-gradient";
+
 
 export default function ProfilePage({ navigation }) {
   const [currentUser, setCurrentUser] = useState({ books: [] });
@@ -33,7 +36,6 @@ export default function ProfilePage({ navigation }) {
     const fetchUserDetails = async () => {
       const result = await getUserDetails(user);
       setCurrentUser(result);
-      console.log(currentUser.books);
     };
     fetchUserDetails();
   }, [user, getUserDetails]);
@@ -56,6 +58,10 @@ export default function ProfilePage({ navigation }) {
   function ItemView({ item }) {
     return (
       <View style={styles.bookCoverContainer}>
+        <LinearGradient
+          colors={["white", "purple", "blue"]}
+          style={styles.background}
+        />
         <SafeAreaView>
           <View>
             <Modal
@@ -67,7 +73,7 @@ export default function ProfilePage({ navigation }) {
               <View style={styles.modalBackground}>
                 <View style={styles.modalContainer}>
                   <Pressable onPress={() => setShowModal(!showModal)}>
-                    <View style={styles.removeBookIcon}>
+                    <View style={styles.removeBookIconContainer}>
                       <MaterialIcons
                         name="highlight-remove"
                         size={28}
@@ -104,13 +110,15 @@ export default function ProfilePage({ navigation }) {
             </Modal>
           </View>
         </SafeAreaView>
-        <MaterialIcons
-          onPress={() => setShowModal(!showModal)}
-          style={styles.removeBookIconCover}
-          name="highlight-remove"
-          size={28}
-          color="white"
-        />
+        <View style={styles.iconBackground}>
+          <MaterialIcons
+            onPress={() => setShowModal(!showModal)}
+            style={styles.removeBookIconCover}
+            name="highlight-remove"
+            size={28}
+            color="white"
+          />
+        </View>
 
         <TouchableOpacity
           key={item.id}
@@ -123,7 +131,7 @@ export default function ProfilePage({ navigation }) {
             source={{
               uri: item.highResImage,
             }}
-            style={styles.image}
+            style={styles.coverImage}
           />
         </TouchableOpacity>
       </View>
@@ -132,25 +140,28 @@ export default function ProfilePage({ navigation }) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <View style={styles.scrollView}>
-          <View style={styles.headerIconBar}>
-            {/* <Ionicons
-              name="ios-arrow-back"
-              size={24}
-              color="#52575D"
-            ></Ionicons> */}
-            <MaterialIcons name="more-vert" size={24} color="black" />
-          </View>
+      <LinearGradient
+        // Background Linear Gradient
+        colors={["#dee2ff", "#f7edf2", "white"]}
+        start={{
+          x: 0,
+          y: 0,
+        }}
+        end={{
+          x: 1,
+          y: 1,
+        }}
+        style={styles.background}
+      />
+      <View style={styles.scrollView}>
+        <View style={styles.headerIconBar}>
+          <Ionicons name="ios-arrow-back" size={24} color="#52575D" ></Ionicons>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate("EditProfileScreen");
+            }}
+          >
 
-          <View style={{ alignSelf: "center" }}>
-            <View style={styles.profileImage}>
-              <Image
-                source={{ uri: currentUser.avatar_url }}
-                style={styles.image}
-                resizeMode="center"
-              ></Image>
-            </View>
             <View style={styles.ios_settings_outline}>
               <Ionicons
                 name="ios-settings-outline"
@@ -158,109 +169,104 @@ export default function ProfilePage({ navigation }) {
                 color="#DFD8C8"
               ></Ionicons>
             </View>
-            <View style={styles.activeDot}></View>
-            <MapButton />
+          </TouchableOpacity>
+        </View>
+
+        <View style={styles.profileShadow}>
+          <View style={styles.profileImageContainer}>
+            <Image
+              source={require("../assets/cat.png")}
+              style={styles.profileImage}
+            ></Image>
           </View>
 
-          <View style={styles.userDetailsContainer}>
-            <Text style={[styles.text, { fontWeight: "200", fontSize: 36 }]}>
-              {}
-            </Text>
-            <Text>{currentUser ? currentUser.username : "Loading..."}</Text>
+          {/* <View style={styles.activeDot}></View> */}
+        </View>
+
+        <View style={styles.usernameContainer}>
+          <Text style={styles.username}>
+            {currentUser ? currentUser.username : "Loading..."}
+            
+          </Text>
+        </View>
+
+        <View style={styles.iconsContainer}>
+          <View style={styles.iconBox}>
+            <BooksHomedLink />
+          </View>
+          <View
+            style={[
+              styles.iconBox,
+              {
+                borderColor: "#DFD8C8",
+                borderLeftWidth: 1,
+                borderRightWidth: 1,
+              },
+            ]}
+          >
+            <BooksOfferedLink />
+          </View>
+          <View
+            style={[
+              styles.iconBox,
+              {
+                borderColor: "#DFD8C8",
+                borderRightWidth: 1,
+              },
+            ]}
+          >
+            <MapButton />
+          </View>
+          <View style={styles.iconBox}>
+            <TreeIcon />
+          </View>
+        </View>
+
+        <View style={{ marginTop: 32 }}>
+          <FlatList
+            horizontal={true}
+            showsHorizontalScrollIndicator={false}
+            keyExtractor={(_item, index) => index}
+            data={currentUser.books}
+            renderItem={ItemView}
+          ></FlatList>
+
+          <View style={styles.bookCount}>
             <Text
               style={[
                 styles.text,
-                { color: "#AEB5BC", fontSize: 14, marginBottom: 10 },
+                {
+                  fontSize: 24,
+                  color: "#DFD8C8",
+                  fontWeight: "300",
+                  paddingTop: 0,
+                },
               ]}
             >
-              Napper - Hunter - Cat
+              {currentUser.books.length}
+            </Text>
+            <Text
+              style={[
+                styles.text,
+                {
+                  fontSize: 10,
+                  color: "#DFD8C8",
+                  textTransform: "uppercase",
+                  textAlign: "center",
+                },
+              ]}
+            >
+              Books on offer
             </Text>
           </View>
-
-          <View style={styles.iconsContainer}>
-            <View style={styles.iconBox}>
-              <BooksHomedLink />
-            </View>
-            <View
-              style={[
-                styles.iconBox,
-                {
-                  borderColor: "#DFD8C8",
-                  borderLeftWidth: 1,
-                  borderRightWidth: 1,
-                },
-              ]}
-            >
-              <BooksOfferedLink />
-            </View>
-            <View
-              style={[
-                styles.iconBox,
-                {
-                  borderColor: "#DFD8C8",
-                  borderRightWidth: 1,
-                },
-              ]}
-            >
-              <UserRatingLink />
-            </View>
-            <View style={styles.iconBox}>
-              <TreeIcon />
-            </View>
-          </View>
-
-          <View style={{ marginTop: 32 }}>
-            <FlatList
-              horizontal={true}
-              showsHorizontalScrollIndicator={false}
-              keyExtractor={(_item, index) => index}
-              data={currentUser.books}
-              renderItem={ItemView}
-            ></FlatList>
-
-            <View style={styles.bookCount}>
-              <Text
-                style={[
-                  styles.text,
-                  {
-                    fontSize: 24,
-                    color: "#DFD8C8",
-                    fontWeight: "300",
-                    paddingTop: 0,
-                  },
-                ]}
-              >
-                {}
-              </Text>
-              <Text
-                style={[
-                  styles.text,
-                  {
-                    fontSize: 10,
-                    color: "#DFD8C8",
-                    textTransform: "uppercase",
-                    textAlign: "center",
-                  },
-                ]}
-              >
-                Books on offer
-              </Text>
-            </View>
-
-            <View>
-              <Text style={[styles.subText, styles.fav_users]}>
-                Favourite users
-              </Text>
-              <ScrollView
-                horizontal={true}
-                showsHorizontalScrollIndicator={false}
-              >
-                <View style={styles.avatarContainer}></View>
-              </ScrollView>
-            </View>
-          </View>
         </View>
-      </ScrollView>
+
+        <View>
+          <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+            <View style={styles.avatarContainer}></View>
+          </ScrollView>
+        </View>
+      </View>
     </SafeAreaView>
   );
 }
@@ -268,7 +274,16 @@ export default function ProfilePage({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#FFF",
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "white",
+  },
+  background: {
+    position: "absolute",
+    left: 0,
+    right: 0,
+    top: 0,
+    height: "100%",
   },
   scrollView: {
     flex: 1,
@@ -277,71 +292,113 @@ const styles = StyleSheet.create({
     fontFamily: "HelveticaNeue",
     color: "#52575D",
   },
-  image: {
-    flex: 1,
-    height: 150,
-    width: 150,
-    resizeMode: "cover",
-  },
   headerIconBar: {
     flexDirection: "row",
-    justifyContent: "flex-end",
+    justifyContent: "space-between",
     marginTop: 10,
     marginHorizontal: 16,
   },
+  backButton: {
+    
+  },
+  ios_settings_outline: {
+    marginTop: 10,
+    backgroundColor: "#41444B",
+    width: 30,
+    height: 30,
+    borderRadius: 20,
+    alignItems: "center",
+    justifyContent: "center",
+    shadowColor: "white",
+    shadowOffset: {
+      width: 0,
+      height: 5,
+    },
+    shadowOpacity: 5,
+    shadowRadius: 15,
+
+    elevation: 7,
+  },
+  profileShadow: {
+    alignItems: "center",
+    shadowColor: "white",
+    shadowOffset: {
+      width: 0,
+      height: 5,
+    },
+    shadowOpacity: 5,
+    shadowRadius: 15,
+
+    elevation: 7,
+  },
+  profileImageContainer: {
+    width: 150,
+    height: 150,
+    borderRadius: 100,
+    alignItems: "center",
+    overflow: "hidden",
+    marginBottom: 0,
+    borderColor: "#8d99ae",
+    borderWidth: 0.2,
+    
+  },
+  profileImage: {
+    flex: 1,
+    height: 150,
+    width: 150,
+    alignItems: "center",
+    resizeMode: "cover",
+  },
+  usernameContainer: {
+    alignSelf: "center",
+    alignItems: "center",
+    backgroundColor: "#41444B",
+    marginTop: 15,
+    marginBottom: 5,
+    borderRadius: 12,
+    shadowColor: "white",
+    shadowOffset: {
+      width: 8,
+      height: 9,
+    },
+    shadowOpacity: 5,
+    shadowRadius: 15,
+
+    elevation: 7,
+  },
+  username: {
+    fontSize: 18,
+    fontFamily: "HelveticaNeue",
+    color: "#DFD8C8",
+    fontWeight: "900",
+    margin: 5,
+    padding: 3,
+  },
+  
   subText: {
     fontSize: 12,
     color: "#AEB5BC",
     textTransform: "uppercase",
     fontWeight: "500",
   },
-  profileImage: {
-    width: 150,
-    height: 150,
-    borderRadius: 100,
-    overflow: "hidden",
-    marginBottom: 0,
-  },
-  ios_settings_outline: {
-    backgroundColor: "#41444B",
-    position: "absolute",
-    top: 20,
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  activeDot: {
-    backgroundColor: "#34FFB9",
-    position: "absolute",
-    bottom: 28,
-    left: 10,
-    padding: 4,
-    height: 20,
-    width: 20,
-    borderRadius: 10,
-  },
-  location: {
-    backgroundColor: "#41444B",
-    position: "absolute",
-    bottom: 20,
-    right: 0,
-    width: 40,
-    height: 40,
-    borderRadius: 30,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  userDetailsContainer: {
-    alignSelf: "center",
-    alignItems: "center",
-    paddingTop: 0,
-  },
+
+  
+  // activeDot: {
+  //   backgroundColor: "#34FFB9",
+  //   position: "absolute",
+  //   bottom: 28,
+  //   left: 10,
+  //   padding: 4,
+  //   height: 20,
+  //   width: 20,
+  //   borderRadius: 10,
+  // },
+  
   iconsContainer: {
     flexDirection: "row",
     alignSelf: "center",
-    marginTop: 12,
+    marginTop: 10,
+    marginBottom: 20,
   },
   iconBox: {
     alignItems: "center",
@@ -350,51 +407,81 @@ const styles = StyleSheet.create({
     paddingRight: 30,
   },
   bookCoverContainer: {
-    width: 140,
-    height: 200,
-    borderRadius: 12,
-    overflow: "hidden",
-    marginHorizontal: 6,
-    marginTop: 10,
-    marginLeft: 15,
+    borderRadius: 5,
+    width: 180,
+    height: 265,
+    marginHorizontal: 13,
+    marginTop: 55,
+    marginBottom: 10,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 6,
+    },
+    shadowOpacity: 0.5,
+    shadowRadius: 7,
+
+    elevation: 7,
+  },
+  coverImage: {
+    width: 185,
+    height: 270,
+    borderColor: "#8d99ae",
+    borderWidth: 0.5,
+    borderRadius: 5,
   },
   bookCount: {
     backgroundColor: "#41444B",
     position: "absolute",
-    top: "50%",
-    marginTop: -200,
+    marginTop: -35,
     alignSelf: "center",
     width: 70,
     height: 70,
     alignItems: "center",
     justifyContent: "center",
     borderRadius: 12,
-    shadowColor: "#f6f4f3",
-    shadowOffset: { width: 0, height: 6 },
+
+    shadowColor: "white",
+    shadowOffset: {
+      width: 10,
+      height: 15,
+    },
+    shadowOpacity: 1,
     shadowRadius: 20,
-    shadowOpacity: 2,
+
+    elevation: 7,
   },
-  avatarContainer: {
-    width: 50,
-    overflow: "hidden",
-    marginHorizontal: 4,
-    marginTop: 10,
-    marginBottom: 30,
-  },
-  fav_users: {
-    marginTop: 22,
-    marginBottom: 2,
-    fontSize: 14,
-    fontWeight: "800",
-    textAlign: "center",
-  },
+
   removeBookIcon: {
     marginBottom: 5,
   },
   removeBookIconCover: {
     position: "absolute",
+    alignSelf: "center",
     zIndex: 100,
     right: 1,
+  },
+  iconBackground: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    height: 25,
+    width: 25,
+    borderRadius: 12.5,
+    position: "absolute",
+    top: 3,
+    zIndex: 105,
+    right: 1,
+    backgroundColor: "#41444B",
+    shadowColor: "#f6f4f3",
+    shadowOffset: {
+      width: 0,
+      height: 12,
+    },
+    shadowOpacity: 0.58,
+    shadowRadius: 16.0,
+
+    elevation: 24,
   },
 
   // modal
