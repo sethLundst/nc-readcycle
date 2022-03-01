@@ -14,17 +14,20 @@ import { createChat } from "../db/firestore";
 import { UserContext } from "../contexts/User";
 
 
-export default function SingleBookPage({ item }) {
+export default function SingleBookPage(props) {
+  console.log(props);
+  // const {item} = route.params;
+  // console.log(item);
   const [userHasBook, setUserHasBook] = useState("");
   
   const { user, setUser } = useContext(UserContext);
 
-  console.log([user, userHasBook.uid], item);
+  // console.log([user, userHasBook.uid], item);
 
-  const handleChat = async () => {
-    console.log('yo');
-   await createChat([user, userHasBook.uid], item)
-    
+  const handleChat = async (navigation) => {
+   
+   const chatID = await createChat([user, userHasBook.uid], item)
+   navigation.navigate("SingleMessageScreen", chatID)
   }
 
   useEffect(() => {
