@@ -11,11 +11,8 @@ import {
   Icon,
   TouchableOpacity,
 } from "react-native";
-import FilterByDistance from "./FilterByDistance";
-import { getUserDetails } from "../db/firestore";
-import { getAllUsers } from "../db/firestore";
-
-// import users from "./Users";
+import { getDistance, convertDistance } from "geolib";
+import { getAllUsers, getUserDetails } from "../db/firestore";
 
 const styles = StyleSheet.create({
   container: {
@@ -63,10 +60,10 @@ const styles = StyleSheet.create({
 
 const BookList = ({ navigation }) => {
   const [search, setSearch] = useState("");
-
   const [filteredDataSource, setFilteredDataSource] = useState([]);
   const [allUsers, setAllUsers] = useState([]);
   const [allBooks, setAllBooks] = useState();
+  const [currentUser, setCurrentUser] = useState();
   const { user, setUser } = useContext(UserContext);
 
   const searchFilterFunction = (text) => {
@@ -81,11 +78,6 @@ const BookList = ({ navigation }) => {
       setSearch(text);
     }
   };
-
-  
-      
-    
-  
 
   const ItemView = ({ item }) => {
     return (
@@ -106,29 +98,58 @@ const BookList = ({ navigation }) => {
           />
         </TouchableOpacity>
         <Text style={styles.title}>{item.title}</Text>
-        <Text>{<FilterByDistance item={item}/>}</Text>
-        {/* <Text style={styles.title}>{<FilterByDistance />}</Text> */}
+        <Text>{item.distance} miles away.</Text>
       </View>
     );
   };
 
+  function calculateBookDistance (book, userLocation) {
+      const result = 
+      convertDistance(
+        getDistance(
+          userLocation,
+          {
+            latitude: book.coordinates.latitude,
+            longitude: book.coordinates.longitude,
+          }
+        ),
+        "mi"
+      ).toFixed(2)
+      return result
+  };
+  let userLocation
   useEffect(() => {
-    const fetchAllBooks = async (user) => {
+    const fetchCurrentUser = async (user) => {
+      const result = await getUserDetails(user);
+      setCurrentUser(result)
+    }
+      const fetchAllBooks = async (user) => {
       const result = await getAllUsers();
       const books = [];
+      let userLocation = {}
       for (let i = 0; i < result.length; i++) {
         for (let j = 0; j < result[i].books.length; j++) {
           if (user !== result[i].books[j].uid) {
             books.push(result[i].books[j]);
+          } else {
+            userLocation = (result[i].books[j].coordinates)
           }
         }
       }
+      for (let i = 0; i < books.length; i++) {
+        books[i].distance = Number(calculateBookDistance(books[i], userLocation))
+      }
+      const sortedBooks = books.sort((a, b) => {
+        return a.distance - b.distance
+      })
+      setAllBooks(sortedBooks);
       setAllUsers(result);
       setFilteredDataSource(books);
-      setAllBooks(books);
     };
+    fetchCurrentUser(user);  
     fetchAllBooks(user);
-  }, [user, getAllUsers]);
+  }, [user, getAllUsers, getUserDetails]);
+
 
   return (
     <View style={styles.container}>
@@ -147,9 +168,6 @@ const BookList = ({ navigation }) => {
         <Text>Showing {filteredDataSource.length} books...</Text>
       </View>
       <View>
-        {/* <Text>filter here ...</Text> */}
-        {/* <FilterByDistance /> */}
-        {/* <Locations /> */}
       </View>
       <View style={styles.list}>
         <FlatList
