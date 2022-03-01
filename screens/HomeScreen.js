@@ -14,7 +14,6 @@ import {
 } from "react-native";
 import { getDistance, convertDistance } from "geolib";
 import { getAllUsers, getUserDetails } from "../db/firestore";
-import MultiSlider from "@ptomasroos/react-native-multi-slider";
 import styled from "styled-components/native";
 import Slider from "@react-native-community/slider";
 
@@ -98,7 +97,7 @@ export default function HomeScreen({ navigation }) {
 
   const searchFilterFunction = (text) => {
     if (text) {
-      const newData = allBooks.filter((book) => {
+      const newData = filteredDataSource.filter((book) => {
         return book.title.toLowerCase().includes(text.toLowerCase());
       });
       setFilteredDataSource(newData);
@@ -166,19 +165,22 @@ export default function HomeScreen({ navigation }) {
           calculateBookDistance(books[i], userLocation)
         );
       }
-      // const sortedBooks = books.sort((a, b) => {
-      //   return a.distance - b.distance;
-      // });
-      const filteredBooks = sortedBooks.filter((book) => {
-        return book.distance < distance;
+      const sortedBooks = books.sort((a, b) => {
+        return a.distance - b.distance;
       });
-      setAllBooks(filteredBooks);
+      setAllBooks(sortedBooks);
       setAllUsers(result);
-      setFilteredDataSource(filteredBooks);
+      setFilteredDataSource(sortedBooks);
     };
     fetchCurrentUser(user);
     fetchAllBooks(user);
   }, [user, getAllUsers, getUserDetails]);
+
+  function handleChange(distance) {
+    setDistance(distance);
+    const array = allBooks.filter((book) => distance > book.distance);
+    setFilteredDataSource(array);
+  }
 
   return (
     <View style={styles.container}>
@@ -195,7 +197,7 @@ export default function HomeScreen({ navigation }) {
         <Slider
           style={{ width: 200, height: 40 }}
           value={distance}
-          onValueChange={(distance) => setDistance(distance)}
+          onValueChange={(distance) => handleChange(distance)}
           minimumValue={0}
           maximumValue={100}
           minimumTrackTintColor="#FFFFFF"
