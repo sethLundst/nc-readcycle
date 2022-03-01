@@ -15,6 +15,95 @@ import {
 import { getDistance, convertDistance } from "geolib";
 import { getAllUsers, getUserDetails } from "../db/firestore";
 import Slider from "./Slider";
+
+import React, { useEffect, useState } from "react";
+import { useContext } from "react";
+import { UserContext } from "../contexts/User";
+import {
+  FlatList,
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  TextInput,
+  Icon,
+  TouchableOpacity,
+  Platform,
+} from "react-native";
+import { getDistance, convertDistance } from "geolib";
+import { getAllUsers, getUserDetails } from "../db/firestore";
+import MultiSlider from "@ptomasroos/react-native-multi-slider";
+import styled from "styled-components/native";
+import Slider from "@react-native-community/slider";
+
+// slider styles
+const SliderWrapper = styled.View`
+  margin: 15px;
+  width: 180px;
+  height: 30px;
+  justify-content: center;
+`;
+
+const ViewContainer = styled.View`
+  align-self: center;
+  justify-content: center;
+  margin: 10px;
+`;
+const LabelWrapper = styled.View`
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 0px;
+  margin: 0px;
+`;
+
+const LabelText = styled.Text`
+  font-size: 15px;
+`;
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    width: "100%",
+  },
+  list: {
+    width: "100%",
+  },
+  image: {
+    marginTop: 25,
+    marginHorizontal: 25,
+    marginBottom: 5,
+    width: 130,
+    height: 165,
+    alignItems: "center",
+  },
+  title: {
+    width: 130,
+    textAlign: "center",
+    paddingTop: 30,
+  },
+  bookBox: {
+    alignItems: "center",
+    justifyContent: "center",
+    paddingLeft: 0,
+  },
+  searchbarInput: {
+    borderColor: "#1323",
+    borderWidth: 2,
+    borderRadius: 20,
+    marginTop: 180,
+    padding: 7,
+    textAlign: "center",
+  },
+  treesSaved: {
+    marginTop: 10,
+  },
+  bookFilter: {
+    marginTop: 10,
+  },
+});
+
 export default function HomeScreen({ navigation }) {
   const [search, setSearch] = useState("");
   const [filteredDataSource, setFilteredDataSource] = useState([]);
@@ -22,6 +111,8 @@ export default function HomeScreen({ navigation }) {
   const [allBooks, setAllBooks] = useState();
   const [currentUser, setCurrentUser] = useState();
   const { user, setUser } = useContext(UserContext);
+  const [multiSliderValue, setMultiSliderValue] = useState([0, 20]);
+  const [distance, setDistance] = useState(100);
 
   const searchFilterFunction = (text) => {
     if (text) {
@@ -43,9 +134,7 @@ export default function HomeScreen({ navigation }) {
           key={item.id}
           style={styles.image}
           onPress={() => {
-            navigation.navigate("SingleBookScreen", 
-              { item: item },
-            );
+            navigation.navigate("SingleBookScreen", { item });
           }}
         >
           <Image
@@ -96,12 +185,15 @@ export default function HomeScreen({ navigation }) {
           calculateBookDistance(books[i], userLocation)
         );
       }
-      const sortedBooks = books.sort((a, b) => {
-        return a.distance - b.distance;
+      // const sortedBooks = books.sort((a, b) => {
+      //   return a.distance - b.distance;
+      // });
+      const filteredBooks = sortedBooks.filter((book) => {
+        return book.distance < distance;
       });
-      setAllBooks(sortedBooks);
+      setAllBooks(filteredBooks);
       setAllUsers(result);
-      setFilteredDataSource(books);
+      setFilteredDataSource(filteredBooks);
     };
     fetchCurrentUser(user);
     fetchAllBooks(user);
@@ -118,13 +210,21 @@ export default function HomeScreen({ navigation }) {
             searchFilterFunction(text);
           }}
         />
+        <Text style={{ fontSize: 18 }}> up to {distance.toFixed(2)} miles</Text>
+        <Slider
+          style={{ width: 200, height: 40 }}
+          value={distance}
+          onValueChange={(distance) => setDistance(distance)}
+          minimumValue={0}
+          maximumValue={100}
+          minimumTrackTintColor="#FFFFFF"
+          maximumTrackTintColor="#000000"
+        />
       </View>
       <View style={styles.bookFilter}>
         <Text>112 trees saved</Text>
-        <Text>Showing {filteredDataSource.length} books...</Text>
-        <View style={styles.sliderContainer}>
-          <Slider allBooks={allBooks} />
-        </View>
+        {/* <Text>Showing {filteredDataSource.length} books...</Text> */}
+        <View style={styles.sliderContainer}></View>
       </View>
       <View></View>
       <View style={styles.list}>
@@ -137,89 +237,9 @@ export default function HomeScreen({ navigation }) {
       </View>
     </View>
   );
-}
+};
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    width: "100%",
-  },
-  list: {
-    width: "100%",
-  },
-  image: {
-    marginTop: 25,
-    marginHorizontal: 25,
-    marginBottom: 5,
-    width: 130,
-    height: 165,
-    alignItems: "center",
-  },
-  title: {
-    width: 130,
-    textAlign: "center",
-    paddingTop: 30,
-  },
-  bookBox: {
-    alignItems: "center",
-    justifyContent: "center",
-    paddingLeft: 0,
-  },
-  searchbarInput: {
-    borderColor: "#1323",
-    borderWidth: 2,
-    borderRadius: 20,
-    marginTop: 180,
-    padding: 7,
-    textAlign: "center",
-  },
-  treesSaved: {
-    marginTop: 10,
-  },
-  bookFilter: {
-    marginTop: 10,
-  },
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    width: "100%",
-  },
-  list: {
-    width: "100%",
-  },
-  image: {
-    marginTop: 25,
-    marginHorizontal: 25,
-    marginBottom: 5,
-    width: 130,
-    height: 165,
-    alignItems: "center",
-  },
-  title: {
-    width: 130,
-    textAlign: "center",
-    paddingTop: 30,
-  },
-  bookBox: {
-    alignItems: "center",
-    justifyContent: "center",
-    paddingLeft: 0,
-  },
-  searchbarInput: {
-    borderColor: "#1323",
-    borderWidth: 2,
-    borderRadius: 20,
-    marginTop: 90,
-    padding: 7,
-    textAlign: "center",
-  },
-  treesSaved: {
-    marginTop: 10,
-  },
-  bookFilter: {
-    marginTop: 10,
-  },
-});
+export default BookList;
+
+
+
