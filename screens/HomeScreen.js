@@ -1,5 +1,4 @@
-import * as React from "react";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useContext } from "react";
 import { UserContext } from "../contexts/User";
 import {
@@ -12,11 +11,39 @@ import {
   Icon,
   TouchableOpacity,
   SafeAreaView,
+  Platform,
 } from "react-native";
 import { getDistance, convertDistance } from "geolib";
 import { getAllUsers, getUserDetails } from "../db/firestore";
-import Slider from "./Slider";
+import styled from "styled-components/native";
+import Slider from "@react-native-community/slider";
 import { LinearGradient } from "expo-linear-gradient";
+
+// slider styles
+const SliderWrapper = styled.View`
+  margin: 15px;
+  width: 180px;
+  height: 30px;
+  justify-content: center;
+`;
+
+const ViewContainer = styled.View`
+  align-self: center;
+  justify-content: center;
+  margin: 10px;
+`;
+const LabelWrapper = styled.View`
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 0px;
+  margin: 0px;
+`;
+
+const LabelText = styled.Text`
+  font-size: 15px;
+`;
+
+
 
 export default function HomeScreen({ navigation }) {
   const [search, setSearch] = useState("");
@@ -25,10 +52,12 @@ export default function HomeScreen({ navigation }) {
   const [allBooks, setAllBooks] = useState();
   const [currentUser, setCurrentUser] = useState();
   const { user, setUser } = useContext(UserContext);
+  const [multiSliderValue, setMultiSliderValue] = useState([0, 20]);
+  const [distance, setDistance] = useState(100);
 
   const searchFilterFunction = (text) => {
     if (text) {
-      const newData = allBooks.filter((book) => {
+      const newData = filteredDataSource.filter((book) => {
         return book.title.toLowerCase().includes(text.toLowerCase());
       });
       setFilteredDataSource(newData);
@@ -46,10 +75,7 @@ export default function HomeScreen({ navigation }) {
           key={item.id}
           style={styles.image}
           onPress={() => {
-            navigation.navigate("SingleBookScreen", {
-              screen: "SingleBookScreen",
-              params: { item: item },
-            });
+            navigation.navigate("SingleBookScreen", { item });
           }}
         >
           <Image
@@ -80,7 +106,6 @@ export default function HomeScreen({ navigation }) {
     ).toFixed(2);
     return result;
   }
-  let userLocation;
   useEffect(() => {
     const fetchCurrentUser = async (user) => {
       const result = await getUserDetails(user);
@@ -109,13 +134,20 @@ export default function HomeScreen({ navigation }) {
       });
       setAllBooks(sortedBooks);
       setAllUsers(result);
-      setFilteredDataSource(books);
+      setFilteredDataSource(sortedBooks);
     };
     fetchCurrentUser(user);
     fetchAllBooks(user);
   }, [user, getAllUsers, getUserDetails]);
 
+  function handleChange(distance) {
+    setDistance(distance);
+    const array = allBooks.filter((book) => distance > book.distance);
+    setFilteredDataSource(array);
+  }
+
   return (
+
     <SafeAreaView style={styles.pageContainer}>
       <LinearGradient
         // Background Linear Gradient
@@ -140,25 +172,37 @@ export default function HomeScreen({ navigation }) {
               searchFilterFunction(text);
             }}
           />
-        </View>
-        <View style={styles.bookFilter}>
-          <Text>112 trees saved</Text>
-          <Text>Showing {filteredDataSource.length} books...</Text>
-          {/* <View style={styles.sliderContainer}>
-            <Slider allBooks={allBooks} />
-          </View> */}
-        </View>
-        <View></View>
-        <View style={styles.list}>
+        <Text style={{ fontSize: 18 }}>up to {Math.round(distance)} miles</Text>
+        <Slider
+          style={{ width: 200, height: 40 }}
+          value={distance}
+          onValueChange={(distance) => handleChange(distance)}
+          minimumValue={0}
+          maximumValue={100}
+          minimumTrackTintColor="#FFFFFF"
+          maximumTrackTintColor="#000000"
+        />
+      </View>
+      <View style={styles.bookFilter}>
+        <Text>112 trees saved</Text>
+        {/* <Text>Showing {filteredDataSource.length} books...</Text> */}
+        <View style={styles.sliderContainer}></View>
+      </View>
+      <View></View>
+      <View style={styles.list}>
+        {!filteredDataSource.length ? (
+          <Text>Sorry we could find no books, please expand your radius.</Text>
+        ) : (
           <FlatList
             numColumns={2}
             keyExtractor={(_item, index) => index}
             data={filteredDataSource}
             renderItem={ItemView}
           />
-        </View>
+        )}
       </View>
-    </SafeAreaView>
+    </View>
+</SafeAreaView>
   );
 }
 

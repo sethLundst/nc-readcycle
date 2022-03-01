@@ -131,7 +131,6 @@ export const handleLogin = async (password, email) => {
 
 export const sendBook = async (bookObject, user) => {
   const docRef = doc(db, "users", user);
-
   await updateDoc(docRef, {
     books: arrayUnion(bookObject),
   });
@@ -150,18 +149,26 @@ export const getUserDetails = async (uid) => {
 export const deleteBook = async (book, isLent) => {};
 
 export const createChat = async (members, book) => {
-  
-  const docRef = await addDoc(collection(db, "chats"), {
-    members: members,
-    book: book.title,
-    // picture: book.altImage,
-    messages: {},
-  });
-  await updateDoc(docRef, {
-    chatID: docRef.id,
-  });
-  return docRef.id
-  
+  const chatKey = `${members[0]}${members[1]}${book.id}`;
+  const q = query(
+    collection(db, "users"),
+    where("chats", "array-contains", chatKey)
+  );
+  const qsnap = await getDocs(q);
+
+  if (qsnap.empty) {
+    const docRef = doc(db, "users", members[0]);
+    await updateDoc(docRef, { chats: arrayUnion(chatKey) });
+    await setDoc(doc(db, "chats", chatKey), {
+      members: members,
+      book: book.title,
+      book_id: book.id,
+      // picture: book.altImage,
+      messages: [],
+      id: chatKey,
+    });
+  }
+  return chatKey;
 };
 
 export const getAllUsers = async () => {
@@ -174,8 +181,6 @@ export const getAllUsers = async () => {
 
   return result;
 };
-
-export const addMessage = async (chatID, username, data) => {};
 
 export const uploadProfilePic = async (uri) => {
   const storage = getStorage();
@@ -190,4 +195,19 @@ export const uploadProfilePic = async (uri) => {
   await updateDoc(doc(db, "users", auth.currentUser.uid), {
     avatar_url: profilePicture,
   });
+};
+
+export const getChat = async (chatID) => {
+  const docRef = doc(db, "chats", `${chatID}`);
+  const docSnap = await getDoc(docRef);
+  return docSnap.data();
+};
+
+export const addMessage = async (chatID, username, data) => {
+  const messageObject = {
+    username: username,
+    message: data,
+  };
+  const docRef = doc(db, "chats", chatID);
+  await updateDoc(docRef, { messages: arrayUnion(messageObject) });
 };
