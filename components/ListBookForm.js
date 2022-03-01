@@ -14,8 +14,9 @@ import { api } from "../api";
 import { Formik } from "formik";
 import * as yup from "yup";
 import { MaterialCommunityIcons, AntDesign } from "@expo/vector-icons";
-import { sendBook } from "../db/firestore";
+import { getUserDetails, sendBook } from "../db/firestore";
 import { UserContext } from "../contexts/User";
+
 
 export default function ListBookForm({ navigation, route }) {
   // State
@@ -34,12 +35,17 @@ export default function ListBookForm({ navigation, route }) {
   const [author, setAuthor] = useState("");
   const [category, setCategory] = useState("");
   const [searchISBN, setSearchISBN] = useState("");
+  const [coordinates, setCoordinates] = useState()
 
-  useEffect(() => {
+
+
+  useEffect(async () => {
     if (route.params?.ISBN) {
       setISBN(route.params?.ISBN);
       APIcall(route.params?.ISBN);
     }
+    const {coordinates} = await getUserDetails(user);
+    setCoordinates(coordinates)
   }, [route.params?.ISBN]);
 
   // API call after barcode is scanned
@@ -87,8 +93,8 @@ export default function ListBookForm({ navigation, route }) {
       publishedDate: publishedDate,
       uid: user,
       ISBN: ISBN,
+      coordinates: coordinates,
     };
-
     console.log(bookObj);
     sendBook(bookObj, user);
     resetState();
