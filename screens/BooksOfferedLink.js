@@ -16,16 +16,13 @@ const BooksOfferedLink = () => {
   return (
     <View>
       <Modal
-        animationType="fade"
-        transparent={true}
+        hasBackdrop={true}
+        animationType={"fade"}
+        transparent
         visible={modalVisible}
-        onRequestClose={() => {
-          Alert.alert("Modal has been closed.");
-          setModalVisible(!modalVisible);
-        }}
       >
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
+        <View style={styles.modalBackground}>
+          <View style={styles.modalContainer}>
             <Text style={styles.modalText}> You have found new homes for 18 books!</Text>
             <TouchableOpacity
               style={[styles.button, styles.buttonClose]}
@@ -46,27 +43,21 @@ const BooksOfferedLink = () => {
 };
 
 const styles = StyleSheet.create({
-  centeredView: {
+  modalContainer: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-  },
-  modalView: {
-    flex: 1,
-    justifyContent: "center",
-    margin: 20,
     backgroundColor: "white",
     borderRadius: 20,
-    padding: 5,
+    padding: 10,
+    marginTop: 300,
+    marginBottom:300,
+  },
+  modalBackground: {
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    flex: 1,
+    justifyContent: "center",
     alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
   },
   button: {
     backgroundColor: "#41444B",
