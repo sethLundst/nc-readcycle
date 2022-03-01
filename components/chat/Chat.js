@@ -19,7 +19,7 @@ const Chat = ({chatID}) => {
 
   }, {})
 
-	return <View>yo</View>;
+	return <View><Text>yo</Text></View>;
 };
 
 export default Chat;
