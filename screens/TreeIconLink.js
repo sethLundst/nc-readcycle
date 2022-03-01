@@ -16,16 +16,14 @@ const TreeIconLink = () => {
   return (
     <View>
       <Modal
-        animationType="fade"
-        transparent={true}
+        hasBackdrop={true}
+        animationType={"fade"}
+        transparent
         visible={modalVisible}
-        onRequestClose={() => {
-          Alert.alert("Modal has been closed.");
-          setModalVisible(!modalVisible);
-        }}
+        
       >
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
+        <View style={styles.modalBackground}>
+          <View style={styles.modalContainer}>
             <Image style={styles.tree} source={require("../assets/tree.png")} />
             <Text style={styles.modalText}>4 trees saved so far!</Text>
             <TouchableOpacity
@@ -47,27 +45,21 @@ const TreeIconLink = () => {
 };
 
 const styles = StyleSheet.create({
-  centeredView: {
+  modalContainer: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-  },
-  modalView: {
-    flex: 1,
-    justifyContent: "center",
-    margin: 10,
     backgroundColor: "white",
     borderRadius: 20,
-    padding: 5,
+    padding: 10,
+    marginTop: 300,
+    marginBottom:300,
+  },
+  modalBackground: {
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    flex: 1,
+    justifyContent: "center",
     alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
   },
   button: {
     backgroundColor: "#41444B",
@@ -92,8 +84,9 @@ const styles = StyleSheet.create({
     fontSize: 36,
   },
   tree: {
-    height: 200,
-    width: 200,
+    height: 50,
+    width: 50, 
+    padding: 10,
   },
 });
 
