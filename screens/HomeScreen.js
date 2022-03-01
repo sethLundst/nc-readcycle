@@ -211,12 +211,16 @@ export default function HomeScreen({ navigation }) {
       </View>
       <View></View>
       <View style={styles.list}>
-        <FlatList
-          numColumns={2}
-          keyExtractor={(_item, index) => index}
-          data={filteredDataSource}
-          renderItem={ItemView}
-        />
+        {!filteredDataSource.length ? (
+          <Text>Sorry we could find no books, please expand your radius.</Text>
+        ) : (
+          <FlatList
+            numColumns={2}
+            keyExtractor={(_item, index) => index}
+            data={filteredDataSource}
+            renderItem={ItemView}
+          />
+        )}
       </View>
     </View>
   );
