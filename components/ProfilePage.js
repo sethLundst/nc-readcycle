@@ -21,7 +21,8 @@ import TreeIcon from "./TreeIconLink";
 import UserRatingLink from "./UserRatingLink";
 import BooksOfferedLink from "./BooksOfferedLink";
 import BooksHomedLink from "./BooksRehomedLink";
-import { getUserDetails } from "../db/firestore";
+import { getUserDetails, uploadProfilePic } from "../db/firestore";
+import * as ImagePicker from "expo-image-picker";
 
 export default function ProfilePage({ navigation }) {
   const [currentUser, setCurrentUser] = useState({ books: [] });
@@ -36,6 +37,21 @@ export default function ProfilePage({ navigation }) {
     };
     fetchUserDetails();
   }, [user, getUserDetails]);
+
+  const pickImage = async () => {
+    console.log("here");
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    if (!result.cancelled) {
+      uploadProfilePic(result.uri);
+      console.log("here");
+    }
+  };
 
   function ItemView({ item }) {
     return (
@@ -130,7 +146,7 @@ export default function ProfilePage({ navigation }) {
           <View style={{ alignSelf: "center" }}>
             <View style={styles.profileImage}>
               <Image
-                source={require("../assets/cat.png")}
+                source={{ uri: currentUser.avatar_url }}
                 style={styles.image}
                 resizeMode="center"
               ></Image>
