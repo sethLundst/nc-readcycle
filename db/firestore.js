@@ -23,6 +23,7 @@ import {
   browserLocalPersistence,
   onAuthStateChanged,
 } from "firebase/auth";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAmmM3CBTdIeuOY7KEXouW-SFAHeyA_Ums",
@@ -172,3 +173,18 @@ export const getAllUsers = async () => {
 };
 
 export const addMessage = async (chatID, username, data) => {};
+
+export const uploadProfilePic = async (uri) => {
+  const storage = getStorage();
+  const picRef = ref(storage, "profilepic.jpg");
+  const img = await fetch(uri);
+  const bytes = await img.blob();
+
+  await uploadBytes(picRef, bytes);
+
+  const profilePicture = await getDownloadURL(picRef);
+
+  await updateDoc(doc(db, "users", auth.currentUser.uid), {
+    avatar_url: profilePicture,
+  });
+};
