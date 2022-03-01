@@ -1,21 +1,3 @@
-import * as React from "react";
-import { useEffect, useState } from "react";
-import { useContext } from "react";
-import { UserContext } from "../contexts/User";
-import {
-  FlatList,
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  TextInput,
-  Icon,
-  TouchableOpacity,
-} from "react-native";
-import { getDistance, convertDistance } from "geolib";
-import { getAllUsers, getUserDetails } from "../db/firestore";
-import Slider from "./Slider";
-
 import React, { useEffect, useState } from "react";
 import { useContext } from "react";
 import { UserContext } from "../contexts/User";
@@ -161,7 +143,6 @@ export default function HomeScreen({ navigation }) {
     ).toFixed(2);
     return result;
   }
-  let userLocation;
   useEffect(() => {
     const fetchCurrentUser = async (user) => {
       const result = await getUserDetails(user);
@@ -237,9 +218,4 @@ export default function HomeScreen({ navigation }) {
       </View>
     </View>
   );
-};
-
-export default BookList;
-
-
-
+}
