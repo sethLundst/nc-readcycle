@@ -21,8 +21,11 @@ import TreeIcon from "./TreeIconLink";
 import UserRatingLink from "./UserRatingLink";
 import BooksOfferedLink from "./BooksOfferedLink";
 import BooksHomedLink from "./BooksRehomedLink";
+import { getUserDetails, uploadProfilePic } from "../db/firestore";
+import * as ImagePicker from "expo-image-picker";
 import { getUserDetails } from "../db/firestore";
 import { LinearGradient } from "expo-linear-gradient";
+
 
 export default function ProfilePage({ navigation }) {
   const [currentUser, setCurrentUser] = useState({ books: [] });
@@ -36,6 +39,21 @@ export default function ProfilePage({ navigation }) {
     };
     fetchUserDetails();
   }, [user, getUserDetails]);
+
+  const pickImage = async () => {
+    console.log("here");
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    if (!result.cancelled) {
+      uploadProfilePic(result.uri);
+      console.log("here");
+    }
+  };
 
   function ItemView({ item }) {
     return (
@@ -143,6 +161,7 @@ export default function ProfilePage({ navigation }) {
               navigation.navigate("EditProfileScreen");
             }}
           >
+
             <View style={styles.ios_settings_outline}>
               <Ionicons
                 name="ios-settings-outline"
