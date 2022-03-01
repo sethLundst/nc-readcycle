@@ -37,8 +37,6 @@ export default function ListBookForm({ navigation, route }) {
   const [searchISBN, setSearchISBN] = useState("");
   const [coordinates, setCoordinates] = useState()
 
-
-
   useEffect(async () => {
     if (route.params?.ISBN) {
       setISBN(route.params?.ISBN);

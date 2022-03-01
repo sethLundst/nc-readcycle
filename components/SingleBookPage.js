@@ -10,17 +10,30 @@ import {
   TouchableOpacity,
   ScrollView,
 } from "react-native";
+import { createChat } from "../db/firestore";
+import { UserContext } from "../contexts/User";
 
-export default function SingleBookPage({ item }) {
+
+export default function SingleBookPage(props) {
+  console.log(props);
+  // const {item} = route.params;
+  // console.log(item);
   const [userHasBook, setUserHasBook] = useState("");
+  
+  const { user, setUser } = useContext(UserContext);
 
-  console.log(item, "<< single book");
-  console.log(userHasBook.username, "<< user that has book");
+  // console.log([user, userHasBook.uid], item);
+
+  const handleChat = async (navigation) => {
+   
+   const chatID = await createChat([user, userHasBook.uid], item)
+   navigation.navigate("SingleMessageScreen", chatID)
+  }
 
   useEffect(() => {
     const fetchUserDetails = async () => {
       const result = await getAllUsers();
-      console.log(result, "<< all users");
+      // console.log(result, "<< all users");
       // setUserHasBook(result);
       for (let i = 0; i < result.length; i++) {
         if (result[i].uid === item.uid) {
@@ -74,10 +87,10 @@ export default function SingleBookPage({ item }) {
             <Text style={styles.userName}>
               {userHasBook.username} has this!
             </Text>
-            <Text style={styles.userDistance}>0.6 miles away</Text>
+            <Text style={styles.userDistance}>{item.distance} miles away</Text>
           </View>
           <View style={styles.messageIcon}>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={handleChat}>
               <AntDesign name="message1" size={24} color="black" />
             </TouchableOpacity>
           </View>
