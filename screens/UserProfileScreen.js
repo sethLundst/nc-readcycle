@@ -57,10 +57,6 @@ export default function UserProfileScreen({ navigation }) {
     return (
       <View style={styles.bookCoverContainerShadow}>
         <View style={styles.bookCoverContainer}>
-          <LinearGradient
-            colors={["white", "purple", "blue"]}
-            style={styles.background}
-          />
           <SafeAreaView>
             <View>
               <Modal
@@ -438,9 +434,9 @@ const styles = StyleSheet.create({
     borderWidth: 0.5,
     overflow: "hidden",
     width: 180,
-    height: 265,
+    height: 270,
     marginHorizontal: 13,
-    marginTop: 55,
+    marginTop: 45,
     marginBottom: 10,
   },
   coverImage: {
