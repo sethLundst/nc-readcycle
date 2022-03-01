@@ -7,7 +7,7 @@ import {
   Pressable,
   View,
   Image,
-  TouchableOpacity
+  TouchableOpacity,
 } from "react-native";
 import { Ionicons, Foundation, MaterialIcons } from "@expo/vector-icons";
 
@@ -38,7 +38,7 @@ const UserRatingLink = () => {
       </Modal>
       <Pressable onPress={() => setModalVisible(true)}>
         <View>
-        <Ionicons name="heart-circle-outline" size={28} color="black"/>
+          <Ionicons name="heart-circle-outline" size={28} color="black" />
         </View>
       </Pressable>
     </View>
