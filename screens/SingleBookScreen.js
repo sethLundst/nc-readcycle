@@ -62,7 +62,13 @@ export default function SingleBookScreen({ route, navigation }) {
           <Text style={styles.bookInfo}>{item.pageCount} Pages</Text>
           <Text style={styles.bookInfo}>Language: {item.language}</Text>
           <TouchableOpacity style={styles.addToWishListButton}>
-            <Text style={styles.buttonText}>Reserve</Text>
+            <Text style={styles.buttonText}>
+              {user === userHasBook.uid ? (
+                <Text>Remove</Text>
+              ) : (
+                <Text>Reserve</Text>
+              )}
+            </Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -72,26 +78,30 @@ export default function SingleBookScreen({ route, navigation }) {
           <Text style={styles.description}>{item.description}</Text>
         </ScrollView>
 
-        <View style={styles.userHasBook}>
-          <View style={styles.avatarContainer}>
-            <Image
-              source={require("../assets/cat.png")}
-              style={styles.avatarImage}
-              resizeMode="center"
-            ></Image>
+        {user === userHasBook.uid ? null : (
+          <View style={styles.userHasBook}>
+            <View style={styles.avatarContainer}>
+              <Image
+                source={require("../assets/cat.png")}
+                style={styles.avatarImage}
+                resizeMode="center"
+              ></Image>
+            </View>
+            <View style={styles.userInfo}>
+              <Text style={styles.userName}>
+                {userHasBook.username} has this!
+              </Text>
+              <Text style={styles.userDistance}>
+                {item.distance} miles away
+              </Text>
+            </View>
+            <View style={styles.messageIcon}>
+              <TouchableOpacity onPress={handleChat}>
+                <AntDesign name="message1" size={24} color="black" />
+              </TouchableOpacity>
+            </View>
           </View>
-          <View style={styles.userInfo}>
-            <Text style={styles.userName}>
-              {userHasBook.username} has this!
-            </Text>
-            <Text style={styles.userDistance}>{item.distance} miles away</Text>
-          </View>
-          <View style={styles.messageIcon}>
-            <TouchableOpacity onPress={handleChat}>
-              <AntDesign name="message1" size={24} color="black" />
-            </TouchableOpacity>
-          </View>
-        </View>
+        )}
       </View>
     </SafeAreaView>
   );
@@ -142,7 +152,7 @@ const styles = StyleSheet.create({
     fontWeight: "600",
   },
   descriptionBox: {
-    height: 150,
+    height: 250,
     marginTop: 10,
     marginBottom: 10,
     borderColor: "#DFD8C8",
@@ -152,7 +162,7 @@ const styles = StyleSheet.create({
   },
   description: {
     width: "100%",
-    marginTop: 0,
+    marginTop: 5,
     marginBottom: 5,
     fontFamily: "HelveticaNeue",
     color: "#52575D",
