@@ -47,9 +47,9 @@ const MapButton = () => {
         <View style={styles.location}>
             <Ionicons
               name="ios-location-outline"
-              size={22}
-              color="#DFD8C8"
-              style={{ marginTop: 4, marginLeft: 1 }}
+              size={26}
+              color="black"
+              style={{ marginTop: 0, marginLeft: 1 }}
             ></Ionicons>
           </View>
       </Pressable>
@@ -107,17 +107,14 @@ const styles = StyleSheet.create({
     fontWeight: "200",
     fontSize: 36
   },
-  location: {
-    backgroundColor: "#41444B",
-    position: "absolute",
-    bottom: 20,
-    right: 0,
-    width: 40,
-    height: 40,
-    borderRadius: 30,
-    alignItems: "center",
-    justifyContent: "center",
-  },
+  // location: {
+  //   backgroundColor: "#41444B",
+  //   width: 30,
+  //   height: 30,
+  //   borderRadius: 30,
+  //   alignItems: "center",
+  //   justifyContent: "center",
+  // },
 });
 
 export default MapButton;
