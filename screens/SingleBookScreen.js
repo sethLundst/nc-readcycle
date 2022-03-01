@@ -13,17 +13,17 @@ import {
 import { createChat } from "../db/firestore";
 import { UserContext } from "../contexts/User";
 
-export default function SingleBookScreen(props) {
-  console.log(props);
-  // const {item} = route.params;
-  // console.log(item);
+export default function SingleBookScreen({route, navigation}) {
+  
+  const {item} = route.params
+  console.log(item);
   const [userHasBook, setUserHasBook] = useState("");
 
   const { user, setUser } = useContext(UserContext);
 
   // console.log([user, userHasBook.uid], item);
 
-  const handleChat = async (navigation) => {
+  const handleChat = async () => {
     const chatID = await createChat([user, userHasBook.uid], item);
     navigation.navigate("SingleMessageScreen", chatID);
   };

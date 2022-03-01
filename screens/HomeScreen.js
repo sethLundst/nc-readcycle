@@ -43,10 +43,9 @@ export default function HomeScreen({ navigation }) {
           key={item.id}
           style={styles.image}
           onPress={() => {
-            navigation.navigate("SingleBookScreen", {
-              screen: "SingleBookScreen",
-              params: { item: item },
-            });
+            navigation.navigate("SingleBookScreen", 
+              { item: item },
+            );
           }}
         >
           <Image
