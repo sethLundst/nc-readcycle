@@ -84,7 +84,7 @@ export default function SingleBookPage({ item }) {
             <Text style={styles.userName}>
               {userHasBook.username} has this!
             </Text>
-            <Text style={styles.userDistance}>0.6 miles away</Text>
+            <Text style={styles.userDistance}>{item.distance} miles away</Text>
           </View>
           <View style={styles.messageIcon}>
             <TouchableOpacity onPress={handleChat}>
