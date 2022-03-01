@@ -13,6 +13,7 @@ import {
 } from "react-native";
 import { getDistance, convertDistance } from "geolib";
 import { getAllUsers, getUserDetails } from "../db/firestore";
+import Slider from "./Slider";
 
 const styles = StyleSheet.create({
   container: {
@@ -46,7 +47,7 @@ const styles = StyleSheet.create({
     borderColor: "#1323",
     borderWidth: 2,
     borderRadius: 20,
-    marginTop: 90,
+    marginTop: 180,
     padding: 7,
     textAlign: "center",
   },
@@ -103,53 +104,50 @@ const BookList = ({ navigation }) => {
     );
   };
 
-  function calculateBookDistance (book, userLocation) {
-      const result = 
-      convertDistance(
-        getDistance(
-          userLocation,
-          {
-            latitude: book.coordinates.latitude,
-            longitude: book.coordinates.longitude,
-          }
-        ),
-        "mi"
-      ).toFixed(2)
-      return result
-  };
-  let userLocation
+  function calculateBookDistance(book, userLocation) {
+    const result = convertDistance(
+      getDistance(userLocation, {
+        latitude: book.coordinates.latitude,
+        longitude: book.coordinates.longitude,
+      }),
+      "mi"
+    ).toFixed(2);
+    return result;
+  }
+  let userLocation;
   useEffect(() => {
     const fetchCurrentUser = async (user) => {
       const result = await getUserDetails(user);
-      setCurrentUser(result)
-    }
-      const fetchAllBooks = async (user) => {
+      setCurrentUser(result);
+    };
+    const fetchAllBooks = async (user) => {
       const result = await getAllUsers();
       const books = [];
-      let userLocation = {}
+      let userLocation = {};
       for (let i = 0; i < result.length; i++) {
         for (let j = 0; j < result[i].books.length; j++) {
           if (user !== result[i].books[j].uid) {
             books.push(result[i].books[j]);
           } else {
-            userLocation = (result[i].books[j].coordinates)
+            userLocation = result[i].books[j].coordinates;
           }
         }
       }
       for (let i = 0; i < books.length; i++) {
-        books[i].distance = Number(calculateBookDistance(books[i], userLocation))
+        books[i].distance = Number(
+          calculateBookDistance(books[i], userLocation)
+        );
       }
       const sortedBooks = books.sort((a, b) => {
-        return a.distance - b.distance
-      })
+        return a.distance - b.distance;
+      });
       setAllBooks(sortedBooks);
       setAllUsers(result);
       setFilteredDataSource(books);
     };
-    fetchCurrentUser(user);  
+    fetchCurrentUser(user);
     fetchAllBooks(user);
   }, [user, getAllUsers, getUserDetails]);
-
 
   return (
     <View style={styles.container}>
@@ -166,9 +164,11 @@ const BookList = ({ navigation }) => {
       <View style={styles.bookFilter}>
         <Text>112 trees saved</Text>
         <Text>Showing {filteredDataSource.length} books...</Text>
+        <View style={styles.sliderContainer}>
+          <Slider allBooks={allBooks} />
+        </View>
       </View>
-      <View>
-      </View>
+      <View></View>
       <View style={styles.list}>
         <FlatList
           numColumns={2}
