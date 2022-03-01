@@ -10,12 +10,14 @@ import {
   TextInput,
   Icon,
   TouchableOpacity,
+  SafeAreaView,
   Platform,
 } from "react-native";
 import { getDistance, convertDistance } from "geolib";
 import { getAllUsers, getUserDetails } from "../db/firestore";
 import styled from "styled-components/native";
 import Slider from "@react-native-community/slider";
+import { LinearGradient } from "expo-linear-gradient";
 
 // slider styles
 const SliderWrapper = styled.View`
@@ -41,49 +43,7 @@ const LabelText = styled.Text`
   font-size: 15px;
 `;
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    width: "100%",
-  },
-  list: {
-    width: "100%",
-  },
-  image: {
-    marginTop: 25,
-    marginHorizontal: 25,
-    marginBottom: 5,
-    width: 130,
-    height: 165,
-    alignItems: "center",
-  },
-  title: {
-    width: 130,
-    textAlign: "center",
-    paddingTop: 30,
-  },
-  bookBox: {
-    alignItems: "center",
-    justifyContent: "center",
-    paddingLeft: 0,
-  },
-  searchbarInput: {
-    borderColor: "#1323",
-    borderWidth: 2,
-    borderRadius: 20,
-    marginTop: 180,
-    padding: 7,
-    textAlign: "center",
-  },
-  treesSaved: {
-    marginTop: 10,
-  },
-  bookFilter: {
-    marginTop: 10,
-  },
-});
+
 
 export default function HomeScreen({ navigation }) {
   const [search, setSearch] = useState("");
@@ -126,8 +86,12 @@ export default function HomeScreen({ navigation }) {
             style={styles.image}
           />
         </TouchableOpacity>
-        <Text style={styles.title}>{item.title}</Text>
-        <Text>{item.distance} miles away.</Text>
+        <View style={styles.textshadow}>
+          <View style={styles.textBox}>
+            <Text style={styles.bookText}>{item.title}</Text>
+            <Text style={styles.bookText}>({item.distance} miles away)</Text>
+          </View>
+        </View>
       </View>
     );
   };
@@ -183,16 +147,31 @@ export default function HomeScreen({ navigation }) {
   }
 
   return (
-    <View style={styles.container}>
-      <View style={styles.searchbarContainer}>
-        <TextInput
-          style={styles.searchbarInput}
-          value={search}
-          placeholder="search books..."
-          onChangeText={(text) => {
-            searchFilterFunction(text);
-          }}
-        />
+
+    <SafeAreaView style={styles.pageContainer}>
+      <LinearGradient
+        // Background Linear Gradient
+        colors={["#dee2ff", "#f7edf2", "white"]}
+        start={{
+          x: 0,
+          y: 0,
+        }}
+        end={{
+          x: 1,
+          y: 1,
+        }}
+        style={styles.background}
+      />
+      <View style={styles.pageContainer}>
+        <View style={styles.searchbarContainer}>
+          <TextInput
+            style={styles.searchbarInput}
+            value={search}
+            placeholder="search books..."
+            onChangeText={(text) => {
+              searchFilterFunction(text);
+            }}
+          />
         <Text style={{ fontSize: 18 }}>up to {Math.round(distance)} miles</Text>
         <Slider
           style={{ width: 200, height: 40 }}
@@ -223,5 +202,123 @@ export default function HomeScreen({ navigation }) {
         )}
       </View>
     </View>
+</SafeAreaView>
   );
 }
+
+const styles = StyleSheet.create({
+  pageContainer: {
+    flex: 1,
+    alignItems: "center",
+    width: "100%",
+  },
+  background: {
+    position: "absolute",
+    left: 0,
+    right: 0,
+    top: 0,
+    height: "100%",
+  },
+  searchbarContainer: {
+    marginTop: 10,
+  },
+  searchbarInput: {
+    borderColor: "#1323",
+    borderWidth: 2,
+    borderRadius: 20,
+    marginTop: 0,
+    padding: 7,
+    textAlign: "center",
+    backgroundColor: "white",
+    shadowColor: "white",
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowOpacity: 5,
+    shadowRadius: 15,
+
+    elevation: 7,
+  },
+  bookFilter: {
+    marginTop: 5,
+    borderColor: "#1323",
+    borderWidth: 2,
+    borderRadius: 20,
+    marginBottom: 10,
+    padding: 10,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "white",
+    shadowColor: "white",
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowOpacity: 5,
+    shadowRadius: 15,
+
+    elevation: 7,
+    
+  },
+  list: {
+    width: "95%",
+  },
+  bookBox: {
+    flex: 1,
+    overflow: "hidden",
+    marginTop: 10,
+    paddingTop: 5,
+    alignItems: "center",
+    // borderColor: "#8d99ae",
+    // borderWidth: 0.5,
+  },
+  image: {
+    marginTop: 0,
+    marginHorizontal: 0,
+    marginBottom: 15,
+    width: 150,
+    height: 220,
+    borderRadius: 5,
+    borderColor: "#8d99ae",
+    borderWidth: 0.5,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 5,
+    },
+    shadowOpacity: 0.5,
+    shadowRadius: 7,
+
+    elevation: 10,
+  },
+  textBox: {
+    backgroundColor: "#eaf4f4",
+    marginBottom: 10,
+    borderColor: "#8d99ae",
+    borderWidth: 0.5,
+    borderRadius: 5,
+    paddingTop: 10,
+    paddingBottom: 10,
+    alignItems: "center",
+    justifyContent: "center",
+    width: 150,
+    height: 100,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowOpacity: 0.5,
+    shadowRadius: 4,
+
+    elevation: 10,
+  },
+  bookText: {
+    fontFamily: "HelveticaNeue",
+    color: "#41444B",
+    fontWeight: "900",
+    margin: 5,
+    padding: 3,
+  },
+});

@@ -65,7 +65,7 @@ const EditProfileScreen = () => {
                   <ImageBackground
                     source={require("../assets/cat.png")}
                     style={{ height: 100, width: 100 }}
-                    imageStyle={{ borderRadius: 15 }}
+                    imageStyle={{ borderRadius: 100 }}
                   >
                     <View
                       style={{
@@ -110,7 +110,7 @@ const EditProfileScreen = () => {
             {/* </Modal> */}
           </View>
           {/* </TouchableOpacity> */}
-          <Text style={{ marginTop: 10, fontSize: 18, fontWeight: "bold" }}>
+          <Text style={{ marginTop: 10, fontSize: 18, fontWeight: "bold", fontFamily: "HelveticaNeue", color: "#52575D" }}>
             Pussy Galore
           </Text>
         </View>
@@ -211,18 +211,27 @@ const styles = StyleSheet.create({
     // marginTop: Platform.OS === "ios" ? 0 : -12,
     paddingLeft: 10,
     color: "#333333",
+    fontFamily: "HelveticaNeue",
+
   },
   commandButton: {
     padding: 15,
     borderRadius: 10,
-    backgroundColor: "green",
+    backgroundColor: "#ffbd03",
     alignItems: "center",
     marginTop: 10,
+    borderColor: "#8d99ae",
+    borderWidth: 0.4,
+    shadowColor: "#52575D",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.5,
+    shadowRadius: 1,
   },
   panelButtonTitle: {
-    fontSize: 17,
-    fontWeight: "bold",
-    color: "white",
+    textAlign: "center",
+    fontFamily: "HelveticaNeue",
+    color: "#52575D",
+    fontWeight: "700",
   },
   // modal
   modalContainer: {
