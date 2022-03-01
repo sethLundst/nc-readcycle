@@ -10,12 +10,11 @@ import {
   TouchableOpacity,
   ScrollView,
 } from "react-native";
-import { createChat } from "../db/firestore";
+import { createChat, checkChat } from "../db/firestore";
 import { UserContext } from "../contexts/User";
 
-export default function SingleBookScreen({route, navigation}) {
-  
-  const {item} = route.params
+export default function SingleBookScreen({ route, navigation }) {
+  const { item } = route.params;
   console.log(item);
   const [userHasBook, setUserHasBook] = useState("");
 
@@ -25,7 +24,7 @@ export default function SingleBookScreen({route, navigation}) {
 
   const handleChat = async () => {
     const chatID = await createChat([user, userHasBook.uid], item);
-    navigation.navigate("SingleMessageScreen", {chatID:chatID});
+    navigation.navigate("SingleMessageScreen", { chatID: chatID });
   };
 
   useEffect(() => {
