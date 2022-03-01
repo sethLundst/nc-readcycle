@@ -16,7 +16,7 @@ import { UserContext } from "../contexts/User";
 export default function SingleBookScreen(props) {
   console.log(props);
   // const {item} = route.params;
-  // console.log(item);
+  //console.log(item);
   const [userHasBook, setUserHasBook] = useState("");
 
   const { user, setUser } = useContext(UserContext);
@@ -63,7 +63,7 @@ export default function SingleBookScreen(props) {
           <Text style={styles.bookInfo}>{item.pageCount} Pages</Text>
           <Text style={styles.bookInfo}>Language: {item.language}</Text>
           <TouchableOpacity style={styles.addToWishListButton}>
-            <Text style={styles.buttonText}>Reserve</Text>
+            <Text style={styles.buttonText}>Message Owner</Text>
           </TouchableOpacity>
         </View>
       </View>
