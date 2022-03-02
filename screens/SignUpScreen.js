@@ -21,6 +21,7 @@ import validator from "validator";
 import * as Yup from "yup";
 import { Center } from "native-base";
 import { getCurrentPositionAsync } from "expo-location";
+import { LinearGradient } from "expo-linear-gradient";
 
 const api = axios.create({
   baseURL: "https://api.postcodes.io",
@@ -66,6 +67,19 @@ export default function SignUpScreen({ navigation }) {
   const { user, setUser } = useContext(UserContext);
   return (
     <View style={styles.container}>
+      <LinearGradient
+        // Background Linear Gradient
+        colors={["#dee2ff", "#f7edf2", "white"]}
+        start={{
+          x: 0,
+          y: 0,
+        }}
+        end={{
+          x: 1,
+          y: 1,
+        }}
+        style={styles.background}
+      />
       <Text style={styles.logo}>Readcycle</Text>
 
       <Formik
@@ -102,7 +116,9 @@ export default function SignUpScreen({ navigation }) {
                 value={values.email}
               />
             </View>
-            {errors.email && touched.password && <Text>{errors.email}</Text>}
+            {errors.email && touched.password && (
+              <Text style={styles.errorText}>{errors.email}</Text>
+            )}
             <View style={styles.formSection}>
               <TextInput
                 placeholder="Password"
@@ -114,7 +130,7 @@ export default function SignUpScreen({ navigation }) {
               />
             </View>
             {errors.password && touched.password && (
-              <Text>{errors.password}</Text>
+              <Text style={styles.errorText}>{errors.password}</Text>
             )}
             <View style={styles.formSection}>
               <TextInput
@@ -126,7 +142,7 @@ export default function SignUpScreen({ navigation }) {
               />
             </View>
             {errors.username && touched.username && (
-              <Text>{errors.username}</Text>
+              <Text style={styles.errorText}>{errors.username}</Text>
             )}
             <View style={styles.formSection}>
               <TextInput
@@ -137,7 +153,9 @@ export default function SignUpScreen({ navigation }) {
                 value={values.city}
               />
             </View>
-            {errors.city && touched.city && <Text>{errors.city}</Text>}
+            {errors.city && touched.city && (
+              <Text style={styles.errorText}>{errors.city}</Text>
+            )}
             <View style={styles.formSection}>
               <TextInput
                 placeholder="Postcode"
@@ -148,73 +166,103 @@ export default function SignUpScreen({ navigation }) {
               />
             </View>
             {errors.postcode && touched.postcode && (
-              <Text>{errors.postcode}</Text>
+              <Text style={styles.errorText}>{errors.postcode}</Text>
             )}
-            <Pressable style={styles.button} onPress={handleSubmit}>
-              <Text style={styles.text}>Create an account</Text>
-            </Pressable>
+            <View style={styles.createButtonContainer}>
+              <Pressable style={styles.button} onPress={handleSubmit}>
+                <Text style={styles.Buttontext}>Create an account</Text>
+              </Pressable>
+            </View>
           </View>
         )}
       </Formik>
-
-      <Pressable
-        style={styles.button}
-        onPress={() => navigation.navigate("LogInScreen")}
-      >
-        <Text style={styles.text}>Already have an account?</Text>
-      </Pressable>
+      <View style={styles.alreadyButtonContainer}>
+        <Pressable
+          style={styles.button}
+          onPress={() => navigation.navigate("LogInScreen")}
+        >
+          <Text style={styles.Buttontext}>Already have an account?</Text>
+        </Pressable>
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  button: {
-    alignSelf: "center",
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "white",
-    borderStyle: "solid",
-    borderColor: "green",
-  },
   container: {
     flex: 1,
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
   },
-  formSection: {
-    flexDirection: "row",
-    margin: 5,
+  background: {
+    position: "absolute",
+    left: 0,
+    right: 0,
+    top: 0,
+    height: "100%",
   },
   logo: {
     fontSize: 20,
     padding: 5,
     color: "green",
   },
-  text: {
-    alignSelf: "center",
-    fontSize: 16,
-    lineHeight: 21,
-    fontWeight: "bold",
-    letterSpacing: 0.25,
-    color: "black",
-    borderColor: "green",
-    borderWidth: 1,
-    marginLeft: 5,
-    paddingLeft: 5,
-    borderRadius: 14,
-    padding: 8,
-    margin: 8,
-  },
-  textInput: {
-    borderWidth: 1,
-    marginLeft: 5,
-    paddingLeft: 5,
-    width: 300,
-    height: 55,
-    backgroundColor: "white",
+  formSection: {
+    backgroundColor: "#FFC0CB",
+    borderRadius: 30,
+    width: 250,
+    height: 45,
     margin: 10,
-    padding: 8,
-    borderRadius: 14,
+    alignItems: "center",
+    justifyContent: "center",
+    borderColor: "white",
+    borderWidth: 2,
+    fontFamily: "HelveticaNeue",
+  },
+
+  textInput: {
+    height: 70,
+    flex: 1,
+    padding: 10,
+    fontFamily: "HelveticaNeue",
+    color: "white",
+    fontSize: 18,
+    fontWeight: "800",
+  },
+  errorText: {
+    fontFamily: "HelveticaNeue",
+    color: "#52575D",
+    fontSize: 15,
+    fontWeight: "600",
+    textAlign: "center",
+  },
+  createButtonContainer: {
+    marginTop: 40,
+  },
+  alreadyButtonContainer: {
+    marginTop: 15,
+  },
+  button: {
+    backgroundColor: "#76c893",
+    borderRadius: 25,
+    borderColor: "white",
+    borderWidth: 2,
+
+    shadowColor: "#fad2e1",
+    shadowOffset: {
+      width: 0,
+      height: 5,
+    },
+    shadowOpacity: 1,
+    shadowRadius: 17,
+
+    elevation: 10,
+  },
+  Buttontext: {
+    alignSelf: "center",
+    fontSize: 20,
+    fontFamily: "HelveticaNeue",
+    color: "white",
+    padding: 12,
   },
 });
