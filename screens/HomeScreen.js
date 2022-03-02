@@ -79,13 +79,15 @@ export default function HomeScreen({ navigation }) {
             });
           }}
         >
-          <Image
-            style={styles.image}
-            source={{
-              uri: item.highResImage,
-            }}
-            style={styles.image}
-          />
+          <View style={styles.imagebox}>
+            <Image
+              style={styles.image}
+              source={{
+                uri: item.highResImage,
+              }}
+              style={styles.image}
+            />
+          </View>
         </TouchableOpacity>
         <View style={styles.textshadow}>
           <View style={styles.textBox}>
@@ -254,7 +256,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "white",
-    shadowColor: "white",
+    shadowColor: "pink",
     shadowOffset: {
       width: 0,
       height: 3,
@@ -265,49 +267,62 @@ const styles = StyleSheet.create({
     elevation: 7,
   },
   list: {
-    width: "95%",
+    width: "100%",
+    marginBottom: 170,
   },
   bookBox: {
     flex: 1,
     overflow: "hidden",
     marginTop: 10,
-    paddingTop: 5,
+    paddingTop: 0,
+    paddingRight:10,
     alignItems: "center",
+    justifyContent: "center",
     // borderColor: "#8d99ae",
     // borderWidth: 0.5,
   },
-  image: {
-    marginTop: 0,
-    marginHorizontal: 0,
-    marginBottom: 15,
-    width: 150,
-    height: 220,
-    borderRadius: 5,
-    borderColor: "#8d99ae",
-    borderWidth: 0.5,
-    shadowColor: "#000",
+  imagebox: {
+    backgroundColor: "white",
+    width: 162,
+    height: 232,
+    borderRadius: 15,
+    borderColor: "white",
+    borderWidth: 6,
+    shadowColor: "pink",
     shadowOffset: {
       width: 0,
       height: 5,
     },
-    shadowOpacity: 0.5,
-    shadowRadius: 7,
+    shadowOpacity: 1,
+    shadowRadius: 17,
 
     elevation: 10,
   },
-  textBox: {
-    backgroundColor: "#eaf4f4",
-    marginBottom: 10,
-    borderColor: "#8d99ae",
-    borderWidth: 0.5,
+  image: {
+    marginTop: 0,
+    marginHorizontal: 0,
+    marginBottom: 3,
+    width: 150,
+    height: 220,
     borderRadius: 5,
+    
+   
+  },
+  textBox: {
+    backgroundColor: "#caf0f8",
+    marginLeft: 11,
+    marginTop: 12,
+    marginBottom: 10,
+    borderColor: "white",
+    borderWidth: 6,
+    borderRadius: 15,
     paddingTop: 10,
     paddingBottom: 10,
     alignItems: "center",
     justifyContent: "center",
-    width: 150,
+    width: 162,
     height: 100,
-    shadowColor: "#000",
+    shadowColor: "pink",
     shadowOffset: {
       width: 0,
       height: 3,
