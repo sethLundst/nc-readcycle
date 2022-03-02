@@ -252,7 +252,7 @@ const styles = StyleSheet.create({
   sliderHeaderContainer: {
     backgroundColor: "white",
     borderRadius: 20,
-    marginTop: 10,
+    marginTop: 5,
     shadowColor: "white",
     shadowOffset: {
       width: 0,
@@ -264,6 +264,9 @@ const styles = StyleSheet.create({
     elevation: 7,
   },
   sliderHeader: {
+    fontFamily: "HelveticaNeue",
+    color: "#41444B",
+    fontWeight: "600",
     fontSize: 16,
     borderColor: "#1323",
     borderWidth: 2,
@@ -358,7 +361,7 @@ const styles = StyleSheet.create({
   bookText: {
     fontFamily: "HelveticaNeue",
     color: "#41444B",
-    fontWeight: "900",
+    fontWeight: "600",
     margin: 5,
     padding: 3,
   },
