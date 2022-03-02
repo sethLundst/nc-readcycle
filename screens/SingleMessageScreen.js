@@ -4,19 +4,17 @@ import { addMessage, getChat, getUserDetails } from "../db/firestore";
 import { getDoc, getFirestore, Timestamp } from "firebase/firestore";
 import { UserContext } from "../contexts/User";
 import { SafeAreaView } from "react-native-safe-area-context";
-const timestamp = require('time-stamp');
+const timestamp = require("time-stamp");
 import {
-	Button,
+	
 	TextInput,
 	View,
 	Text,
 	StyleSheet,
 	Pressable,
-	useWindowDimensions,
+
 	FlatList,
 } from "react-native";
-
-
 
 export default function SingleMessageScreen({ route, navigation }) {
 	const { user } = useContext(UserContext);
@@ -27,18 +25,19 @@ export default function SingleMessageScreen({ route, navigation }) {
 	const [messages, setMessages] = useState([]);
 	const [isLoading, setIsLoading] = useState(true);
 	const [title, setTitle] = useState("");
-	console.log(otherUser);
 
-  const Comment = (props) => {
-    const { item } = props;
-    const time = item.postedAt.slice(0,10)+' '+item.postedAt.slice(11,16)
-    return (
-      <View>
-        <Text>{item.username} {time}</Text>
-        <Text>{item.message}</Text>
-      </View>
-    );
-  };
+	const Comment = (props) => {
+		const { item } = props;
+		const time = item.postedAt.slice(0, 10) + " " + item.postedAt.slice(11, 16);
+		return (
+			<View style={styles.comment}>
+				<Text>
+					{item.username} {time}
+				</Text>
+				<Text>{item.message}</Text>
+			</View>
+		);
+	};
 
 	function handleChange(value) {
 		setNewMessage(value);
@@ -48,7 +47,11 @@ export default function SingleMessageScreen({ route, navigation }) {
 		addMessage(chatID, currUser.username, newMessage).then(() => {
 			setMessages((curr) => [
 				...curr,
-				{ username: currUser.username, message: newMessage, postedAt: timestamp("DD/MM/YYYY:HH:mm:ss:ms")}
+				{
+					username: currUser.username,
+					message: newMessage,
+					postedAt: timestamp("DD/MM/YYYY:HH:mm:ss:ms"),
+				},
 			]);
 			setNewMessage("");
 		});
@@ -60,7 +63,7 @@ export default function SingleMessageScreen({ route, navigation }) {
 		const currUser = await getUserDetails(user);
 		setCurrUser(currUser);
 		const msgs = [];
-    console.log(chat);
+		console.log(chat);
 		if (chat.messages.length > 0) {
 			chat.messages.forEach((message) => {
 				msgs.push(message);
@@ -84,22 +87,26 @@ export default function SingleMessageScreen({ route, navigation }) {
 		<Text>Loading...</Text>
 	) : (
 		<View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-			<Text>
-				{title} || {otherUser.username}
-			</Text>
-			<SafeAreaView style={styles.container}>
-				<FlatList
-					data={messages}
-					renderItem={Comment}
-					keyExtractor={(item, index) => item.postedAt+index}
-				/>
-			</SafeAreaView>
-
+			<View style={styles.header}>
+				<Text>
+					{title} || {otherUser.username}
+				</Text>
+			</View>
+			<View style={styles.list}>
+				<SafeAreaView style={styles.container}>
+					<FlatList
+						data={messages}
+						renderItem={Comment}
+						keyExtractor={(item, index) => item.postedAt + index}
+					/>
+				</SafeAreaView>
+			</View>
 			<TextInput
 				placeholder="New message"
 				style={styles.textInput}
 				onChangeText={handleChange}
 				value={newMessage}
+				multiline="true"
 			/>
 			<Pressable style={styles.submit} onPress={handleSubmit}>
 				<Text>Send</Text>
@@ -111,24 +118,39 @@ export default function SingleMessageScreen({ route, navigation }) {
 const styles = StyleSheet.create({
 	submit: {
 		borderWidth: 1,
-		marginLeft: 5,
-		paddingLeft: 5,
+
 		width: 55,
 		height: 55,
 		backgroundColor: "white",
 		margin: 10,
 		padding: 8,
-		borderRadius: 14,
+		borderRadius: 3,
+		alignItems: "center",
+		justifyContent: "center",
 	},
 	textInput: {
 		borderWidth: 1,
-		marginLeft: 5,
-		paddingLeft: 5,
+
 		width: 300,
-		height: 55,
+		height: "15%",
 		backgroundColor: "white",
 		margin: 10,
 		padding: 8,
-		borderRadius: 14,
+		borderRadius: 3,
+	},
+	header: {
+		height: "20%",
+		flex: 1,
+		alignItems: "center",
+		justifyContent: "center",
+	},
+	list: {
+		height: "50%",
+	},
+	comment: {
+		backgroundColor: "white",
+		padding: 8,
+		margin: 1,
+		borderRadius: 3,
 	},
 });
