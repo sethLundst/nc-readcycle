@@ -136,7 +136,7 @@ export default function UserProfileScreen({ route, navigation }) {
     <SafeAreaView style={styles.container}>
       <LinearGradient
         // Background Linear Gradient
-        colors={["#dee2ff", "#f7edf2", "white"]}
+        colors={["#dee2ff", "#f7edf2"]}
         start={{
           x: 0,
           y: 0,

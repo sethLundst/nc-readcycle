@@ -209,7 +209,8 @@ const styles = StyleSheet.create({
   },
   formSection: {
     backgroundColor: "#FFC0CB",
-    borderRadius: 30,
+    // backgroundColor: "#ffbd03",
+    borderRadius: 25,
     width: 250,
     height: 45,
     margin: 10,
