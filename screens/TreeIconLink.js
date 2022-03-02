@@ -20,7 +20,6 @@ const TreeIconLink = () => {
         animationType={"fade"}
         transparent
         visible={modalVisible}
-        
       >
         <View style={styles.modalBackground}>
           <View style={styles.modalContainer}>
@@ -37,7 +36,7 @@ const TreeIconLink = () => {
       </Modal>
       <Pressable onPress={() => setModalVisible(true)}>
         <View>
-          <Foundation name="trees" size={28} color="black" />
+          <Foundation name="trees" size={20} color="black" />
         </View>
       </Pressable>
     </View>
@@ -53,7 +52,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     padding: 10,
     marginTop: 300,
-    marginBottom:300,
+    marginBottom: 300,
   },
   modalBackground: {
     backgroundColor: "rgba(0, 0, 0, 0.5)",
@@ -85,7 +84,7 @@ const styles = StyleSheet.create({
   },
   tree: {
     height: 50,
-    width: 50, 
+    width: 50,
     padding: 10,
   },
 });
