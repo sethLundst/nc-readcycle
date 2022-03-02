@@ -43,8 +43,6 @@ const LabelText = styled.Text`
   font-size: 15px;
 `;
 
-
-
 export default function HomeScreen({ navigation }) {
   const [search, setSearch] = useState("");
   const [filteredDataSource, setFilteredDataSource] = useState([]);
@@ -75,7 +73,10 @@ export default function HomeScreen({ navigation }) {
           key={item.id}
           style={styles.image}
           onPress={() => {
-            navigation.navigate("SingleBookScreen", { item });
+            navigation.navigate("SingleBookScreen", {
+              name: item.title,
+              item,
+            });
           }}
         >
           <Image
@@ -147,7 +148,6 @@ export default function HomeScreen({ navigation }) {
   }
 
   return (
-
     <SafeAreaView style={styles.pageContainer}>
       <LinearGradient
         // Background Linear Gradient
@@ -172,37 +172,41 @@ export default function HomeScreen({ navigation }) {
               searchFilterFunction(text);
             }}
           />
-        <Text style={{ fontSize: 18 }}>up to {Math.round(distance)} miles</Text>
-        <Slider
-          style={{ width: 200, height: 40 }}
-          value={distance}
-          onValueChange={(distance) => handleChange(distance)}
-          minimumValue={0}
-          maximumValue={100}
-          minimumTrackTintColor="#FFFFFF"
-          maximumTrackTintColor="#000000"
-        />
-      </View>
-      <View style={styles.bookFilter}>
-        <Text>112 trees saved</Text>
-        {/* <Text>Showing {filteredDataSource.length} books...</Text> */}
-        <View style={styles.sliderContainer}></View>
-      </View>
-      <View></View>
-      <View style={styles.list}>
-        {!filteredDataSource.length ? (
-          <Text>Sorry we could find no books, please expand your radius.</Text>
-        ) : (
-          <FlatList
-            numColumns={2}
-            keyExtractor={(_item, index) => index}
-            data={filteredDataSource}
-            renderItem={ItemView}
+          <Text style={{ fontSize: 18 }}>
+            up to {Math.round(distance)} miles
+          </Text>
+          <Slider
+            style={{ width: 200, height: 40 }}
+            value={distance}
+            onValueChange={(distance) => handleChange(distance)}
+            minimumValue={0}
+            maximumValue={100}
+            minimumTrackTintColor="#FFFFFF"
+            maximumTrackTintColor="#000000"
           />
-        )}
+        </View>
+        <View style={styles.bookFilter}>
+          <Text>112 trees saved</Text>
+          {/* <Text>Showing {filteredDataSource.length} books...</Text> */}
+          <View style={styles.sliderContainer}></View>
+        </View>
+        <View></View>
+        <View style={styles.list}>
+          {!filteredDataSource.length ? (
+            <Text>
+              Sorry we could find no books, please expand your radius.
+            </Text>
+          ) : (
+            <FlatList
+              numColumns={2}
+              keyExtractor={(_item, index) => index}
+              data={filteredDataSource}
+              renderItem={ItemView}
+            />
+          )}
+        </View>
       </View>
-    </View>
-</SafeAreaView>
+    </SafeAreaView>
   );
 }
 
@@ -259,7 +263,6 @@ const styles = StyleSheet.create({
     shadowRadius: 15,
 
     elevation: 7,
-    
   },
   list: {
     width: "95%",

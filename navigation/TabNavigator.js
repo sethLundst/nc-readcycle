@@ -36,32 +36,33 @@ function BottomTabNavigator() {
         tabBarActiveTintColor: "green",
         tabBarInactiveTintColor: "gray",
         tabBarLabel: "",
+        headerShown: false,
       })}
     >
       <Tab.Screen
         name="HomeStackScreen"
         component={HomeStackScreen}
-        options={{ title: "Home", showLabel: false }}
+        options={{ showLabel: false }}
       />
       <Tab.Screen
         name="ListBookStackScreen"
         component={ListBookStackScreen}
-        options={{ title: "List Book" }}
+        options={{ showLabel: false }}
       />
       <Tab.Screen
         name="MessagesStackScreen"
         component={MessagesStackScreen}
-        options={{ title: "Messages" }}
+        options={{ showLabel: false }}
       />
       <Tab.Screen
         name="ProfileStackScreen"
         component={ProfileStackScreen}
-        options={{ title: "Profile" }}
+        options={{ showLabel: false }}
       />
       <Tab.Screen
         name="LogOutStackScreen"
         component={LogOutStackScreen}
-        options={{ title: "Log Out" }}
+        options={{ showLabel: false }}
       />
     </Tab.Navigator>
   );

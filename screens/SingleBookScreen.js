@@ -2,51 +2,43 @@ import { Ionicons, AntDesign } from "@expo/vector-icons";
 import React, { useContext, useEffect, useState } from "react";
 import { getAllUsers } from "../db/firestore";
 import {
-	View,
-	StyleSheet,
-	Image,
-	Text,
-	SafeAreaView,
-	TouchableOpacity,
-	ScrollView,
+  View,
+  StyleSheet,
+  Image,
+  Text,
+  SafeAreaView,
+  TouchableOpacity,
+  ScrollView,
 } from "react-native";
 import { createChat, checkChat } from "../db/firestore";
 import { UserContext } from "../contexts/User";
 
 export default function SingleBookScreen({ route, navigation }) {
   const { item } = route.params;
-  console.log(item);
 
   const [userHasBook, setUserHasBook] = useState("");
 
-	const { user, setUser } = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
 
-	// console.log([user, userHasBook.uid], item);
+  const handleChat = async () => {
+    const chatID = await createChat([user, userHasBook.uid], item);
+    navigation.navigate("SingleMessageScreen", { chatID: chatID });
+  };
 
-	const handleChat = async () => {
-		const chatID = await createChat([user, userHasBook.uid], item);
-		navigation.navigate("SingleMessageScreen", { chatID: chatID });
-	};
-
-	useEffect(() => {
-		const fetchUserDetails = async () => {
-			const result = await getAllUsers();
-			// console.log(result, "<< all users");
-			// setUserHasBook(result);
-			for (let i = 0; i < result.length; i++) {
-				if (result[i].uid === item.uid) {
-					setUserHasBook(result[i]);
-				}
-			}
-		};
-		fetchUserDetails();
-	}, [item]);
+  useEffect(() => {
+    const fetchUserDetails = async () => {
+      const result = await getAllUsers();
+      for (let i = 0; i < result.length; i++) {
+        if (result[i].uid === item.uid) {
+          setUserHasBook(result[i]);
+        }
+      }
+    };
+    fetchUserDetails();
+  }, [item]);
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.backButtonContainer}>
-        <Ionicons name="ios-arrow-back" size={24} color="#52575D"></Ionicons>
-      </View>
       <View style={styles.bookBox}>
         <Image
           style={styles.image}
@@ -113,9 +105,6 @@ const styles = StyleSheet.create({
     flex: 1,
     width: "95%",
   },
-  backButtonContainer: {
-    marginTop: 20,
-  },
   bookBox: {
     flex: 1,
     flexBasis: 180,
@@ -156,9 +145,6 @@ const styles = StyleSheet.create({
     height: 250,
     marginTop: 10,
     marginBottom: 10,
-    borderColor: "#DFD8C8",
-    borderWidth: 1,
-    borderRadius: 5,
     padding: 10,
   },
   description: {
@@ -232,10 +218,9 @@ const styles = StyleSheet.create({
   messageIcon: {
     marginRight: 20,
   },
-
-	userAvatarsBox: {
-		height: 100,
-		padding: 10,
-		marginBottom: 30,
-	},
+  userAvatarsBox: {
+    height: 100,
+    padding: 10,
+    marginBottom: 30,
+  },
 });
