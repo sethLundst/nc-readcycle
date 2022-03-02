@@ -217,3 +217,16 @@ export const addMessage = async (chatID, username, data) => {
 		messages: arrayUnion(messageObject),
 	});
 };
+
+
+export const getChats = async (uid) => {
+  const q = query(
+		collection(db, "chats"),
+		where("members", "array-contains", `${uid}`)
+	);
+  const qsnap = await getDocs(q);
+  const chats = []
+  qsnap.forEach(chat => chats.push(chat.data()))
+
+  return chats
+}
