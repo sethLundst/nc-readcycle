@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useContext, useEffect, useState } from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import EditProfileScreen from "../screens/EditProfileScreen";
@@ -8,11 +9,12 @@ import LogInScreen from "../screens/LogInScreen";
 import LogOutScreen from "../screens/LogOutScreen";
 import MessagesScreen from "../screens/MessagesScreen";
 import ScannerScreen from "../screens/ScannerScreen";
-import SearchScreen from "../screens/SearchScreen";
 import SignUpScreen from "../screens/SignUpScreen";
 import SingleBookScreen from "../screens/SingleBookScreen";
 import UserProfileScreen from "../screens/UserProfileScreen";
 import SingleMessageScreen from "../screens/SingleMessageScreen";
+import { UserContext } from "../contexts/User";
+import { getUserDetails } from "../db/firestore";
 
 const HomeStack = createNativeStackNavigator();
 const ListBookStack = createNativeStackNavigator();
@@ -20,109 +22,158 @@ const LogInStack = createNativeStackNavigator();
 const LogOutStack = createNativeStackNavigator();
 const MessagesStack = createNativeStackNavigator();
 const ProfileStack = createNativeStackNavigator();
-const SearchStack = createNativeStackNavigator();
 
 export function HomeStackScreen() {
-	return (
-		<HomeStack.Navigator
-			initialRouteName="HomeScreen"
-			screenOptions={{ headerShown: false }}>
-			<HomeStack.Screen name="HomeScreen" component={HomeScreen} />
-			<HomeStack.Screen name="SingleBookScreen" component={SingleBookScreen} />
-			<MessagesStack.Screen
-				name="SingleMessageScreen"
-				component={SingleMessageScreen}
-			/>
-		</HomeStack.Navigator>
-	);
+  return (
+    <HomeStack.Navigator initialRouteName="HomeScreen">
+      <HomeStack.Screen
+        name="HomeScreen"
+        component={HomeScreen}
+        options={{ title: "Home" }}
+      />
+      <HomeStack.Screen
+        name="SingleBookScreen"
+        component={SingleBookScreen}
+        options={({ route }) => ({ title: route.params.name })}
+      />
+      <MessagesStack.Screen
+        name="SingleMessageScreen"
+        component={SingleMessageScreen}
+        options={({ route }) => ({ title: route.params.name })}
+      />
+    </HomeStack.Navigator>
+  );
 }
 
 export function LogInStackScreen() {
-	return (
-		<LogInStack.Navigator
-			initialRouteName="SignUpScreen"
-			screenOptions={{ headerShown: false }}>
-			<LogInStack.Screen
-				name="SignUpScreen"
-				component={SignUpScreen}
-				options={{ headerShown: false }}
-			/>
-			<LogInStack.Screen name="LogInScreen" component={LogInScreen} />
-			<LogInStack.Screen name="HomeScreen" component={HomeScreen} />
-			<LogInStack.Screen name="SingleBookScreen" component={SingleBookScreen} />
-		</LogInStack.Navigator>
-	);
+  return (
+    <LogInStack.Navigator initialRouteName="SignUpScreen">
+      <LogInStack.Screen
+        name="SignUpScreen"
+        component={SignUpScreen}
+        options={{ title: "Sign Up" }}
+      />
+      <LogInStack.Screen name="LogInScreen" component={LogInScreen} />
+      <LogInStack.Screen
+        name="HomeScreen"
+        component={HomeScreen}
+        options={{ title: "Home" }}
+      />
+      <LogInStack.Screen
+        name="SingleBookScreen"
+        component={SingleBookScreen}
+        options={({ route }) => ({ title: route.params.name })}
+      />
+    </LogInStack.Navigator>
+  );
 }
 
 export function ListBookStackScreen() {
-	return (
-		<ListBookStack.Navigator
-			initialRouteName="ListBookScreen"
-			screenOptions={{ headerShown: false }}>
-			<ListBookStack.Screen name="ListBookScreen" component={ListBookScreen} />
-			<ListBookStack.Screen name="ScannerScreen" component={ScannerScreen} />
-		</ListBookStack.Navigator>
-	);
+  return (
+    <ListBookStack.Navigator initialRouteName="ListBookScreen">
+      <ListBookStack.Screen
+        name="ListBookScreen"
+        component={ListBookScreen}
+        options={{ title: "Upload Book" }}
+      />
+      <ListBookStack.Screen
+        name="ScannerScreen"
+        component={ScannerScreen}
+        options={{ headerBackTitle: "", title: "Scan Barcode" }}
+      />
+    </ListBookStack.Navigator>
+  );
 }
 
 export function MessagesStackScreen() {
-	return (
-		<MessagesStack.Navigator
-			initialRouteName="MessagesScreen"
-			screenOptions={{ headerShown: false }}>
-			<MessagesStack.Screen name="MessagesScreen" component={MessagesScreen} />
-			<MessagesStack.Screen
-				name="SingleBookScreen"
-				component={SingleBookScreen}
-			/>
-			<MessagesStack.Screen
-				name="UserProfileScreen"
-				component={UserProfileScreen}
-			/>
-			<MessagesStack.Screen
-				name="SingleMessageScreen"
-				component={SingleMessageScreen}
-			/>
-		</MessagesStack.Navigator>
-	);
+  const { user } = useContext(UserContext);
+  const [currentUser, setCurrentUser] = useState({ username: "" });
+
+  useEffect(() => {
+    const fetchCurrentUser = async (user) => {
+      const result = await getUserDetails(user);
+      setCurrentUser(result);
+    };
+    fetchCurrentUser(user);
+  }, [user, getUserDetails]);
+
+  return (
+    <MessagesStack.Navigator initialRouteName="MessagesScreen">
+      <MessagesStack.Screen
+        name="MessagesScreen"
+        component={MessagesScreen}
+        options={{ title: "Messages" }}
+      />
+      <MessagesStack.Screen
+        name="SingleBookScreen"
+        component={SingleBookScreen}
+        options={({ route }) => ({ title: route.params.name })}
+      />
+      <MessagesStack.Screen
+        name="UserProfileScreen"
+        component={UserProfileScreen}
+        options={{ title: currentUser.username }}
+      />
+      <MessagesStack.Screen
+        name="SingleMessageScreen"
+        component={SingleMessageScreen}
+        options={({ route }) => ({ title: route.params.name })}
+      />
+    </MessagesStack.Navigator>
+  );
 }
 
 export function ProfileStackScreen() {
-	return (
-		<ProfileStack.Navigator
-			initialRouteName="UserProfileScreen"
-			screenOptions={{ headerShown: false }}>
-			<ProfileStack.Screen
-				name="UserProfileScreen"
-				component={UserProfileScreen}
-			/>
-			<ProfileStack.Screen
-				name="EditProfileScreen"
-				component={EditProfileScreen}
-			/>
-			<ProfileStack.Screen
-				name="SingleBookScreen"
-				component={SingleBookScreen}
-			/>
-			<MessagesStack.Screen
-				name="SingleMessageScreen"
-				component={SingleMessageScreen}
-			/>
-		</ProfileStack.Navigator>
-	);
+  const { user } = useContext(UserContext);
+  const [currentUser, setCurrentUser] = useState({ username: "" });
+
+  useEffect(() => {
+    const fetchCurrentUser = async (user) => {
+      const result = await getUserDetails(user);
+      setCurrentUser(result);
+    };
+    fetchCurrentUser(user);
+  }, [user, getUserDetails]);
+
+  return (
+    <ProfileStack.Navigator initialRouteName="UserProfileScreen">
+      <ProfileStack.Screen
+        name="UserProfileScreen"
+        component={UserProfileScreen}
+        options={{ title: currentUser.username }}
+      />
+      <ProfileStack.Screen
+        name="EditProfileScreen"
+        component={EditProfileScreen}
+        options={{ title: "Edit Profile" }}
+      />
+      <ProfileStack.Screen
+        name="SingleBookScreen"
+        component={SingleBookScreen}
+        options={({ route }) => ({ title: route.params.name })}
+      />
+      <MessagesStack.Screen
+        name="SingleMessageScreen"
+        component={SingleMessageScreen}
+        options={({ route }) => ({ title: route.params.name })}
+      />
+    </ProfileStack.Navigator>
+  );
 }
 
 export function LogOutStackScreen() {
-	return (
-		<LogOutStack.Navigator
-			initialRouteName="LogOutScreen"
-			screenOptions={{ headerShown: false }}>
-			<LogOutStack.Screen name="LogOutScreen" component={LogOutScreen} />
-			<LogInStack.Screen
-				name="SignUpScreen"
-				component={SignUpScreen}
-				options={{ headerShown: false }}
-			/>
-		</LogOutStack.Navigator>
-	);
+  return (
+    <LogOutStack.Navigator initialRouteName="LogOutScreen">
+      <LogOutStack.Screen
+        name="LogOutScreen"
+        component={LogOutScreen}
+        options={{ title: "Log Out" }}
+      />
+      <LogInStack.Screen
+        name="SignUpScreen"
+        component={SignUpScreen}
+        options={{ title: "Sign Up" }}
+      />
+    </LogOutStack.Navigator>
+  );
 }
