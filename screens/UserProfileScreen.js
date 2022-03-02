@@ -458,15 +458,15 @@ const styles = StyleSheet.create({
     marginTop: 15,
     marginBottom: 5,
     borderRadius: 12,
-    // shadowColor: "white",
-    // shadowOffset: {
-    //   width: 2,
-    //   height: 4,
-    // },
-    // shadowOpacity: 5,
-    // shadowRadius: 15,
+    shadowColor: "pink",
+    shadowOffset: {
+      width: 0,
+      height: 5,
+    },
+    shadowOpacity: 1,
+    shadowRadius: 17,
 
-    // elevation: 7,
+    elevation: 10,
   },
   username: {
     fontSize: 18,
@@ -527,8 +527,15 @@ const styles = StyleSheet.create({
     // },
     // shadowOpacity: 5,
     // shadowRadius: 15,
+    shadowColor: "pink",
+    shadowOffset: {
+      width: 0,
+      height: 5,
+    },
+    shadowOpacity: 1,
+    shadowRadius: 17,
 
-    // elevation: 7,
+    elevation: 10,
   },
   bookCoverContainerShadow: {
     shadowColor: "#000",

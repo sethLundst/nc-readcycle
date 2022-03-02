@@ -2,7 +2,7 @@ import axios from "axios";
 import { initializeApp } from "firebase/app";
 import React, { useContext } from "react";
 import { UserContext } from "../contexts/User";
-import { getDoc, getFirestore } from "firebase/firestore";
+import { getDoc, getFirestore, onSnapshot } from "firebase/firestore";
 import { getDistance, convertDistance } from "geolib";
 const timestamp = require("time-stamp");
 import {
@@ -261,3 +261,20 @@ export const updateLocation = async (uid, location, city) => {
   }
   return { message: "Successful" };
 };
+
+// export const getChats = async (uid) => {
+// 	const q = query(
+//     		collection(db, "chats"),
+//     		where("members", "array-contains", `${uid}`)
+//     	);
+//       let res = []
+// 	const unsubscribe = await onSnapshot(q, (querySnapshot) => {
+// 		const chats = [];
+// 		querySnapshot.forEach((doc) => {
+// 			res.push(doc.data());
+// 		});
+
+// 	});
+//  console.log(res);
+//   return res
+// };

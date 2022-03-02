@@ -235,7 +235,7 @@ const styles = StyleSheet.create({
     borderColor: "#1323",
     borderWidth: 2,
     borderRadius: 20,
-    marginTop: 0,
+    marginTop: 10,
     padding: 7,
     textAlign: "center",
     backgroundColor: "white",
@@ -252,7 +252,7 @@ const styles = StyleSheet.create({
   sliderHeaderContainer: {
     backgroundColor: "white",
     borderRadius: 20,
-    marginTop: 5,
+    marginTop: 10,
     shadowColor: "white",
     shadowOffset: {
       width: 0,
@@ -332,9 +332,9 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
   textBox: {
-    backgroundColor: "#caf0f8",
+    backgroundColor: "#edf6f9",
     marginLeft: 11,
-    marginTop: 12,
+    marginTop: 10,
     marginBottom: 10,
     borderColor: "white",
     borderWidth: 6,

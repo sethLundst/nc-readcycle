@@ -6,34 +6,45 @@ import {
 	StyleSheet,
 	Pressable,
 	FlatList,
-  SafeAreaView
+	SafeAreaView,
 } from "react-native";
-import { getChats } from "../db/firestore";
+import { getChats, db } from "../db/firestore";
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../contexts/User";
+import { collection, query, where, onSnapshot } from "firebase/firestore";
 
 export default function MessagesScreen({ route, navigation }) {
 	const { user } = useContext(UserContext);
 	const [isLoading, setIsLoading] = useState(true);
 	const [chats, setChats] = useState([]);
 
-const handlePress = (ID)=>{
-  navigation.navigate("SingleMessageScreen", { chatID: ID })
-}
+	const q = query(
+		collection(db, "chats"),
+		where("members", "array-contains", `${user}`)
+	);
+
+	const handlePress = (ID) => {
+		navigation.navigate("SingleMessageScreen", { chatID: ID });
+	};
 
 	useEffect(async () => {
 		setIsLoading(true);
-		const chats = await getChats(user);
-		setChats(chats);
-		console.log(chats);
+		await onSnapshot(q, (querySnapshot) => {
+			const chats = [];
+			querySnapshot.forEach((doc) => {
+				chats.push(doc.data());
+			});
+			setChats(chats);
+		});
+
 		setIsLoading(false);
 	}, []);
 
 	const Chat = ({ item }) => {
-    const chatID = item.id
-    console.log(chatID);
+		const chatID = item.id;
+
 		return (
-			<Pressable style={styles.chatThumb} onPress={()=>handlePress(chatID)}>
+			<Pressable style={styles.chatThumb} onPress={() => handlePress(chatID)}>
 				<Text>{item.book}</Text>
 			</Pressable>
 		);
