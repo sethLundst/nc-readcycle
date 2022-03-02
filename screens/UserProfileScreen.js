@@ -25,7 +25,7 @@ import { getUserDetails, uploadProfilePic } from "../db/firestore";
 import * as ImagePicker from "expo-image-picker";
 import { LinearGradient } from "expo-linear-gradient";
 
-export default function UserProfileScreen({ navigation }) {
+export default function UserProfileScreen({ route, navigation }) {
   const [currentUser, setCurrentUser] = useState({ books: [] });
   const [showModal, setShowModal] = useState(false);
   const { user, setUser } = useContext(UserContext);
@@ -119,7 +119,10 @@ export default function UserProfileScreen({ navigation }) {
             key={item.id}
             style={styles.image}
             onPress={() => {
-              navigation.navigate("SingleBookScreen", { item });
+              navigation.navigate("SingleBookScreen", {
+                name: item.title,
+                item,
+              });
             }}
           >
             <Image
@@ -151,7 +154,6 @@ export default function UserProfileScreen({ navigation }) {
       />
       <View style={styles.scrollView}>
         <View style={styles.headerIconBar}>
-          <Ionicons name="ios-arrow-back" size={24} color="#52575D"></Ionicons>
           <TouchableOpacity
             onPress={() => {
               navigation.navigate("EditProfileScreen");
@@ -306,9 +308,10 @@ const styles = StyleSheet.create({
       width: 2,
       height: 4,
     },
+    position: "absolute",
+    left: 300,
     shadowOpacity: 5,
     shadowRadius: 15,
-
     elevation: 7,
   },
   profileShadow: {
