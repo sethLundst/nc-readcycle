@@ -332,9 +332,9 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
   textBox: {
-    backgroundColor: "#caf0f8",
+    backgroundColor: "#edf6f9",
     marginLeft: 11,
-    marginTop: 12,
+    marginTop: 10,
     marginBottom: 10,
     borderColor: "white",
     borderWidth: 6,
