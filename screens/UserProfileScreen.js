@@ -1,33 +1,45 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import { useContext } from "react";
 import { UserContext } from "../contexts/User";
 import {
   StyleSheet,
-  Alert,
-  Modal,
   Text,
+  Modal,
   View,
   SafeAreaView,
   Image,
   ScrollView,
   FlatList,
   TouchableOpacity,
+  TextInput,
   Pressable,
-  Button,
 } from "react-native";
 import { Ionicons, AntDesign, MaterialIcons } from "@expo/vector-icons";
 import MapButton from "./MapButton";
 import TreeIcon from "./TreeIconLink";
-import UserRatingLink from "./UserRatingLink";
 import BooksOfferedLink from "./BooksOfferedLink";
 import BooksHomedLink from "./BooksRehomedLink";
-import { getUserDetails, uploadProfilePic } from "../db/firestore";
+import {
+  getUserDetails,
+  uploadProfilePic,
+  updateLocation,
+  convertPostcode,
+} from "../db/firestore";
 import * as ImagePicker from "expo-image-picker";
 import { LinearGradient } from "expo-linear-gradient";
+import { setStatusBarNetworkActivityIndicatorVisible } from "expo-status-bar";
 
 export default function UserProfileScreen({ route, navigation }) {
   const [currentUser, setCurrentUser] = useState({ books: [] });
-  const [showModal, setShowModal] = useState(false);
+  const [treeCount, setTreeCount] = useState(0);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [locationEditable, setLocationEditable] = useState(false);
+  const [newCity, setNewCity] = useState("");
+  const [cityChanged, setCityChanged] = useState(false);
+  const [newPostcode, setNewPostcode] = useState("");
+  const [errorMessageDisabled, setErrorMessageDisabled] = useState(true);
+  const [postcodeVerified, setPostcodeVerified] = useState(false);
   const { user, setUser } = useContext(UserContext);
 
   useEffect(() => {
@@ -36,10 +48,14 @@ export default function UserProfileScreen({ route, navigation }) {
       setCurrentUser(result);
     };
     fetchUserDetails();
+    let total = 0;
+    for (let i = 0; i < currentUser.books.length; i++) {
+      total += currentUser.books[i].pageCount / 8000;
+    }
+    setTreeCount(total.toFixed(2));
   }, [user, getUserDetails]);
 
   const pickImage = async () => {
-    console.log("here");
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
@@ -48,73 +64,50 @@ export default function UserProfileScreen({ route, navigation }) {
     });
 
     if (!result.cancelled) {
-      uploadProfilePic(result.uri);
-      console.log("here");
+      const { message } = await uploadProfilePic(result.uri);
     }
   };
+
+  const api = axios.create({
+    baseURL: "https://api.postcodes.io",
+  });
+
+  async function handleEditButton() {
+    setLocationEditable(true);
+
+    // Firebase.
+  }
+
+  function handlePostcodeChange(text) {
+    setNewPostcode(text);
+    setErrorMessageDisabled(true);
+  }
+
+  function handleCityChange(text) {
+    setNewCity(text);
+    setErrorMessageDisabled(true);
+  }
+
+  async function handleEditLocation() {
+    const response = await api.get(`/postcodes/${newPostcode}/validate`);
+    if (response.data.result === true) {
+      const location = await convertPostcode(newPostcode);
+      const { message } = await updateLocation(user, location, newCity);
+      if (message === "Successful") {
+        setPostcodeVerified(true);
+        setTimeout(() => {
+          setModalVisible(!modalVisible);
+          setCityChanged(true);
+          setPostcodeVerified(false);
+        }, 1500);
+      }
+    } else setErrorMessageDisabled(false);
+  }
 
   function ItemView({ item }) {
     return (
       <View style={styles.bookCoverContainerShadow}>
         <View style={styles.bookCoverContainer}>
-          <SafeAreaView>
-            <View>
-              <Modal
-                hasBackdrop={true}
-                animationType={"fade"}
-                transparent
-                visible={showModal}
-              >
-                <View style={styles.modalBackground}>
-                  <View style={styles.modalContainer}>
-                    <Pressable onPress={() => setShowModal(!showModal)}>
-                      <View style={styles.removeBookIconContainer}>
-                        <MaterialIcons
-                          name="highlight-remove"
-                          size={28}
-                          color="black"
-                          style={styles.removeBookIcon}
-                        />
-                      </View>
-                    </Pressable>
-                    <View style={styles.modalInfo}>
-                      <Text style={styles.modalText}>
-                        Did you rehome this book?
-                      </Text>
-
-                      <TouchableOpacity style={styles.yesButton}>
-                        <Text style={styles.yesText}>Yes</Text>
-                      </TouchableOpacity>
-
-                      <TouchableOpacity style={styles.noButton}>
-                        <Text style={styles.noText}>No</Text>
-                      </TouchableOpacity>
-                    </View>
-                  </View>
-                </View>
-              </Modal>
-              <Modal
-                hasBackdrop={true}
-                animationType={"fade"}
-                transparent
-                visible={showModal}
-              >
-                <View style={styles.modalBackground}>
-                  <View style={styles.modalContainer}></View>
-                </View>
-              </Modal>
-            </View>
-          </SafeAreaView>
-          <View style={styles.iconBackground}>
-            <MaterialIcons
-              onPress={() => setShowModal(!showModal)}
-              style={styles.removeBookIconCover}
-              name="highlight-remove"
-              size={28}
-              color="white"
-            />
-          </View>
-
           <TouchableOpacity
             key={item.id}
             style={styles.image}
@@ -153,40 +146,162 @@ export default function UserProfileScreen({ route, navigation }) {
         style={styles.background}
       />
       <View style={styles.scrollView}>
-        <View style={styles.headerIconBar}>
-          <TouchableOpacity
-            onPress={() => {
-              navigation.navigate("EditProfileScreen");
-            }}
-          >
-            <View style={styles.ios_settings_outline}>
-              <Ionicons
-                name="ios-settings-outline"
-                size={22}
-                color="#DFD8C8"
-              ></Ionicons>
-            </View>
-          </TouchableOpacity>
-        </View>
-
         <View style={styles.profileShadow}>
           <View style={styles.profileImageContainer}>
             <Image
-              source={require("../assets/cat.png")}
+              source={{
+                uri: currentUser.avatar_url
+                  ? currentUser.avatar_url
+                  : "https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/271deea8-e28c-41a3-aaf5-2913f5f48be6/de7834s-6515bd40-8b2c-4dc6-a843-5ac1a95a8b55.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcLzI3MWRlZWE4LWUyOGMtNDFhMy1hYWY1LTI5MTNmNWY0OGJlNlwvZGU3ODM0cy02NTE1YmQ0MC04YjJjLTRkYzYtYTg0My01YWMxYTk1YThiNTUuanBnIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.BopkDn1ptIwbmcKHdAOlYHyAOOACXW0Zfgbs0-6BY-E",
+              }}
               style={styles.profileImage}
             ></Image>
+            <Pressable onPress={pickImage}>
+              <Ionicons name="camera-outline" size={25}></Ionicons>
+            </Pressable>
           </View>
 
           {/* <View style={styles.activeDot}></View> */}
         </View>
-
-        <View style={styles.usernameContainer}>
-          <Text style={styles.username}>
-            {currentUser ? currentUser.username : "Loading..."}
+        <View
+          style={{
+            paddingVertical: 0,
+            paddingHorizontal: 10,
+            flexDirection: "row",
+            justifyContent: "flex-start",
+            alignItems: "center",
+          }}
+        >
+          <Text
+            style={{
+              fontSize: 20,
+              color: "black",
+              fontWeight: "bold",
+            }}
+          >
+            {currentUser.username}
+          </Text>
+        </View>
+        <View
+          style={{
+            paddingVertical: 10,
+            paddingHorizontal: 10,
+            flexDirection: "row",
+            justifyContent: "flex-start",
+            alignItems: "center",
+          }}
+        >
+          <Text>🌎 </Text>
+          <Text
+            style={{
+              fontSize: 16,
+              color: "black",
+              marginRight: 5,
+            }}
+          >
+            {cityChanged ? newCity : currentUser.city}
+          </Text>
+          <View>
+            <Modal
+              animationType="slide"
+              transparent={true}
+              visible={modalVisible}
+              onRequestClose={() => {
+                Alert.alert("Modal has been closed.");
+                setModalVisible(!modalVisible);
+              }}
+            >
+              <View style={modalStyles.centeredView}>
+                <View style={modalStyles.modalView}>
+                  <Pressable
+                    style={{ marginLeft: 120, paddingBottom: 20 }}
+                    onPress={() => setModalVisible(!modalVisible)}
+                  >
+                    <Ionicons name="close-circle-outline" size={25}></Ionicons>
+                  </Pressable>
+                  <TextInput
+                    placeholder={"Enter new postcode..."}
+                    style={modalStyles.modalText}
+                    onChangeText={(text) => handlePostcodeChange(text)}
+                  ></TextInput>
+                  <TextInput
+                    placeholder={"Enter city..."}
+                    style={modalStyles.modalText}
+                    onChangeText={(text) => handleCityChange(text)}
+                  ></TextInput>
+                  <Pressable
+                    style={
+                      postcodeVerified
+                        ? [modalStyles.button, modalStyles.buttonSubmitted]
+                        : [modalStyles.button, modalStyles.buttonClose]
+                    }
+                    onPress={handleEditLocation}
+                  >
+                    <Text style={modalStyles.textStyle}>
+                      {postcodeVerified ? "Submitted!" : "Update"}
+                    </Text>
+                  </Pressable>
+                </View>
+              </View>
+            </Modal>
+            <Pressable onPress={() => setModalVisible(true)}>
+              <Text
+                style={{
+                  color: "blue",
+                  textDecorationLine: "underline",
+                }}
+              >
+                Have you moved?
+              </Text>
+            </Pressable>
+          </View>
+          <TouchableOpacity onPress={handleEditButton}></TouchableOpacity>
+        </View>
+        <View
+          style={{
+            paddingVertical: 10,
+            paddingHorizontal: 10,
+            flexDirection: "row",
+            justifyContent: "flex-start",
+            alignItems: "center",
+          }}
+        >
+          <Text
+            style={{
+              fontSize: 16,
+              color: "black",
+            }}
+          >
+            📚 {currentUser.books.length} books on offer.
+          </Text>
+        </View>
+        <View
+          style={{
+            paddingVertical: 10,
+            paddingHorizontal: 10,
+            flexDirection: "row",
+            justifyContent: "flex-start",
+            alignItems: "center",
+          }}
+        >
+          <Text
+            style={{
+              fontSize: 16,
+              color: "black",
+            }}
+          >
+            🌲 {treeCount} trees saved
           </Text>
         </View>
 
-        <View style={styles.iconsContainer}>
+        {/* Current Styling }
+        {/* <View style={styles.usernameContainer}>
+          <Text style={styles.username}>
+            {currentUser ? currentUser.username : "Loading..."}
+          </Text>
+        </View> */}
+
+        {/* <View style={styles.iconsContainer}>
           <View style={styles.iconBox}>
             <BooksHomedLink />
           </View>
@@ -216,7 +331,7 @@ export default function UserProfileScreen({ route, navigation }) {
           <View style={styles.iconBox}>
             <TreeIcon />
           </View>
-        </View>
+        </View> */}
 
         <View style={{ marginTop: 32 }}>
           <FlatList
@@ -227,34 +342,22 @@ export default function UserProfileScreen({ route, navigation }) {
             renderItem={ItemView}
           ></FlatList>
 
-          <View style={styles.bookCount}>
-            <Text
-              style={[
-                styles.text,
-                {
-                  fontSize: 24,
-                  color: "#DFD8C8",
-                  fontWeight: "300",
-                  paddingTop: 0,
-                },
-              ]}
-            >
-              {currentUser.books.length}
-            </Text>
+          {/* <View style={styles.bookCount}>
             <Text
               style={[
                 styles.text,
                 {
                   fontSize: 10,
                   color: "#DFD8C8",
+                  fontWeight: "bold",
+                  paddingTop: 0,
                   textTransform: "uppercase",
-                  textAlign: "center",
                 },
               ]}
             >
-              Books on offer
+              {currentUser.books.length} books on offer
             </Text>
-          </View>
+          </View> */}
         </View>
 
         <View>
@@ -290,7 +393,7 @@ const styles = StyleSheet.create({
   },
   headerIconBar: {
     flexDirection: "row",
-    justifyContent: "space-between",
+    justifyContent: "flex-end",
     marginTop: 10,
     marginHorizontal: 16,
   },
@@ -301,7 +404,7 @@ const styles = StyleSheet.create({
     width: 31,
     height: 31,
     borderColor: "white",
-    borderWidth:3,
+    borderWidth: 3,
     borderRadius: 20,
     alignItems: "center",
     justifyContent: "center",
@@ -334,9 +437,10 @@ const styles = StyleSheet.create({
     borderRadius: 100,
     alignItems: "center",
     overflow: "hidden",
+    marginTop: 20,
     marginBottom: 0,
     borderColor: "white",
-    borderWidth:4,
+    borderWidth: 4,
   },
   profileImage: {
     flex: 1,
@@ -350,7 +454,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#41444B",
     borderColor: "white",
-    borderWidth:4,
+    borderWidth: 4,
     marginTop: 15,
     marginBottom: 5,
     borderRadius: 12,
@@ -408,13 +512,14 @@ const styles = StyleSheet.create({
     position: "absolute",
     marginTop: -35,
     alignSelf: "center",
-    width: 72,
-    height: 72,
+    width: 150,
+    height: 50,
     borderColor: "white",
-    borderWidth:4,
+    borderWidth: 4,
     alignItems: "center",
     justifyContent: "center",
     borderRadius: 12,
+    flexDirection: "row",
     // shadowColor: "white",
     // shadowOffset: {
     //   width: 2,
@@ -538,5 +643,58 @@ const styles = StyleSheet.create({
   },
   noText: {
     fontSize: 20,
+  },
+});
+
+const modalStyles = StyleSheet.create({
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 22,
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: "white",
+    borderRadius: 20,
+    paddingTop: 5,
+    paddingBottom: 35,
+    paddingLeft: 35,
+    paddingRight: 10,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+    width: "60%",
+  },
+  button: {
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2,
+    marginRight: 20,
+  },
+  buttonOpen: {
+    backgroundColor: "#F194FF",
+  },
+  buttonClose: {
+    backgroundColor: "#2196F3",
+  },
+  buttonSubmitted: {
+    backgroundColor: "#03C04A",
+  },
+  textStyle: {
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center",
+  },
+  modalText: {
+    marginBottom: 15,
+    marginRight: 20,
+    textAlign: "center",
   },
 });
