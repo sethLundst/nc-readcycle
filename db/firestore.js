@@ -2,10 +2,16 @@ import axios from "axios";
 import { initializeApp } from "firebase/app";
 import React, { useContext } from "react";
 import { UserContext } from "../contexts/User";
-import { getDoc, getFirestore, onSnapshot } from "firebase/firestore";
+import {
+  FieldValue,
+  getDoc,
+  getFirestore,
+  onSnapshot,
+} from "firebase/firestore";
 import { getDistance, convertDistance } from "geolib";
 const timestamp = require("time-stamp");
 import {
+  arrayRemove,
   collection,
   query,
   where,
@@ -156,7 +162,11 @@ export const getUserDetails = async (uid) => {
   return docSnap.data();
 };
 
-export const deleteBook = async (book, isLent) => {};
+export const deleteBook = async (book, uid) => {
+  const docRef = doc(db, "users", `${uid}`);
+  await updateDoc(docRef, { books: arrayRemove(book) });
+  console.log("deleted?");
+};
 
 export const createChat = async (members, book) => {
   const chatKey = `${members[0]}${members[1]}${book.id}`;

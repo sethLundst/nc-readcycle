@@ -10,16 +10,17 @@ import {
   TouchableOpacity,
   ScrollView,
 } from "react-native";
-import { createChat, checkChat } from "../db/firestore";
+import { createChat, checkChat, deleteBook } from "../db/firestore";
 import { UserContext } from "../contexts/User";
-import { LinearGradient } from "expo-linear-gradient";
 
 export default function SingleBookScreen({ route, navigation }) {
   const { item } = route.params;
-
+  console.log(item);
   const [userHasBook, setUserHasBook] = useState("");
 
   const { user, setUser } = useContext(UserContext);
+
+  // console.log([user, userHasBook.uid], item);
 
   const handleChat = async () => {
     const chatID = await createChat([user, userHasBook.uid], item);
@@ -29,6 +30,8 @@ export default function SingleBookScreen({ route, navigation }) {
   useEffect(() => {
     const fetchUserDetails = async () => {
       const result = await getAllUsers();
+      // console.log(result, "<< all users");
+      // setUserHasBook(result);
       for (let i = 0; i < result.length; i++) {
         if (result[i].uid === item.uid) {
           setUserHasBook(result[i]);
@@ -38,32 +41,20 @@ export default function SingleBookScreen({ route, navigation }) {
     fetchUserDetails();
   }, [item]);
 
+  const handleDelete = () => {
+    deleteBook(item, user);
+  };
+
   return (
     <SafeAreaView style={styles.container}>
-      <LinearGradient
-        // Background Linear Gradient
-        colors={["#dee2ff", "#f7edf2", "white"]}
-        start={{
-          x: 0,
-          y: 0,
-        }}
-        end={{
-          x: 1,
-          y: 1,
-        }}
-        style={styles.background}
-      />
       <View style={styles.bookBox}>
-        <View style={styles.imageBox}>
-          <Image
-            style={styles.image}
-            source={{
-              uri: item.highResImage,
-            }}
-            style={styles.image}
-          />
-        </View>
-
+        <Image
+          style={styles.image}
+          source={{
+            uri: item.highResImage,
+          }}
+          style={styles.image}
+        />
         <View style={styles.infoBox}>
           <Text style={styles.title}>{item.title}</Text>
           <Text style={styles.bookInfo}>Average rating: {"TBD"}</Text>
@@ -71,30 +62,24 @@ export default function SingleBookScreen({ route, navigation }) {
           <Text style={styles.bookInfo}>{item.publishedDate}</Text>
           <Text style={styles.bookInfo}>{item.pageCount} Pages</Text>
           <Text style={styles.bookInfo}>Language: {item.language}</Text>
-          <TouchableOpacity style={styles.messageOwnerButton} onPress={handleChat}>
-            <Text style={styles.buttonText}>
-              {user === userHasBook.uid ? (
-                <Text>Remove</Text>
-              ) : (
-                <Text>Message</Text>
-              )}
-            </Text>
-          </TouchableOpacity>
+          {user === userHasBook.uid ? (
+            <TouchableOpacity
+              onPress={handleDelete}
+              style={styles.addToWishListButton}
+            >
+              <Text style={styles.buttonText}>Remove</Text>
+            </TouchableOpacity>
+          ) : null}
         </View>
       </View>
-
       <View>
         <Text style={styles.descriptionHeader}>Description</Text>
-        <View style={styles.descriptionContainer}>
         <ScrollView style={styles.descriptionBox}>
           <Text style={styles.description}>{item.description}</Text>
         </ScrollView>
-        </View>
-        
 
         {user === userHasBook.uid ? null : (
           <View style={styles.userHasBook}>
-            <View style={styles.avatarShadow}>
             <View style={styles.avatarContainer}>
               <Image
                 source={require("../assets/cat.png")}
@@ -102,8 +87,6 @@ export default function SingleBookScreen({ route, navigation }) {
                 resizeMode="center"
               ></Image>
             </View>
-            </View>
-            
             <View style={styles.userInfo}>
               <Text style={styles.userName}>
                 {userHasBook.username} has this!
@@ -127,83 +110,86 @@ export default function SingleBookScreen({ route, navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    width: "100%",
+    width: "95%",
   },
-  background: {
-    position: "absolute",
-    left: 0,
-    right: 0,
-    top: 0,
-    height: "100%",
+  backButtonContainer: {
+    marginTop: 20,
   },
   bookBox: {
+    flex: 1,
+    flexBasis: 180,
     flexDirection: "row",
-    height: 285,
-    marginTop: 15,
-    paddingBottom: 10,
-    marginBottom: 5,
-    // borderColor: "red",
-    // borderWidth: 1,
+    marginBottom: 30,
   },
-  imageBox: {
-    // flex: 1,
-    borderColor: "white",
-    borderWidth: 6,
-    borderRadius: 15,
-    height: 232,
-    alignItems: "center",
-    margin: 10,
-    paddingBottom: 10,
-    shadowColor: "pink",
-    shadowOffset: {
-      width: 0,
-      height: 5,
-    },
-    shadowOpacity: 1,
-    shadowRadius: 17,
-
-    elevation: 10,
+  infoBox: {
+    flexBasis: 300,
   },
   image: {
+    marginRight: 30,
+    marginLeft: 10,
+    top: 20,
     width: 150,
     height: 220,
     borderRadius: 12,
-  },
-  infoBox: {
-    flex: 1,
-    padding: 5,
-    // borderColor: "white",
-    // borderWidth: 2,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.8,
+    shadowRadius: 2,
   },
   title: {
-    marginTop: 5,
+    marginTop: 25,
+    width: "60%",
     fontFamily: "HelveticaNeue",
     color: "#52575D",
-    fontWeight: "800",
-    fontSize: 20,
-    paddingTop: 5,
+    fontWeight: "700",
+    fontSize: 15,
     paddingBottom: 15,
-    // borderColor: "#8d99ae",
-    // borderWidth: 0.5,
   },
   bookInfo: {
     paddingBottom: 6,
     fontFamily: "HelveticaNeue",
     color: "#52575D",
     fontWeight: "600",
-    // borderColor: "#8d99ae",
-    // borderWidth: 0.5,
   },
-  messageOwnerButton: {
-    alignSelf: "center",
+  descriptionBox: {
+    height: 250,
+    marginTop: 10,
+    marginBottom: 10,
+    borderColor: "#DFD8C8",
+    borderWidth: 1,
+    borderRadius: 5,
+    padding: 10,
+  },
+  description: {
+    width: "100%",
+    marginTop: 5,
+    marginBottom: 5,
+    fontFamily: "HelveticaNeue",
+    color: "#52575D",
+  },
+  descriptionHeader: {
+    fontSize: 22,
+    fontWeight: "500",
+    marginTop: 35,
+    marginBottom: 0,
+    marginLeft: 11,
+    fontFamily: "HelveticaNeue",
+    color: "#52575D",
+  },
+  buttonsContainer: {
+    marginTop: 0,
+    marginBottom: 0,
+  },
+
+  addToWishListButton: {
     borderColor: "#52575D",
     borderWidth: 2,
     borderRadius: 12,
-    marginTop: 5,
+    marginTop: 14,
     padding: 10,
-    width: 160,
+    width: 120,
     height: 40,
-    backgroundColor: "#ffbd03",
+    backgroundColor: "#8b0000",
     shadowColor: "#52575D",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.5,
@@ -212,101 +198,44 @@ const styles = StyleSheet.create({
   buttonText: {
     textAlign: "center",
     fontFamily: "HelveticaNeue",
-    color: "#52575D",
+    color: "white",
     fontWeight: "700",
-  },
-  descriptionHeader: {
-    fontSize: 32,
-    fontWeight: "700",
-    marginTop: 0,
-    marginBottom: 0,
-    marginLeft: 11,
-    fontFamily: "HelveticaNeue",
-    color: "#52575D",
-    // borderColor: "#8d99ae",
-    // borderWidth: 0.5,
-  },
-  descriptionBox: {
-    height: 240,
-    marginTop: 5,
-    marginBottom: 5,
-    padding: 10,
-    // borderColor: "#8d99ae",
-    // borderWidth: 0.5,
-  },
-  descriptionContainer: {
-    // borderColor: "#8d99ae",
-    // borderWidth: 0.5,
-    shadowColor: "pink",
-    shadowOffset: {
-      width: 0,
-      height: 5,
-    },
-    shadowOpacity: 3,
-    shadowRadius: 5,
-
-    elevation: 3,
-  },
-  description: {
-    width: "100%",
-    padding: 8,
-    marginTop: 5,
-    marginBottom: 5,
-    backgroundColor: "white",
-    overflow: "hidden",
-    fontFamily: "HelveticaNeue",
-    color: "#52575D",
-    borderColor: "#8d99ae",
-    borderWidth: 0.5,
-    borderRadius: 10,
   },
   userHasBook: {
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    margin: 10,
-    borderColor: "#1323",
-    borderWidth: 2,
-    borderRadius: 20,
-    borderColor: "#8d99ae",
-    borderWidth: 2,
-    backgroundColor: "#f7edf2"
-    
-  },
-  avatarShadow: {
-    shadowColor: "grey",
-    shadowOffset: {
-      width: 0,
-      height: 3,
-    },
-    shadowOpacity: 5,
-    shadowRadius: 6,
-
-    elevation: 3,
+    marginBottom: 10,
   },
   avatarContainer: {
-    height: 45,
-    width: 45,
-    borderRadius: 100,
-    borderWidth: 2,
-    borderColor: "white",
+    height: 30,
+    width: 50,
+    borderRadius: 40,
+    borderWidth: 1,
     marginLeft: 20,
-    marginTop: 5,
-    marginBottom: 5,
-    alignItems: "center",
-    overflow: "hidden",
-    
+    marginTop: 10,
+    marginBottom: 10,
+    borderColor: "#41444B",
+    shadowColor: "#52575D",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.5,
+    shadowRadius: 2,
+    justifyContent: "center",
   },
   avatarImage: {
-    flex: 1,
-    height: 43,
-    width: 43,
+    height: 48,
+    width: 48,
     borderRadius: 20,
-    alignItems: "center",
-    resizeMode: "cover",
+    overflow: "hidden",
   },
   messageIcon: {
     marginRight: 20,
+  },
+
+  userAvatarsBox: {
+    height: 100,
+    padding: 10,
+    marginBottom: 30,
   },
 });
