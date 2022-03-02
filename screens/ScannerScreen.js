@@ -55,36 +55,15 @@ export default function ScannerScreen({ navigation, route }) {
 
   // PAGE RENDER
   return (
-    <View>
+    <View style={styles.scanner}>
       <BarCodeScanner
         onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
-        style={{ height: "90%" }}
-      />
-      <Button
-        title="Mimic scan - For desktop/laptop testing"
-        onPress={() => handleBarCodeScanned({ data: "9781780673356" })}
+        style={{ height: "100%" }}
       />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  image: {
-    flex: 1,
-    aspectRatio: 0.3,
-    resizeMode: "contain",
-  },
-  textbox: {
-    flex: 1,
-    width: 200,
-    height: 40,
-    borderWidth: 1,
-    margin: 10,
-  },
+  scanner: {},
 });
