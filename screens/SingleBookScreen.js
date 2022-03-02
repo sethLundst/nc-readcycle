@@ -48,7 +48,7 @@ export default function SingleBookScreen({ route, navigation }) {
 
   return (
     <SafeAreaView style={styles.container}>
-       <LinearGradient
+      <LinearGradient
         // Background Linear Gradient
         colors={["#dee2ff", "#f7edf2", "white"]}
         start={{
@@ -62,15 +62,15 @@ export default function SingleBookScreen({ route, navigation }) {
         style={styles.background}
       />
       <View style={styles.bookBox}>
-      <View style={styles.imageBox}>
-        <Image
-          style={styles.image}
-          source={{
-            uri: item.highResImage,
-          }}
-          style={styles.image}
+        <View style={styles.imageBox}>
+          <Image
+            style={styles.image}
+            source={{
+              uri: item.highResImage,
+            }}
+            style={styles.image}
           />
-          </View>
+        </View>
         <View style={styles.infoBox}>
           <Text style={styles.title}>{item.title}</Text>
           <Text style={styles.bookInfo}>Average rating: {"TBD"}</Text>
@@ -94,13 +94,14 @@ export default function SingleBookScreen({ route, navigation }) {
         <ScrollView style={styles.descriptionBox}>
           <Text style={styles.description}>{item.description}</Text>
         </ScrollView>
-        
 
         {user === userHasBook.uid ? null : (
           <View style={styles.userHasBook}>
             <View style={styles.avatarContainer}>
               <Image
-                source={require("../assets/cat.png")}
+                source={{
+                  uri: userHasBook.avatar_url,
+                }}
                 style={styles.avatarImage}
                 resizeMode="center"
               ></Image>
@@ -272,8 +273,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     borderColor: "#8d99ae",
     borderWidth: 2,
-    backgroundColor: "#f7edf2"
-    
+    backgroundColor: "#f7edf2",
   },
   avatarShadow: {
     shadowColor: "grey",
@@ -297,7 +297,6 @@ const styles = StyleSheet.create({
     marginBottom: 5,
     alignItems: "center",
     overflow: "hidden",
-    
   },
   avatarImage: {
     flex: 1,
