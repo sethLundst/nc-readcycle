@@ -11,12 +11,7 @@ import {
 import { getChats, db } from "../db/firestore";
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../contexts/User";
-import {
-	collection,
-	query,
-	where,
-  onSnapshot
-} from "firebase/firestore";
+import { collection, query, where, onSnapshot } from "firebase/firestore";
 
 export default function MessagesScreen({ route, navigation }) {
 	const { user } = useContext(UserContext);
@@ -28,28 +23,26 @@ export default function MessagesScreen({ route, navigation }) {
 		where("members", "array-contains", `${user}`)
 	);
 
-	
-
 	const handlePress = (ID) => {
 		navigation.navigate("SingleMessageScreen", { chatID: ID });
 	};
 
 	useEffect(async () => {
 		setIsLoading(true);
-    await onSnapshot(q, (querySnapshot) => {
-      const chats = [];
-      querySnapshot.forEach((doc) => {
-        chats.push(doc.data());
-      });
-      setChats(chats)
-    });
-		
+		await onSnapshot(q, (querySnapshot) => {
+			const chats = [];
+			querySnapshot.forEach((doc) => {
+				chats.push(doc.data());
+			});
+			setChats(chats);
+		});
+
 		setIsLoading(false);
 	}, []);
 
 	const Chat = ({ item }) => {
 		const chatID = item.id;
-		
+
 		return (
 			<Pressable style={styles.chatThumb} onPress={() => handlePress(chatID)}>
 				<Text>{item.book}</Text>
