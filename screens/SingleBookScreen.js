@@ -54,7 +54,7 @@ export default function SingleBookScreen({ route, navigation }) {
           <Text style={styles.bookInfo}>{item.publishedDate}</Text>
           <Text style={styles.bookInfo}>{item.pageCount} Pages</Text>
           <Text style={styles.bookInfo}>Language: {item.language}</Text>
-          <TouchableOpacity style={styles.messageOwnerButton}>
+          <TouchableOpacity style={styles.messageOwnerButton} onPress={handleChat}>
             <Text style={styles.buttonText}>
               {user === userHasBook.uid ? (
                 <Text>Remove</Text>
