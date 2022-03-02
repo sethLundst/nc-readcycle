@@ -276,14 +276,14 @@ const styles = StyleSheet.create({
   },
   bookFilter: {
     marginTop: 5,
-    borderColor: "#1323",
+    borderColor: "white",
     borderWidth: 2,
     borderRadius: 20,
     marginBottom: 10,
     padding: 10,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "white",
+    backgroundColor: "#ffbd03",
     shadowColor: "pink",
     shadowOffset: {
       width: 0,
