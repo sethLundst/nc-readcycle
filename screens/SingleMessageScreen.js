@@ -6,13 +6,11 @@ import { UserContext } from "../contexts/User";
 import { SafeAreaView } from "react-native-safe-area-context";
 const timestamp = require("time-stamp");
 import {
-	
 	TextInput,
 	View,
 	Text,
 	StyleSheet,
 	Pressable,
-
 	FlatList,
 } from "react-native";
 
@@ -25,7 +23,7 @@ export default function SingleMessageScreen({ route, navigation }) {
 	const [messages, setMessages] = useState([]);
 	const [isLoading, setIsLoading] = useState(true);
 	const [title, setTitle] = useState("");
-
+console.log(otherUser);
 	const Comment = (props) => {
 		const { item } = props;
 		const time = item.postedAt.slice(0, 10) + " " + item.postedAt.slice(11, 16);
@@ -71,7 +69,7 @@ export default function SingleMessageScreen({ route, navigation }) {
 			setMessages(msgs);
 		}
 		for (const user of chat.members) {
-			if (user !== currUser) {
+			if (user !== currUser.uid) {
 				const otherUserObj = await getUserDetails(user);
 
 				setOtherUser(otherUserObj);
