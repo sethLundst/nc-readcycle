@@ -14,9 +14,15 @@ import {
 import { api } from "../api";
 import { Formik } from "formik";
 import * as yup from "yup";
-import { MaterialCommunityIcons, AntDesign } from "@expo/vector-icons";
+import {
+  MaterialCommunityIcons,
+  AntDesign,
+  Ionicons,
+} from "@expo/vector-icons";
 import { getUserDetails, sendBook } from "../db/firestore";
 import { UserContext } from "../contexts/User";
+import { LinearGradient } from "expo-linear-gradient";
+import { Center } from "native-base";
 
 export default function ListBookScreen({ navigation, route }) {
   const { user, setUser } = useContext(UserContext);
@@ -121,6 +127,19 @@ export default function ListBookScreen({ navigation, route }) {
 
   return (
     <SafeAreaView style={styles.container}>
+      <LinearGradient
+        // Background Linear Gradient
+        colors={["#dee2ff", "#f7edf2"]}
+        start={{
+          x: 0,
+          y: 0,
+        }}
+        end={{
+          x: 1,
+          y: 1,
+        }}
+        style={styles.background}
+      />
       <ScrollView>
         {/* Barcode Button */}
         <TouchableOpacity
@@ -131,43 +150,66 @@ export default function ListBookScreen({ navigation, route }) {
           <MaterialCommunityIcons
             style={{ margin: 0, padding: 0 }}
             name="barcode"
-            size={24}
+            size={40}
             color="black"
           />
         </TouchableOpacity>
 
         {/* Text */}
-        <Text style={{ textAlign: "center" }}>or Search by ISBN:</Text>
+        <Text style={styles.searchByISBN}>or Search by ISBN:</Text>
 
         {/* ISBN Search Box */}
-        <View style={{ flex: 1, flexDirection: "row" }}>
+        <View style={styles.searchByISBNBox}>
           <TextInput
-            style={styles.textbox}
+            style={styles.searchTextbox}
             value={searchISBN}
             onChangeText={(value) => setSearchISBN(value)}
             placeholder="e.g. 9780198829195"
           />
-          <TouchableOpacity onPress={() => APIcall(searchISBN)}>
-            <AntDesign name="search1" size={24} color="black" />
-          </TouchableOpacity>
+          <View style={styles.searchButtonContainer}>
+            <TouchableOpacity onPress={() => APIcall(searchISBN)}>
+              <Ionicons
+                style={styles.searchButtonIcon}
+                name="ios-search"
+                size={34}
+                color="black"
+              />
+            </TouchableOpacity>
+          </View>
         </View>
 
         {/* Book picture box  */}
-        <View style={styles.imageBox}>
-          <Image
-            style={styles.image}
-            source={{
-              uri: highResImageLink,
-            }}
-          />
+        <View style={styles.imageContainer}>
+          <View style={styles.imageBox}>
+            <Image
+              style={styles.image}
+              source={{
+                uri: highResImageLink,
+              }}
+            />
+          </View>
           <Text style={styles.bookTitle}>{title}</Text>
         </View>
 
         {/* Submit Button */}
         {addBookButton && (
-          <Button onPress={() => afterSubmit(ISBN)} title="Submit" />
+          <TouchableOpacity
+            style={styles.submitButton}
+            onPress={() => afterSubmit(ISBN)}
+            title="Submit"
+          >
+            <Text style={styles.submitButtonText}>Submit</Text>
+          </TouchableOpacity>
         )}
-        {addBookButton && <Button onPress={() => resetState()} title="Clear" />}
+        {addBookButton && (
+          <TouchableOpacity
+            style={styles.clearButton}
+            onPress={() => resetState()}
+            title="Clear"
+          >
+            <Text style={styles.clearButtonText}>Clear</Text>
+          </TouchableOpacity>
+        )}
       </ScrollView>
     </SafeAreaView>
   );
@@ -175,53 +217,189 @@ export default function ListBookScreen({ navigation, route }) {
 
 const styles = StyleSheet.create({
   container: {
-    width: "95%",
     flex: 1,
     backgroundColor: "#d3d3d3",
     alignItems: "center",
     justifyContent: "center",
   },
-  image: {
-    flex: 1,
+  background: {
+    position: "absolute",
+    left: 0,
+    right: 0,
+    top: 0,
+    height: "100%",
+  },
+  barcodeButton: {
+    // flex: 1,
+    // flexDirection: "row",
+    height: 75,
+    width: 270,
+    alignSelf: "center",
+    padding: 15,
+    marginTop: 20,
+    marginBottom: 20,
     justifyContent: "center",
     alignItems: "center",
-    width: "80%",
-    height: 250,
-    aspectRatio: 0.75,
+    backgroundColor: "#ffbd03",
+    borderColor: "white",
+    borderRadius: 40,
+    borderWidth: 2,
+    // borderColor: "red",
+    // borderWidth: 1,
+  },
+  barcodeText: {
+    fontFamily: "HelveticaNeue",
+    color: "white",
+    fontSize: 22,
+    paddingTop: 10,
+  },
+  searchByISBN: {
+    textAlign: "center",
+    fontFamily: "HelveticaNeue",
+    color: "black",
+    fontSize: 18,
+  },
+  searchByISBNBox: {
+    width: 260,
+    alignSelf: "center",
+    alignItems: "center",
+    justifyContent: "center",
+    padding: 10,
+    margin: 10,
+    // borderColor: "red",
+    // borderWidth: 1,
+  },
+  searchButtonContainer: {
+    position: "absolute",
+    height: 60,
+    width: 60,
+    backgroundColor: "#ffbd03",
+    borderRadius: 40,
+    left: 200,
+    borderColor: "white",
+    borderWidth: 2,
+    shadowColor: "grey",
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowOpacity: 5,
+    shadowRadius: 6,
+
+    elevation: 3,
+  },
+  searchButtonIcon: {
+    position: "absolute",
+    left: 11,
+    top: 10,
+  },
+  searchTextbox: {
+    alignSelf: "center",
+    flex: 1,
+    width: 230,
+    height: 40,
+    paddingLeft: 20,
+    borderRadius: 25,
+    borderWidth: 2,
+    margin: 0,
+    fontFamily: "HelveticaNeue",
+    color: "black",
+    fontSize: 18,
+    // borderColor: "red",
+    // borderWidth: 1,
+  },
+  imageContainer: {
+    flex: 1,
+    alignItems: "center",
   },
   imageBox: {
-    flex: 1,
-    margin: 5,
-    justifyContent: "center",
+    // flex: 1,
+    width: 270,
     alignItems: "center",
     borderWidth: 1,
     borderColor: "black",
     borderStyle: "dashed",
-    borderRadius: 1,
+    borderRadius: 10,
+    // borderColor: "red",
+    // borderWidth: 1,
   },
-
-  textbox: {
-    alignSelf: "center",
-    flex: 1,
-    width: 200,
-    height: 40,
-    borderWidth: 1,
-    margin: 10,
-  },
-
-  barcodeButton: {
-    flex: 1,
-    flexDirection: "row",
-    height: 40,
+  image: {
+    // flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#ddd",
-    borderRadius: 5,
+    //width: "70%",
+    height: 270,
+    aspectRatio: 0.75,
+    margin: 10,
+    padding: 0,
+    borderRadius: 10,
+    borderColor: "red",
     borderWidth: 1,
   },
 
   bookTitle: {
     color: "red",
-    fontWeight: "200",
+    fontWeight: "500",
+    fontFamily: "HelveticaNeue",
+    color: "black",
+    fontSize: 18,
+    width: "80%",
+    textAlign: "center",
+    paddingTop: 5,
+
+    // borderColor: "red",
+    // borderWidth: 1,
+  },
+  submitButton: {
+    height: 50,
+    width: 80,
+    alignSelf: "center",
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#ffbd03",
+    borderColor: "white",
+    borderRadius: 40,
+    borderWidth: 2,
+    marginTop: 10,
+    shadowColor: "grey",
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowOpacity: 5,
+    shadowRadius: 6,
+
+    elevation: 3,
+  },
+  submitButtonText: {
+    fontFamily: "HelveticaNeue",
+    color: "white",
+    fontSize: 18,
+  },
+  clearButton: {
+    height: 50,
+    width: 80,
+    alignSelf: "center",
+    justifyContent: "center",
+    alignItems: "center",
+    // backgroundColor: "#ffbd03",
+    borderColor: "white",
+    borderRadius: 40,
+    borderWidth: 2,
+    marginTop: 15,
+    shadowColor: "grey",
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowOpacity: 5,
+    shadowRadius: 6,
+
+    elevation: 3,
+  },
+  clearButtonText: {
+    fontFamily: "HelveticaNeue",
+    color: "black",
+    fontSize: 18,
   },
 });
