@@ -171,9 +171,12 @@ export default function HomeScreen({ navigation }) {
               searchFilterFunction(text);
             }}
           />
-          <Text style={{ fontSize: 18 }}>
-            up to {Math.round(distance)} miles
-          </Text>
+          <View style={styles.sliderHeaderContainer}>
+            <Text style={styles.sliderHeader}>
+              up to {Math.round(distance)} miles
+            </Text>
+          </View>
+
           <Slider
             style={{ width: 200, height: 40 }}
             value={distance}
@@ -243,6 +246,28 @@ const styles = StyleSheet.create({
 
     elevation: 7,
   },
+  sliderHeaderContainer: {
+    backgroundColor: "white",
+    borderRadius: 20,
+    marginTop: 5,
+    shadowColor: "white",
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowOpacity: 5,
+    shadowRadius: 15,
+
+    elevation: 7,
+  },
+  sliderHeader: {
+    fontSize: 16,
+    borderColor: "#1323",
+    borderWidth: 2,
+    borderRadius: 20,
+    padding: 7,
+    textAlign: "center",
+  },
   bookFilter: {
     marginTop: 5,
     borderColor: "#1323",
@@ -272,7 +297,7 @@ const styles = StyleSheet.create({
     overflow: "hidden",
     marginTop: 10,
     paddingTop: 0,
-    paddingRight:10,
+    paddingRight: 10,
     alignItems: "center",
     justifyContent: "center",
     // borderColor: "#8d99ae",
@@ -302,8 +327,6 @@ const styles = StyleSheet.create({
     width: 150,
     height: 220,
     borderRadius: 5,
-    
-   
   },
   textBox: {
     backgroundColor: "#caf0f8",
