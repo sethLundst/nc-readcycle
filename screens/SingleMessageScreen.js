@@ -106,7 +106,7 @@ export default function SingleMessageScreen({ route, navigation }) {
 				style={styles.textInput}
 				onChangeText={handleChange}
 				value={newMessage}
-				multiline="true"
+				multiline={true}
 			/>
 			<Pressable style={styles.submit} onPress={handleSubmit}>
 				<Text>Send</Text>
