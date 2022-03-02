@@ -32,7 +32,6 @@ import { setStatusBarNetworkActivityIndicatorVisible } from "expo-status-bar";
 
 export default function UserProfileScreen({ route, navigation }) {
   const [currentUser, setCurrentUser] = useState({ books: [] });
-  const [treeCount, setTreeCount] = useState(0);
   const [modalVisible, setModalVisible] = useState(false);
   const [locationEditable, setLocationEditable] = useState(false);
   const [newCity, setNewCity] = useState("");
@@ -48,12 +47,15 @@ export default function UserProfileScreen({ route, navigation }) {
       setCurrentUser(result);
     };
     fetchUserDetails();
-    let total = 0;
-    for (let i = 0; i < currentUser.books.length; i++) {
-      total += currentUser.books[i].pageCount / 8000;
-    }
-    setTreeCount(total.toFixed(2));
   }, [user, getUserDetails]);
+
+  function getTreeCount(user) {
+    let total = 0;
+    for (let i = 0; i < user.books.length; i++) {
+      total += user.books[i].pageCount / 8000;
+    }
+    return total.toFixed(2);
+  }
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -290,7 +292,7 @@ export default function UserProfileScreen({ route, navigation }) {
               color: "black",
             }}
           >
-            🌲 {treeCount} trees saved
+            🌲 {getTreeCount(currentUser)} trees saved
           </Text>
         </View>
 
