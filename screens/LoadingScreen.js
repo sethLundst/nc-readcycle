@@ -8,7 +8,6 @@ export default function LoadingScreen({ navigation }) {
 
   useEffect(() => {
     auth.onAuthStateChanged((userInfo) => {
-      console.log(userInfo);
       if (userInfo) {
         navigation.navigate("BottomTabNavigator");
       } else {
@@ -22,5 +21,3 @@ export default function LoadingScreen({ navigation }) {
     </View>
   );
 }
-
-//something cool later
