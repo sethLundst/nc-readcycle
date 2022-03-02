@@ -6,13 +6,11 @@ import { UserContext } from "../contexts/User";
 import { SafeAreaView } from "react-native-safe-area-context";
 const timestamp = require("time-stamp");
 import {
-	
 	TextInput,
 	View,
 	Text,
 	StyleSheet,
 	Pressable,
-
 	FlatList,
 } from "react-native";
 
