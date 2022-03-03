@@ -133,7 +133,7 @@ export default function SingleMessageScreen({ route, navigation }) {
         multiline={true}
       />
       <Pressable style={styles.submit} onPress={handleSubmit}>
-        <Text>Send</Text>
+				  <Text style={styles.sendText}>Send</Text>
       </Pressable>
     </SafeAreaView>
   );
@@ -177,15 +177,22 @@ const styles = StyleSheet.create({
   },
   submit: {
     borderRadius: 25,
-    borderColor: "#76c893",
-    borderWidth: 4,
-    width: 65,
+    borderColor: "white",
+    borderWidth: 3,
+    width: 75,
     height: 55,
-    backgroundColor: "white",
+    backgroundColor: "#76c893",
     margin: 20,
     padding: 8,
     alignItems: "center",
     justifyContent: "center",
+	},
+	sendText: {
+		textAlign: "center",
+		fontSize: 16,
+		fontFamily: "HelveticaNeue",
+		color: "white",
+		padding: 6,
   },
   textInput: {
     borderWidth: 2,
