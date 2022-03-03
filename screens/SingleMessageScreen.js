@@ -12,6 +12,7 @@ import {
 	StyleSheet,
 	Pressable,
 	FlatList,
+	Image,
 } from "react-native";
 
 export default function SingleMessageScreen({ route, navigation }) {
@@ -23,9 +24,11 @@ export default function SingleMessageScreen({ route, navigation }) {
 	const [messages, setMessages] = useState([]);
 	const [isLoading, setIsLoading] = useState(true);
 	const [title, setTitle] = useState("");
-console.log(otherUser);
+	const [image, setImage] = useState("");
+
 	const Comment = (props) => {
 		const { item } = props;
+
 		const time = item.postedAt.slice(0, 10) + " " + item.postedAt.slice(11, 16);
 		return (
 			<View style={styles.comment}>
@@ -71,7 +74,7 @@ console.log(otherUser);
 		for (const user of chat.members) {
 			if (user !== currUser.uid) {
 				const otherUserObj = await getUserDetails(user);
-
+				setImage(chat.picture);
 				setOtherUser(otherUserObj);
 			}
 		}
@@ -86,18 +89,22 @@ console.log(otherUser);
 	) : (
 		<View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
 			<View style={styles.header}>
+				<Image
+					style={styles.pic}
+					source={{
+						uri: image,
+					}}
+				/>
 				<Text>
 					{title} || {otherUser.username}
 				</Text>
 			</View>
 			<View style={styles.list}>
-				<SafeAreaView style={styles.container}>
-					<FlatList
-						data={messages}
-						renderItem={Comment}
-						keyExtractor={(item, index) => item.postedAt + index}
-					/>
-				</SafeAreaView>
+				<FlatList
+					data={messages}
+					renderItem={Comment}
+					keyExtractor={(item, index) => item.postedAt + index}
+				/>
 			</View>
 			<TextInput
 				placeholder="New message"
@@ -140,15 +147,23 @@ const styles = StyleSheet.create({
 		height: "20%",
 		flex: 1,
 		alignItems: "center",
-		justifyContent: "center",
+		justifyContent: "space-between",
+    margin: 10
+  
 	},
 	list: {
 		height: "50%",
+    margin: 10
 	},
 	comment: {
 		backgroundColor: "white",
 		padding: 8,
 		margin: 1,
 		borderRadius: 3,
+	},
+	pic: {
+		height: 100,
+		width: 100,
+		borderRadius: 100,
 	},
 });
