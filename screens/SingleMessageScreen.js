@@ -30,13 +30,16 @@ export default function SingleMessageScreen({ route, navigation }) {
     const { item } = props;
 
     const time = item.postedAt.slice(0, 10) + " " + item.postedAt.slice(11, 16);
-    return (
-      <View style={styles.comment}>
+	  return (
+		<View style={styles.commentBox}>
+			 <View style={styles.comment}>
         <Text>
           {item.username} {time}
         </Text>
         <Text>{item.message}</Text>
-      </View>
+      </View> 
+		</View>
+      
     );
   };
 
@@ -123,29 +126,58 @@ export default function SingleMessageScreen({ route, navigation }) {
 }
 
 const styles = StyleSheet.create({
-  submit: {
-    borderWidth: 1,
+  imageBackground: {
+    marginTop: 0,
+    height: 104,
+    width: 104,
+    borderRadius: 100,
+    shadowColor: "grey",
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowOpacity: 5,
+    shadowRadius: 6,
 
-    width: 55,
+    elevation: 3,
+    borderColor: "white",
+    borderWidth: 2,
+  },
+  pic: {
+    height: 100,
+    width: 100,
+    borderRadius: 100,
+  },
+  submit: {
+    borderRadius: 25,
+    borderColor: "#76c893",
+    borderWidth: 4,
+    width: 65,
     height: 55,
     backgroundColor: "white",
-    margin: 10,
+    margin: 20,
     padding: 8,
-    borderRadius: 14,
     alignItems: "center",
     justifyContent: "center",
-    borderColor: "red",
-    borderWidth: 1,
   },
   textInput: {
-    borderWidth: 1,
-
+    borderWidth: 2,
     width: 300,
-    height: "15%",
+    height: "20%",
     backgroundColor: "white",
     margin: 10,
-    padding: 8,
-    borderRadius: 3,
+    padding: 10,
+    borderRadius: 10,
+    borderColor: "grey",
+    shadowColor: "white",
+    shadowOffset: {
+      width: 0,
+      height: 0,
+    },
+    shadowOpacity: 4,
+    shadowRadius: 17,
+
+    elevation: 10,
   },
   header: {
     height: "20%",
@@ -155,17 +187,36 @@ const styles = StyleSheet.create({
     margin: 10,
   },
   list: {
-    height: "50%",
-    margin: 10,
+    height: "40%",
+	  margin: 10,
+	  
+	},
+	commentBox: {
+		paddingHorizontal: 10,
+		paddingVertical: 10,
+		shadowColor: "black",
+		shadowOffset: {
+		  width: 0,
+		  height: 2,
+		},
+		shadowOpacity: 5,
+		shadowRadius: 4,
+	
+		elevation: 3,
   },
   comment: {
-    backgroundColor: "white",
-    padding: 8,
-    margin: 1,
-    borderRadius: 3,
+    margin: 0,
+    backgroundColor: "#ffbd03",
+	borderColor: "white",
+    borderWidth: 3,
+    // borderColor: "red",
+    // borderWidth: 2,
+    borderRadius: 10,
+    paddingHorizontal: 10,
+    paddingVertical: 8
   },
-	imageBackground: {
-	  marginTop: 0,
+  imageBackground: {
+    marginTop: 0,
     height: 104,
     width: 104,
     borderRadius: 100,
