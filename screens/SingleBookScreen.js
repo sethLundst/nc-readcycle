@@ -121,7 +121,7 @@ export default function SingleBookScreen({ route, navigation }) {
               </Text>
             </View>
             <View style={styles.messageIcon}>
-              <TouchableOpacity onPress={handleChat}>
+              <TouchableOpacity style={styles.messageButton} onPress={handleChat}>
                 <AntDesign name="message1" size={24} color="black" />
               </TouchableOpacity>
             </View>
@@ -314,7 +314,25 @@ const styles = StyleSheet.create({
     alignItems: "center",
     resizeMode: "cover",
   },
+  messageButton: {
+    position: "absolute",
+    top: -14,
+    right: -10,
+    height: 26,
+    width: 26,
+    borderRadius: 10,
+    backgroundColor: "#ffbd03"
+  },
   messageIcon: {
     marginRight: 20,
+    shadowColor: "#ffbd03",
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowOpacity: 5,
+    shadowRadius: 6,
+
+    elevation: 3,
   },
 });
