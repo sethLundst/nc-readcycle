@@ -153,7 +153,7 @@ export default function HomeScreen({ navigation }) {
     <SafeAreaView style={styles.pageContainer}>
       <LinearGradient
         // Background Linear Gradient
-        colors={["#dee2ff", "#f7edf2", "white"]}
+        colors={["#f7edf2","#dee2ff",  "white"]}
         start={{
           x: 0,
           y: 0,
@@ -198,9 +198,9 @@ export default function HomeScreen({ navigation }) {
         <View></View>
         <View style={styles.list}>
           {!filteredDataSource.length ? (
-            <Text>
-              Sorry we could find no books, please expand your radius.
-            </Text>
+            <Text style={styles.sliderMessage}>
+            Sorry we couldn't find any books that close to you, please expand your radius.
+          </Text>
           ) : (
             <FlatList
               numColumns={2}
@@ -273,6 +273,27 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     padding: 7,
     textAlign: "center",
+  },
+  sliderMessage: {
+    fontFamily: "HelveticaNeue",
+    color: "#41444B",
+    fontWeight: "600",
+    fontSize: 16,
+    textAlign: "center",
+    padding: 10,
+    borderColor: "white",
+    borderWidth: 2,
+    borderRadius: 20,
+    margin: 15,
+    shadowColor: "white",
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowOpacity: 5,
+    shadowRadius: 15,
+
+    elevation: 7,
   },
   bookFilter: {
     marginTop: 5,
