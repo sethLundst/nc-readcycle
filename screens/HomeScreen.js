@@ -43,7 +43,7 @@ const LabelText = styled.Text`
   font-size: 15px;
 `;
 
-export default function HomeScreen({ navigation }) {
+export default function HomeScreen({ navigation, route }) {
   const [search, setSearch] = useState("");
   const [filteredDataSource, setFilteredDataSource] = useState([]);
   const [allUsers, setAllUsers] = useState([]);
@@ -52,6 +52,8 @@ export default function HomeScreen({ navigation }) {
   const { user, setUser } = useContext(UserContext);
   const [multiSliderValue, setMultiSliderValue] = useState([0, 20]);
   const [distance, setDistance] = useState(100);
+  
+
 
   const searchFilterFunction = (text) => {
     if (text) {
