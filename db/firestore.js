@@ -183,7 +183,7 @@ export const createChat = async (members, book) => {
       members: members,
       book: book.title,
       book_id: book.id,
-      // picture: book.altImage,
+      picture: book.highResImage,
       messages: [],
       id: chatKey,
     });
