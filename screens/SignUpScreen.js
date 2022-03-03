@@ -69,7 +69,7 @@ export default function SignUpScreen({ navigation }) {
     <View style={styles.container}>
       <LinearGradient
         // Background Linear Gradient
-        colors={["#dee2ff", "#f7edf2", "white"]}
+        colors={["#f7edf2","#dee2ff",  "white"]}
         start={{
           x: 0,
           y: 0,
@@ -169,8 +169,8 @@ export default function SignUpScreen({ navigation }) {
               <Text style={styles.errorText}>{errors.postcode}</Text>
             )}
             <View style={styles.createButtonContainer}>
-              <Pressable style={styles.button} onPress={handleSubmit}>
-                <Text style={styles.Buttontext}>Create an account</Text>
+              <Pressable style={styles.createButton} onPress={handleSubmit}>
+                <Text style={styles.createButtontext}>Create an account</Text>
               </Pressable>
             </View>
           </View>
@@ -178,10 +178,10 @@ export default function SignUpScreen({ navigation }) {
       </Formik>
       <View style={styles.alreadyButtonContainer}>
         <Pressable
-          style={styles.button}
+          style={styles.alreadyButton}
           onPress={() => navigation.navigate("LogInScreen")}
         >
-          <Text style={styles.Buttontext}>Already have an account?</Text>
+          <Text style={styles.alreadyButtontext}>Already have an account?</Text>
         </Pressable>
       </View>
     </View>
@@ -208,8 +208,8 @@ const styles = StyleSheet.create({
     color: "green",
   },
   formSection: {
-    backgroundColor: "#FFC0CB",
-    // backgroundColor: "#ffbd03",
+    //backgroundColor: "#FFC0CB",
+    backgroundColor: "#ffbd03",
     borderRadius: 25,
     width: 250,
     height: 45,
@@ -238,12 +238,18 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   createButtonContainer: {
-    marginTop: 40,
+    marginTop: 30,
+    shadowColor: "#fad2e1",
+    shadowOffset: {
+      width: 0,
+      height: 5,
+    },
+    shadowOpacity: 1,
+    shadowRadius: 17,
+
+    elevation: 10,
   },
-  alreadyButtonContainer: {
-    marginTop: 15,
-  },
-  button: {
+  createButton: {
     backgroundColor: "#76c893",
     borderRadius: 25,
     borderColor: "white",
@@ -259,11 +265,36 @@ const styles = StyleSheet.create({
 
     elevation: 10,
   },
-  Buttontext: {
+  createButtontext: {
     alignSelf: "center",
     fontSize: 20,
     fontFamily: "HelveticaNeue",
     color: "white",
+    padding: 12,
+  },
+  alreadyButtonContainer: {
+    marginTop: 20,
+    shadowColor: "white",
+    shadowOffset: {
+      width: 0,
+      height: 0,
+    },
+    shadowOpacity: 4,
+    shadowRadius: 17,
+
+    elevation: 10,
+  },
+  alreadyButton: {
+    backgroundColor: "white",
+    borderRadius: 25,
+    borderColor: "#76c893",
+    borderWidth: 2,
+  },
+  alreadyButtontext: {
+    alignSelf: "center",
+    fontSize: 20,
+    fontFamily: "HelveticaNeue",
+    color: "black",
     padding: 12,
   },
 });
