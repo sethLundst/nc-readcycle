@@ -4,6 +4,7 @@ import { addMessage, getChat, getUserDetails } from "../db/firestore";
 import { getDoc, getFirestore, Timestamp } from "firebase/firestore";
 import { UserContext } from "../contexts/User";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { LinearGradient } from "expo-linear-gradient";
 const timestamp = require("time-stamp");
 import {
   TextInput,
@@ -90,7 +91,20 @@ export default function SingleMessageScreen({ route, navigation }) {
   return isLoading ? (
     <Text>Loading...</Text>
   ) : (
-    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+    <SafeAreaView style={styles.container}>
+			<LinearGradient
+			  // Background Linear Gradient
+			  colors={["#f7edf2","#dee2ff",  "white"]}
+			  start={{
+				x: 0,
+				y: 0,
+			  }}
+			  end={{
+				x: 1,
+				y: 1,
+			  }}
+			  style={styles.background}
+			/>
       <View style={styles.header}>
         <View style={styles.imageBackground}>
           <Image
@@ -121,13 +135,26 @@ export default function SingleMessageScreen({ route, navigation }) {
       <Pressable style={styles.submit} onPress={handleSubmit}>
         <Text>Send</Text>
       </Pressable>
-    </View>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
+	container: {
+		flex: 1,
+		alignItems: "center",
+		justifyContent: "center",
+		// backgroundColor: "white",
+	  },
+	  background: {
+		position: "absolute",
+		left: 0,
+		right: 0,
+		top: 0,
+		height: "120%",
+	  },
   imageBackground: {
-    marginTop: 0,
+    marginTop: 150,
     height: 104,
     width: 104,
     borderRadius: 100,
@@ -180,11 +207,11 @@ const styles = StyleSheet.create({
     elevation: 10,
   },
   header: {
-    height: "20%",
+    height: "40%",
     flex: 1,
     alignItems: "center",
     justifyContent: "space-between",
-    margin: 10,
+    margin: 60,
   },
   list: {
     height: "40%",
@@ -192,6 +219,7 @@ const styles = StyleSheet.create({
 	  
 	},
 	commentBox: {
+		marginTop: 60,
 		paddingHorizontal: 10,
 		paddingVertical: 10,
 		shadowColor: "black",
@@ -201,7 +229,6 @@ const styles = StyleSheet.create({
 		},
 		shadowOpacity: 5,
 		shadowRadius: 4,
-	
 		elevation: 3,
   },
   comment: {

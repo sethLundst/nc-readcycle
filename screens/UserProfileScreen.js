@@ -367,14 +367,14 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "white",
+    // backgroundColor: "white",
   },
   background: {
     position: "absolute",
     left: 0,
     right: 0,
     top: 0,
-    height: "100%",
+    height: "120%",
   },
   scrollView: {
     flex: 1,
