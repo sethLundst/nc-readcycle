@@ -125,6 +125,7 @@ export default function SingleMessageScreen({ route, navigation }) {
           keyExtractor={(item, index) => item.postedAt + index}
         />
       </View>
+
       <View style={styles.bottomContainer}>
         <KeyboardAvoidingView behavior="padding">
           <TextInput
@@ -139,6 +140,7 @@ export default function SingleMessageScreen({ route, navigation }) {
           <Text>Send</Text>
         </Pressable>
       </View>
+
     </SafeAreaView>
   );
 }
@@ -182,14 +184,27 @@ const styles = StyleSheet.create({
   },
   submit: {
     borderRadius: 25,
-    borderColor: "#76c893",
-    borderWidth: 4,
-    width: 65,
+    borderColor: "white",
+    borderWidth: 3,
+    width: 75,
     height: 55,
+
+    backgroundColor: "#76c893",
+    margin: 20,
+    padding: 8,
+
     backgroundColor: "white",
     margin: 0,
+
     alignItems: "center",
     justifyContent: "center",
+	},
+	sendText: {
+		textAlign: "center",
+		fontSize: 16,
+		fontFamily: "HelveticaNeue",
+		color: "white",
+		padding: 6,
   },
   bottomContainer: {
     height: 80,
