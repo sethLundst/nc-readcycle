@@ -205,7 +205,7 @@ export default function HomeScreen({ navigation, route }) {
           </Text>
           ) : (
             <FlatList
-              numColumns={2}
+              numColumns={3}
               keyExtractor={(_item, index) => index}
               data={filteredDataSource}
               renderItem={ItemView}
@@ -334,11 +334,11 @@ const styles = StyleSheet.create({
   },
   imagebox: {
     backgroundColor: "white",
-    width: 152,
-    height: 222,
-    borderRadius: 15,
+    width: 128,
+    height: 198,
+    borderRadius: 10,
     borderColor: "white",
-    borderWidth: 6,
+    borderWidth: 4,
     shadowColor: "pink",
     shadowOffset: {
       width: 0,
@@ -353,8 +353,8 @@ const styles = StyleSheet.create({
     marginTop: 0,
     marginHorizontal: 0,
     marginBottom: 3,
-    width: 140,
-    height: 210,
+    width: 118,
+    height: 180,
     borderRadius: 5,
   },
   textBox: {
@@ -369,7 +369,7 @@ const styles = StyleSheet.create({
     paddingBottom: 0,
     alignItems: "center",
     justifyContent: "center",
-    width: 152,
+    width: 128,
     height: 60,
     shadowColor: "pink",
     shadowOffset: {
