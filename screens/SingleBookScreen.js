@@ -25,7 +25,10 @@ export default function SingleBookScreen({ route, navigation }) {
 
   const handleChat = async () => {
     const chatID = await createChat([user, userHasBook.uid], item);
-    navigation.navigate("SingleMessageScreen", { chatID: chatID });
+    navigation.navigate("SingleMessageScreen", {
+      name: item.title,
+      chatID: chatID,
+    });
   };
 
   useEffect(() => {
@@ -44,14 +47,14 @@ export default function SingleBookScreen({ route, navigation }) {
 
   const handleDelete = async () => {
     await deleteBook(item, user);
-    navigation.navigate("UserProfileScreen")
+    navigation.navigate("UserProfileScreen");
   };
 
   return (
     <SafeAreaView style={styles.container}>
       <LinearGradient
         // Background Linear Gradient
-        colors={["#f7edf2","#dee2ff",  "white"]}
+        colors={["#f7edf2", "#dee2ff", "white"]}
         start={{
           x: 0,
           y: 0,
@@ -92,23 +95,23 @@ export default function SingleBookScreen({ route, navigation }) {
       <View>
         <Text style={styles.descriptionHeader}>Description</Text>
         <View style={styles.descriptionContainer}>
-        <ScrollView style={styles.descriptionBox}>
-          <Text style={styles.description}>{item.description}</Text>
-        </ScrollView>
+          <ScrollView style={styles.descriptionBox}>
+            <Text style={styles.description}>{item.description}</Text>
+          </ScrollView>
         </View>
         {user === userHasBook.uid ? null : (
           <View style={styles.userHasBook}>
-            <View style={styles.avatarShadow} >
-            <View style={styles.avatarContainer}>
-              <Image
-                source={{
-                  uri: userHasBook.avatar_url,
-                }}
-                style={styles.avatarImage}
-                resizeMode="center"
-              ></Image>
+            <View style={styles.avatarShadow}>
+              <View style={styles.avatarContainer}>
+                <Image
+                  source={{
+                    uri: userHasBook.avatar_url,
+                  }}
+                  style={styles.avatarImage}
+                  resizeMode="center"
+                ></Image>
               </View>
-              </View>
+            </View>
             <View style={styles.userInfo}>
               <Text style={styles.userName}>
                 {userHasBook.username} has this!
@@ -279,7 +282,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#f7edf2",
   },
   avatarShadow: {
-    
     shadowColor: "grey",
     shadowOffset: {
       width: 0,
