@@ -37,12 +37,14 @@ function BottomTabNavigator() {
         tabBarInactiveTintColor: "gray",
         tabBarLabel: "",
         headerShown: false,
-      })}
+      })
+      }
     >
       <Tab.Screen
         name="HomeStackScreen"
         component={HomeStackScreen}
-        options={{ showLabel: false }}
+        options={{ showLabel: false}}
+       
       />
       <Tab.Screen
         name="ListBookStackScreen"
@@ -62,7 +64,7 @@ function BottomTabNavigator() {
       <Tab.Screen
         name="LogOutStackScreen"
         component={LogOutStackScreen}
-        options={{ showLabel: false }}
+        options={{ showLabel: false, tabBarVisible: false }}
       />
     </Tab.Navigator>
   );
