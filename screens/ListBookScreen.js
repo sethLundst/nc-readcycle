@@ -57,13 +57,7 @@ export default function ListBookScreen({ navigation, route }) {
         `/books/v1/volumes?q=isbn:${searchISBN}&key=AIzaSyAVVkhe8oG7Y5vOVfzbb4tiSNuq5r0mbhQ`
       )
       .then((response) => {
-        setISBN(
-          response.data.items[0].volumeInfo.industryIdentifiers.filter(
-            (object) => {
-              return object.type === "ISBN_13";
-            }
-          )[0].identifier
-        );
+        setISBN(searchISBN);
         setTitle(response.data.items[0].volumeInfo.title);
         setId(response.data.items[0].id);
         setHighResImageLink(
