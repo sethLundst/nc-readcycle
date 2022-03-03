@@ -16,7 +16,7 @@ import { LinearGradient } from "expo-linear-gradient";
 
 export default function SingleBookScreen({ route, navigation }) {
   const { item } = route.params;
-  console.log(item);
+
   const [userHasBook, setUserHasBook] = useState("");
 
   const { user, setUser } = useContext(UserContext);
@@ -42,8 +42,9 @@ export default function SingleBookScreen({ route, navigation }) {
     fetchUserDetails();
   }, [item]);
 
-  const handleDelete = () => {
-    deleteBook(item, user);
+  const handleDelete = async () => {
+    await deleteBook(item, user);
+    navigation.navigate("UserProfileScreen")
   };
 
   return (
