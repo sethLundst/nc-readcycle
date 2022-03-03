@@ -30,7 +30,9 @@ export default function ListBookScreen({ navigation, route }) {
   const [addBookButton, setAddBookButton] = useState(false);
   const [description, setDescription] = useState("");
   const [id, setId] = useState("");
-  const [highResImageLink, setHighResImageLink] = useState("");
+  const [highResImageLink, setHighResImageLink] = useState(
+    "https://wallpapercave.com/dwp2x/wp5209035.jpg"
+  );
   const [altImageLink, setAltImageLink] = useState("");
   const [pageCount, setPageCount] = useState("");
   const [language, setLanguage] = useState("");
@@ -98,7 +100,7 @@ export default function ListBookScreen({ navigation, route }) {
 
   const resetState = () => {
     setTitle("");
-    setHighResImageLink("");
+    setHighResImageLink("https://wallpapercave.com/dwp2x/wp5209035.jpg");
     setAltImageLink("");
     setAuthor("");
     setCategory("");
@@ -123,7 +125,7 @@ export default function ListBookScreen({ navigation, route }) {
     <SafeAreaView style={styles.container}>
       <LinearGradient
         // Background Linear Gradient
-        colors={["#f7edf2","#dee2ff",  "white"]}
+        colors={["#f7edf2", "#dee2ff", "white"]}
         start={{
           x: 0,
           y: 0,

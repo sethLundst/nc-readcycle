@@ -14,6 +14,7 @@ import {
   Pressable,
   FlatList,
   Image,
+  KeyboardAvoidingView,
 } from "react-native";
 
 export default function SingleMessageScreen({ route, navigation }) {
@@ -31,16 +32,15 @@ export default function SingleMessageScreen({ route, navigation }) {
     const { item } = props;
 
     const time = item.postedAt.slice(0, 10) + " " + item.postedAt.slice(11, 16);
-	  return (
-		<View style={styles.commentBox}>
-			 <View style={styles.comment}>
-        <Text>
-          {item.username} {time}
-        </Text>
-        <Text>{item.message}</Text>
-      </View> 
-		</View>
-      
+    return (
+      <View style={styles.commentBox}>
+        <View style={styles.comment}>
+          <Text>
+            {item.username} {time}
+          </Text>
+          <Text>{item.message}</Text>
+        </View>
+      </View>
     );
   };
 
@@ -92,19 +92,19 @@ export default function SingleMessageScreen({ route, navigation }) {
     <Text>Loading...</Text>
   ) : (
     <SafeAreaView style={styles.container}>
-			<LinearGradient
-			  // Background Linear Gradient
-			  colors={["#f7edf2","#dee2ff",  "white"]}
-			  start={{
-				x: 0,
-				y: 0,
-			  }}
-			  end={{
-				x: 1,
-				y: 1,
-			  }}
-			  style={styles.background}
-			/>
+      <LinearGradient
+        // Background Linear Gradient
+        colors={["#f7edf2", "#dee2ff", "white"]}
+        start={{
+          x: 0,
+          y: 0,
+        }}
+        end={{
+          x: 1,
+          y: 1,
+        }}
+        style={styles.background}
+      />
       <View style={styles.header}>
         <View style={styles.imageBackground}>
           <Image
@@ -125,34 +125,41 @@ export default function SingleMessageScreen({ route, navigation }) {
           keyExtractor={(item, index) => item.postedAt + index}
         />
       </View>
-      <TextInput
-        placeholder="New message"
-        style={styles.textInput}
-        onChangeText={handleChange}
-        value={newMessage}
-        multiline={true}
-      />
-      <Pressable style={styles.submit} onPress={handleSubmit}>
-				  <Text style={styles.sendText}>Send</Text>
-      </Pressable>
+
+      <View style={styles.bottomContainer}>
+        <KeyboardAvoidingView behavior="padding">
+          <TextInput
+            placeholder="New message"
+            style={styles.textInput}
+            onChangeText={handleChange}
+            value={newMessage}
+            multiline={true}
+          />
+        </KeyboardAvoidingView>
+        <Pressable style={styles.submit} onPress={handleSubmit}>
+          <Text>Send</Text>
+        </Pressable>
+      </View>
+
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		alignItems: "center",
-		justifyContent: "center",
-		// backgroundColor: "white",
-	  },
-	  background: {
-		position: "absolute",
-		left: 0,
-		right: 0,
-		top: 0,
-		height: "120%",
-	  },
+  container: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    paddingTop: 20,
+    // backgroundColor: "white",
+  },
+  background: {
+    position: "absolute",
+    left: 0,
+    right: 0,
+    top: 0,
+    height: "120%",
+  },
   imageBackground: {
     marginTop: 150,
     height: 104,
@@ -181,9 +188,14 @@ const styles = StyleSheet.create({
     borderWidth: 3,
     width: 75,
     height: 55,
+
     backgroundColor: "#76c893",
     margin: 20,
     padding: 8,
+
+    backgroundColor: "white",
+    margin: 0,
+
     alignItems: "center",
     justifyContent: "center",
 	},
@@ -194,10 +206,17 @@ const styles = StyleSheet.create({
 		color: "white",
 		padding: 6,
   },
+  bottomContainer: {
+    height: 80,
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: 80,
+  },
   textInput: {
     borderWidth: 2,
     width: 300,
-    height: "20%",
+    height: 80,
+    marginTop: 100,
     backgroundColor: "white",
     margin: 10,
     padding: 10,
@@ -221,33 +240,32 @@ const styles = StyleSheet.create({
     margin: 60,
   },
   list: {
-    height: "40%",
-	  margin: 10,
-	  
-	},
-	commentBox: {
-		marginTop: 60,
-		paddingHorizontal: 10,
-		paddingVertical: 10,
-		shadowColor: "black",
-		shadowOffset: {
-		  width: 0,
-		  height: 2,
-		},
-		shadowOpacity: 5,
-		shadowRadius: 4,
-		elevation: 3,
+    height: "55%",
+    margin: 10,
+    marginTop: 60,
+  },
+  commentBox: {
+    paddingHorizontal: 10,
+    paddingVertical: 10,
+    shadowColor: "black",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 5,
+    shadowRadius: 4,
+    elevation: 3,
   },
   comment: {
     margin: 0,
     backgroundColor: "#ffbd03",
-	borderColor: "white",
+    borderColor: "white",
     borderWidth: 3,
     // borderColor: "red",
     // borderWidth: 2,
     borderRadius: 10,
     paddingHorizontal: 10,
-    paddingVertical: 8
+    paddingVertical: 8,
   },
   imageBackground: {
     marginTop: 0,
