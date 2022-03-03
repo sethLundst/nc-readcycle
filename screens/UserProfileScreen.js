@@ -166,20 +166,11 @@ export default function UserProfileScreen({ route, navigation }) {
           {/* <View style={styles.activeDot}></View> */}
         </View>
         <View
-          style={{
-            paddingVertical: 0,
-            paddingHorizontal: 10,
-            flexDirection: "row",
-            justifyContent: "flex-start",
-            alignItems: "center",
-          }}
+          style={styles.usernameContainer}
         >
+          
           <Text
-            style={{
-              fontSize: 20,
-              color: "black",
-              fontWeight: "bold",
-            }}
+            style={styles.username}
           >
             {currentUser.username}
           </Text>
@@ -259,7 +250,7 @@ export default function UserProfileScreen({ route, navigation }) {
           </View>
           <TouchableOpacity onPress={handleEditButton}></TouchableOpacity>
         </View>
-        <View
+        {/* <View
           style={{
             paddingVertical: 10,
             paddingHorizontal: 10,
@@ -276,7 +267,7 @@ export default function UserProfileScreen({ route, navigation }) {
           >
             📚 {currentUser.books.length} books on offer.
           </Text>
-        </View>
+        </View> */}
         <View
           style={{
             paddingVertical: 10,
@@ -344,22 +335,22 @@ export default function UserProfileScreen({ route, navigation }) {
             renderItem={ItemView}
           ></FlatList>
 
-          {/* <View style={styles.bookCount}>
+          <View style={styles.bookCount}>
             <Text
               style={[
                 styles.text,
                 {
-                  fontSize: 10,
-                  color: "#DFD8C8",
+                  fontSize: 14,
+                  color: "white",
                   fontWeight: "bold",
-                  paddingTop: 0,
+                  padding: 5,
                   textTransform: "uppercase",
                 },
               ]}
             >
               {currentUser.books.length} books on offer
             </Text>
-          </View> */}
+          </View>
         </View>
 
         <View>
@@ -392,6 +383,7 @@ const styles = StyleSheet.create({
   text: {
     fontFamily: "HelveticaNeue",
     color: "#52575D",
+    
   },
   headerIconBar: {
     flexDirection: "row",
@@ -454,12 +446,12 @@ const styles = StyleSheet.create({
   usernameContainer: {
     alignSelf: "center",
     alignItems: "center",
-    backgroundColor: "#41444B",
+    backgroundColor: "#ffbd03",
     borderColor: "white",
     borderWidth: 4,
     marginTop: 15,
     marginBottom: 5,
-    borderRadius: 12,
+    borderRadius: 25,
     shadowColor: "pink",
     shadowOffset: {
       width: 0,
@@ -473,10 +465,10 @@ const styles = StyleSheet.create({
   username: {
     fontSize: 18,
     fontFamily: "HelveticaNeue",
-    color: "#DFD8C8",
+    color: "white",
     fontWeight: "900",
     margin: 5,
-    padding: 3,
+    padding: 5,
   },
 
   subText: {
@@ -510,17 +502,17 @@ const styles = StyleSheet.create({
     paddingRight: 30,
   },
   bookCount: {
-    backgroundColor: "#41444B",
+    backgroundColor: "#ffbd03",
     position: "absolute",
-    marginTop: -35,
+    marginTop: -30,
     alignSelf: "center",
-    width: 150,
+    width: 180,
     height: 50,
     borderColor: "white",
     borderWidth: 4,
     alignItems: "center",
     justifyContent: "center",
-    borderRadius: 12,
+    borderRadius: 25,
     flexDirection: "row",
     // shadowColor: "white",
     // shadowOffset: {

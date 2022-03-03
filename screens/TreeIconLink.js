@@ -10,7 +10,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { Ionicons, Foundation, MaterialIcons } from "@expo/vector-icons";
-
+import { getTreeCount} from "./UserProfileScreen.js"
 const TreeIconLink = () => {
   const [modalVisible, setModalVisible] = useState(false);
   return (
@@ -24,7 +24,7 @@ const TreeIconLink = () => {
         <View style={styles.modalBackground}>
           <View style={styles.modalContainer}>
             <Image style={styles.tree} source={require("../assets/tree.png")} />
-            <Text style={styles.modalText}>4 trees saved so far!</Text>
+            <Text style={styles.modalText}>{getTreeCount(currentUser)} trees saved</Text>
             <TouchableOpacity
               style={[styles.button, styles.buttonClose]}
               onPress={() => setModalVisible(!modalVisible)}
