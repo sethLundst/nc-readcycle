@@ -129,7 +129,7 @@ export default function ListBookScreen({ navigation, route }) {
     <SafeAreaView style={styles.container}>
       <LinearGradient
         // Background Linear Gradient
-        colors={["#dee2ff", "#f7edf2"]}
+        colors={["#f7edf2","#dee2ff",  "white"]}
         start={{
           x: 0,
           y: 0,

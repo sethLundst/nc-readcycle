@@ -50,7 +50,7 @@ export default function SingleBookScreen({ route, navigation }) {
     <SafeAreaView style={styles.container}>
       <LinearGradient
         // Background Linear Gradient
-        colors={["#dee2ff", "#f7edf2", "white"]}
+        colors={["#f7edf2","#dee2ff",  "white"]}
         start={{
           x: 0,
           y: 0,
@@ -90,13 +90,14 @@ export default function SingleBookScreen({ route, navigation }) {
       </View>
       <View>
         <Text style={styles.descriptionHeader}>Description</Text>
-        <View style={styles.descriptionContainer}></View>
+        <View style={styles.descriptionContainer}>
         <ScrollView style={styles.descriptionBox}>
           <Text style={styles.description}>{item.description}</Text>
         </ScrollView>
-
+        </View>
         {user === userHasBook.uid ? null : (
           <View style={styles.userHasBook}>
+            <View style={styles.avatarShadow} >
             <View style={styles.avatarContainer}>
               <Image
                 source={{
@@ -105,7 +106,8 @@ export default function SingleBookScreen({ route, navigation }) {
                 style={styles.avatarImage}
                 resizeMode="center"
               ></Image>
-            </View>
+              </View>
+              </View>
             <View style={styles.userInfo}>
               <Text style={styles.userName}>
                 {userHasBook.username} has this!
@@ -276,6 +278,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#f7edf2",
   },
   avatarShadow: {
+    
     shadowColor: "grey",
     shadowOffset: {
       width: 0,
@@ -297,6 +300,8 @@ const styles = StyleSheet.create({
     marginBottom: 5,
     alignItems: "center",
     overflow: "hidden",
+    // borderColor: "#8d99ae",
+    // borderWidth: 0.5,
   },
   avatarImage: {
     flex: 1,

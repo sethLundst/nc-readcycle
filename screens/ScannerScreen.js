@@ -1,8 +1,8 @@
 import * as React from "react";
 import { useEffect, useState } from "react";
-import { Button, View, Text, StyleSheet } from "react-native";
+import { Button, View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { BarCodeScanner, requestPermissionsAsync } from "expo-barcode-scanner";
-
+import { LinearGradient } from "expo-linear-gradient";
 export default function ScannerScreen({ navigation, route }) {
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
@@ -24,7 +24,7 @@ export default function ScannerScreen({ navigation, route }) {
   if (hasPermission === null) {
     return (
       <View style={styles.container}>
-        <Text>Need to request permission</Text>
+        <Text style={styles.messageText}>Need to request permission</Text>
       </View>
     );
   }
@@ -32,13 +32,12 @@ export default function ScannerScreen({ navigation, route }) {
   if (hasPermission === false) {
     return (
       <View style={styles.container}>
-        <Text>No permission</Text>
-        <Button
+        <Text style={styles.messageText}>No permission</Text>
+        <TouchableOpacity style={styles.allowCameraButton}
           title="Allow camera permission"
           onPress={() => {
             askForCameraPermission();
-          }}
-        />
+          }}><Text style={styles.buttonText}>Allow camera permission</Text></TouchableOpacity>
       </View>
     );
   }
@@ -56,6 +55,19 @@ export default function ScannerScreen({ navigation, route }) {
   // PAGE RENDER
   return (
     <View style={styles.scanner}>
+      <LinearGradient
+        // Background Linear Gradient
+        colors={["#f7edf2","#dee2ff",  "white"]}
+        start={{
+          x: 0,
+          y: 0,
+        }}
+        end={{
+          x: 1,
+          y: 1,
+        }}
+        style={styles.background}
+      />
       <BarCodeScanner
         onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
         style={{ height: "100%" }}
@@ -66,4 +78,64 @@ export default function ScannerScreen({ navigation, route }) {
 
 const styles = StyleSheet.create({
   scanner: {},
+  container: {
+    flex: 1,
+    backgroundColor: "#fff",
+    alignItems: "center",
+    // justifyContent: "center",
+  },
+  background: {
+    position: "absolute",
+    left: 0,
+    right: 0,
+    top: 0,
+    height: "100%",
+  },
+  messageText: {
+    alignSelf: "center",
+    fontSize: 16,
+    fontFamily: "HelveticaNeue",
+    color: "black",
+    padding: 10,
+    borderRadius: 20,
+    borderColor: "red",
+    borderWidth: 2,
+    marginTop: 20,
+    shadowColor: "white",
+    shadowOffset: {
+      width: 0,
+      height: 0,
+    },
+    shadowOpacity: 4,
+    shadowRadius: 17,
+
+    elevation: 10,
+  },
+  allowCameraButton: {
+    height: 60,
+    width: 300,
+    alignSelf: "center",
+    backgroundColor: "#ffbd03",
+    borderRadius: 25,
+    borderColor: "white",
+    borderWidth: 2,
+    justifyContent: "center",
+    marginTop: 130,
+    shadowColor: "green",
+    shadowOffset: {
+      width: 0,
+      height: 0,
+    },
+    shadowOpacity: 4,
+    shadowRadius: 17,
+
+    elevation: 10,
+  },
+  buttonText: {
+alignSelf: "center",
+    fontSize: 20,
+    fontFamily: "HelveticaNeue",
+    color: "black",
+    padding: 12,
+  }
 });
