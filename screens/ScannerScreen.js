@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     top: 0,
-    height: "100%",
+    height: "120%",
   },
   messageText: {
     alignSelf: "center",
@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     borderColor: "red",
     borderWidth: 2,
-    marginTop: 20,
+    marginTop: 140,
     shadowColor: "white",
     shadowOffset: {
       width: 0,
