@@ -25,23 +25,26 @@ const ProfileStack = createNativeStackNavigator();
 
 export function HomeStackScreen() {
   return (
-    <HomeStack.Navigator initialRouteName="HomeScreen" screenOptions={{headerTransparent: true}}>
+    <HomeStack.Navigator
+      initialRouteName="HomeScreen"
+      screenOptions={{ headerTransparent: true }}
+    >
       <HomeStack.Screen
         name="HomeScreen"
         component={HomeScreen}
-        screenOptions={{headerBackTitleVisible: false}}
+        screenOptions={{ headerBackTitleVisible: false }}
         options={{ title: "" }}
       />
       <HomeStack.Screen
         name="SingleBookScreen"
         component={SingleBookScreen}
-        options={{title: ""}}
-        screenOptions={{headerBackTitleVisible: false}}
+        options={{ title: "" }}
+        screenOptions={{ headerBackTitleVisible: false }}
       />
       <MessagesStack.Screen
         name="SingleMessageScreen"
         component={SingleMessageScreen}
-        options={{title: ""}}
+        options={({ route }) => ({ title: route.params.name })}
       />
     </HomeStack.Navigator>
   );
@@ -49,7 +52,10 @@ export function HomeStackScreen() {
 
 export function LogInStackScreen() {
   return (
-    <LogInStack.Navigator initialRouteName="SignUpScreen" screenOptions={{headerTransparent: true}}>
+    <LogInStack.Navigator
+      initialRouteName="SignUpScreen"
+      screenOptions={{ headerTransparent: true }}
+    >
       <LogInStack.Screen
         name="SignUpScreen"
         component={SignUpScreen}
@@ -64,8 +70,7 @@ export function LogInStackScreen() {
       <LogInStack.Screen
         name="SingleBookScreen"
         component={SingleBookScreen}
-        options={{title: ""}}
-    
+        options={{ title: "" }}
       />
     </LogInStack.Navigator>
   );
@@ -73,7 +78,10 @@ export function LogInStackScreen() {
 
 export function ListBookStackScreen() {
   return (
-    <ListBookStack.Navigator initialRouteName="ListBookScreen" screenOptions={{headerTransparent: true}}>
+    <ListBookStack.Navigator
+      initialRouteName="ListBookScreen"
+      screenOptions={{ headerTransparent: true }}
+    >
       <ListBookStack.Screen
         name="ListBookScreen"
         component={ListBookScreen}
@@ -101,7 +109,10 @@ export function MessagesStackScreen() {
   }, [user, getUserDetails]);
 
   return (
-    <MessagesStack.Navigator initialRouteName="MessagesScreen" screenOptions={{headerTransparent: true}}> 
+    <MessagesStack.Navigator
+      initialRouteName="MessagesScreen"
+      screenOptions={{ headerTransparent: true }}
+    >
       <MessagesStack.Screen
         name="MessagesScreen"
         component={MessagesScreen}
@@ -115,7 +126,7 @@ export function MessagesStackScreen() {
       <MessagesStack.Screen
         name="UserProfileScreen"
         component={UserProfileScreen}
-        options={{title: ""}}
+        options={{ title: "" }}
       />
       <MessagesStack.Screen
         name="SingleMessageScreen"
@@ -139,11 +150,14 @@ export function ProfileStackScreen() {
   }, [user, getUserDetails]);
 
   return (
-    <ProfileStack.Navigator initialRouteName="UserProfileScreen" screenOptions={{headerTransparent: true}}>
+    <ProfileStack.Navigator
+      initialRouteName="UserProfileScreen"
+      screenOptions={{ headerTransparent: true }}
+    >
       <ProfileStack.Screen
         name="UserProfileScreen"
         component={UserProfileScreen}
-        options={{title: ""}}
+        options={{ title: "" }}
       />
       <ProfileStack.Screen
         name="EditProfileScreen"
@@ -153,7 +167,7 @@ export function ProfileStackScreen() {
       <ProfileStack.Screen
         name="SingleBookScreen"
         component={SingleBookScreen}
-        options={{title: ""}}
+        options={{ title: "" }}
       />
       <MessagesStack.Screen
         name="SingleMessageScreen"
@@ -166,7 +180,10 @@ export function ProfileStackScreen() {
 
 export function LogOutStackScreen() {
   return (
-    <LogOutStack.Navigator initialRouteName="LogOutScreen" screenOptions={{headerTransparent: true, headerShown: false}}>
+    <LogOutStack.Navigator
+      initialRouteName="LogOutScreen"
+      screenOptions={{ headerTransparent: true, headerShown: false }}
+    >
       <LogOutStack.Screen
         name="LogOutScreen"
         component={LogOutScreen}
@@ -176,7 +193,6 @@ export function LogOutStackScreen() {
         name="SignUpScreen"
         component={SignUpScreen}
         options={{ title: "Sign Up" }}
-      
       />
     </LogOutStack.Navigator>
   );
