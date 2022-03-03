@@ -29,6 +29,8 @@ import {
 import * as ImagePicker from "expo-image-picker";
 import { LinearGradient } from "expo-linear-gradient";
 import { setStatusBarNetworkActivityIndicatorVisible } from "expo-status-bar";
+import { useIsFocused } from '@react-navigation/native';
+
 
 export default function UserProfileScreen({ route, navigation }) {
   const [currentUser, setCurrentUser] = useState({ books: [] });
@@ -39,15 +41,20 @@ export default function UserProfileScreen({ route, navigation }) {
   const [newPostcode, setNewPostcode] = useState("");
   const [errorMessageDisabled, setErrorMessageDisabled] = useState(true);
   const [postcodeVerified, setPostcodeVerified] = useState(false);
+  const [currentUserBooks, setCurrentUserBooks] = useState({})
   const { user, setUser } = useContext(UserContext);
+  const isFocused = useIsFocused();
 
   useEffect(() => {
     const fetchUserDetails = async () => {
       const result = await getUserDetails(user);
       setCurrentUser(result);
-    };
+      setCurrentUserBooks(result.books)
+    }
+    if (isFocused) {
     fetchUserDetails();
-  }, [user, getUserDetails]);
+    }
+  }, [user, getUserDetails, isFocused]);
 
   function getTreeCount(user) {
     let total = 0;
@@ -148,6 +155,7 @@ export default function UserProfileScreen({ route, navigation }) {
         style={styles.background}
       />
       <View style={styles.scrollView}>
+      
         <View style={styles.profileShadow}>
           <View style={styles.profileImageContainer}>
             <Image
@@ -331,9 +339,11 @@ export default function UserProfileScreen({ route, navigation }) {
             horizontal={true}
             showsHorizontalScrollIndicator={false}
             keyExtractor={(_item, index) => index}
-            data={currentUser.books}
+            data={currentUserBooks}
             renderItem={ItemView}
           ></FlatList>
+       
+    
 
           <View style={styles.bookCount}>
             <Text
