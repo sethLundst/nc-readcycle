@@ -19,30 +19,6 @@ import styled from "styled-components/native";
 import Slider from "@react-native-community/slider";
 import { LinearGradient } from "expo-linear-gradient";
 
-// slider styles
-const SliderWrapper = styled.View`
-  margin: 15px;
-  width: 180px;
-  height: 30px;
-  justify-content: center;
-`;
-
-const ViewContainer = styled.View`
-  align-self: center;
-  justify-content: center;
-  margin: 10px;
-`;
-const LabelWrapper = styled.View`
-  flex-direction: row;
-  justify-content: space-between;
-  padding: 0px;
-  margin: 0px;
-`;
-
-const LabelText = styled.Text`
-  font-size: 15px;
-`;
-
 export default function HomeScreen({ navigation, route }) {
   const [search, setSearch] = useState("");
   const [filteredDataSource, setFilteredDataSource] = useState([]);
@@ -52,8 +28,6 @@ export default function HomeScreen({ navigation, route }) {
   const { user, setUser } = useContext(UserContext);
   const [multiSliderValue, setMultiSliderValue] = useState([0, 20]);
   const [distance, setDistance] = useState(100);
-  
-
 
   const searchFilterFunction = (text) => {
     if (text) {
@@ -155,7 +129,7 @@ export default function HomeScreen({ navigation, route }) {
     <SafeAreaView style={styles.pageContainer}>
       <LinearGradient
         // Background Linear Gradient
-        colors={["#f7edf2","#dee2ff",  "white"]}
+        colors={["#f7edf2", "#dee2ff", "white"]}
         start={{
           x: 0,
           y: 0,
@@ -193,16 +167,17 @@ export default function HomeScreen({ navigation, route }) {
           />
         </View>
         <View style={styles.bookFilter}>
-          <Text>112 trees saved</Text>
-          {/* <Text>Showing {filteredDataSource.length} books...</Text> */}
+          {/* <Text>112 trees saved</Text> */}
+          <Text>{filteredDataSource.length} books</Text>
           <View style={styles.sliderContainer}></View>
         </View>
         <View></View>
         <View style={styles.list}>
           {!filteredDataSource.length ? (
             <Text style={styles.sliderMessage}>
-            Sorry we couldn't find any books that close to you, please expand your radius.
-          </Text>
+              Sorry we couldn't find any books that close to you, please expand
+              your radius.
+            </Text>
           ) : (
             <FlatList
               numColumns={2}
