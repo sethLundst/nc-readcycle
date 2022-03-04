@@ -15,6 +15,7 @@ import {
   FlatList,
   Image,
   KeyboardAvoidingView,
+  TouchableOpacity
 } from "react-native";
 
 export default function SingleMessageScreen({ route, navigation }) {
@@ -27,7 +28,7 @@ export default function SingleMessageScreen({ route, navigation }) {
   const [isLoading, setIsLoading] = useState(true);
   const [title, setTitle] = useState("");
   const [image, setImage] = useState("");
-
+  const [inputPressed, setInputPressed] = useState(false);
   const Comment = (props) => {
     const { item } = props;
 
@@ -35,7 +36,7 @@ export default function SingleMessageScreen({ route, navigation }) {
     return (
       <View style={styles.commentBox}>
         <View style={styles.comment}>
-          <Text>
+          <Text styles={styles.commentSnippet}>
             {item.username} {time}
           </Text>
           <Text>{item.message}</Text>
@@ -48,18 +49,23 @@ export default function SingleMessageScreen({ route, navigation }) {
     setNewMessage(value);
   }
 
-  function handleSubmit() {
-    addMessage(chatID, currUser.username, newMessage).then(() => {
-      setMessages((curr) => [
-        ...curr,
-        {
-          username: currUser.username,
-          message: newMessage,
-          postedAt: timestamp("DD/MM/YYYY:HH:mm:ss:ms"),
-        },
-      ]);
-      setNewMessage("");
-    });
+  function handleSubmit(event) {
+    if (event.nativeEvent.key == 'Enter') {
+      
+      addMessage(chatID, currUser.username, newMessage).then(() => {
+        setMessages((curr) => [
+          ...curr,
+          {
+            username: currUser.username,
+            message: newMessage,
+            postedAt: timestamp("DD/MM/YYYY:HH:mm:ss:ms"),
+          },
+        ]);
+        setNewMessage("");
+      });
+      event.target.blur()
+      
+    }
   }
 
   useEffect(async () => {
@@ -92,55 +98,71 @@ export default function SingleMessageScreen({ route, navigation }) {
     <Text>Loading...</Text>
   ) : (
     <SafeAreaView style={styles.container}>
-      <LinearGradient
-        // Background Linear Gradient
-        colors={["#f7edf2", "#dee2ff", "white"]}
-        start={{
-          x: 0,
-          y: 0,
-        }}
-        end={{
-          x: 1,
-          y: 1,
-        }}
-        style={styles.background}
-      />
-      <View style={styles.header}>
-        <View style={styles.imageBackground}>
-          <Image
-            style={styles.pic}
-            source={{
-              uri: image,
-            }}
+      <KeyboardAvoidingView behavior="padding" style={{ flex: 1 }}>
+        <LinearGradient
+          // Background Linear Gradient
+          colors={["#f7edf2", "#dee2ff", "white"]}
+          start={{
+            x: 0,
+            y: 0,
+          }}
+          end={{
+            x: 1,
+            y: 1,
+          }}
+          style={styles.background}
+        />
+        <View style={styles.header}>
+          <View style={styles.imageBackground}>
+            <Image
+              style={styles.pic}
+              source={{
+                uri: image,
+              }}
+            />
+            </View >
+            <View style={styles.bookInfoBox}>
+            <Text style={styles.bookInfo}>
+            {title} || {otherUser.username}
+          </Text>
+
+            </View>
+          
+        </View>
+        <View style={inputPressed ? styles.listPressed : styles.list}>
+          <FlatList
+            data={messages}
+            renderItem={Comment}
+            keyExtractor={(item, index) => item.postedAt + index}
           />
         </View>
-        <Text>
-          {title} || {otherUser.username}
-        </Text>
-      </View>
-      <View style={styles.list}>
-        <FlatList
-          data={messages}
-          renderItem={Comment}
-          keyExtractor={(item, index) => item.postedAt + index}
-        />
-      </View>
 
-      <View style={styles.bottomContainer}>
-        <KeyboardAvoidingView behavior="padding">
-          <TextInput
+          <View style={styles.bottomContainer}>
+            
+            <TextInput
+              onFocus={() => setInputPressed(true)}
+              onBlur={() => setInputPressed(false)}
             placeholder="New message"
             style={styles.textInput}
             onChangeText={handleChange}
             value={newMessage}
-            multiline={true}
+              multiline={true}
+              onKeyPress={handleSubmit}
+              returnKeyType={"send"}
+              // blurOnSubmit={true}
+                
           />
-        </KeyboardAvoidingView>
-        <Pressable style={styles.submit} onPress={handleSubmit}>
-          <Text>Send</Text>
-        </Pressable>
-      </View>
 
+            
+          
+            {/* <TouchableOpacity>
+            <Pressable style={styles.submit} onPress={handleSubmit}>
+            <Text>Send</Text>
+          </Pressable>
+</TouchableOpacity> */}
+          
+        </View>
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 }
@@ -148,9 +170,9 @@ export default function SingleMessageScreen({ route, navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    paddingTop: 20,
+    //alignItems: "center",
+    //justifyContent: "flex-end",
+    paddingTop: 0,
     // backgroundColor: "white",
   },
   background: {
@@ -158,10 +180,22 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     top: 0,
-    height: "120%",
+	  height: "120%",
+	width: "100%"
+  },
+  header: {
+    height: 200,
+    //flex: 1,
+    alignItems: "center",
+    // justifyContent: "space-between",
+    margin: 0,
+    // borderColor: "red",
+    // borderWidt: 2,
   },
   imageBackground: {
-    marginTop: 150,
+    borderColor: "red",
+    borderWidth: 6,
+    marginTop: 50,
     height: 104,
     width: 104,
     borderRadius: 100,
@@ -182,9 +216,98 @@ const styles = StyleSheet.create({
     width: 100,
     borderRadius: 100,
   },
+  bookInfoBox: {
+marginTop: 15,
+  },
+  bookInfo: {
+    fontFamily: "HelveticaNeue",
+		color: "#52575D",
+    fontWeight: "800",
+    fontSize: 16,
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+  },
+  list: {
+    height: "60%",
+    marginVertical: 5,
+    // borderColor: "red",
+    // borderWidth: 6,
+  },
+  listPressed: {
+    height: "30%",
+    marginVertical: 5,
+  },
+  commentBox: {
+    flex: 1,
+    alignSelf: "center",
+    marginVertical: 1,
+    paddingHorizontal: 10,
+    paddingVertical: 3,
+	  shadowColor: "black",
+	width: 300,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 5,
+    shadowRadius: 4,
+    elevation: 3,
+    
+    // borderColor: "red",
+    // borderWidth: 2,
+  },
+  comment: {
+    margin: 0,
+    backgroundColor: "#ffbd03",
+    borderColor: "white",
+    borderWidth: 3,
+    // borderColor: "red",
+    // borderWidth: 2,
+    borderRadius: 10,
+    paddingHorizontal: 10,
+    paddingVertical: 2,
+	},
+	commentSnippet: {
+		fontFamily: "HelveticaNeue",
+		fontSize: 16,
+	},
+	bottomContainer: {
+	// flex: 1,
+    //height: 100,
+    alignItems: "center",
+    justifyContent: "flex-end",
+    marginBottom: 20,
+    // borderColor: "red",
+    // borderWidth: 2,
+    paddingBottom: 20
+  },
+  textInput: {
+    
+    borderWidth: 2,
+    width: 288,
+    height: 80,
+    marginTop: 5,
+    backgroundColor: "white",
+    marginBottom: 30,
+    padding: 10,
+    borderRadius: 10,
+    borderColor: "grey",
+    shadowColor: "white",
+    shadowOffset: {
+      width: 0,
+      height: 0,
+    },
+    shadowOpacity: 4,
+    shadowRadius: 17,
+
+    elevation: 10,
+    // borderColor: "red",
+    // borderWidth: 6,
+  },
+  
   submit: {
     borderRadius: 25,
-    borderColor: "white",
+    borderColor: "#76c893",
     borderWidth: 3,
     width: 75,
     height: 55,
@@ -198,95 +321,13 @@ const styles = StyleSheet.create({
 
     alignItems: "center",
     justifyContent: "center",
-	},
-	sendText: {
-		textAlign: "center",
-		fontSize: 16,
-		fontFamily: "HelveticaNeue",
-		color: "white",
-		padding: 6,
   },
-  bottomContainer: {
-    height: 80,
-    alignItems: "center",
-    justifyContent: "center",
-    marginBottom: 80,
+  sendText: {
+    textAlign: "center",
+    fontSize: 16,
+    fontFamily: "HelveticaNeue",
+    color: "white",
+    padding: 6,
   },
-  textInput: {
-    borderWidth: 2,
-    width: 300,
-    height: 80,
-    marginTop: 100,
-    backgroundColor: "white",
-    margin: 10,
-    padding: 10,
-    borderRadius: 10,
-    borderColor: "grey",
-    shadowColor: "white",
-    shadowOffset: {
-      width: 0,
-      height: 0,
-    },
-    shadowOpacity: 4,
-    shadowRadius: 17,
-
-    elevation: 10,
-  },
-  header: {
-    height: "40%",
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "space-between",
-    margin: 60,
-  },
-  list: {
-    height: "55%",
-    margin: 10,
-    marginTop: 60,
-  },
-  commentBox: {
-    paddingHorizontal: 10,
-    paddingVertical: 10,
-    shadowColor: "black",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 5,
-    shadowRadius: 4,
-    elevation: 3,
-  },
-  comment: {
-    margin: 0,
-    backgroundColor: "#ffbd03",
-    borderColor: "white",
-    borderWidth: 3,
-    // borderColor: "red",
-    // borderWidth: 2,
-    borderRadius: 10,
-    paddingHorizontal: 10,
-    paddingVertical: 8,
-  },
-  imageBackground: {
-    marginTop: 0,
-    height: 104,
-    width: 104,
-    borderRadius: 100,
-    shadowColor: "grey",
-    shadowOffset: {
-      width: 0,
-      height: 3,
-    },
-    shadowOpacity: 5,
-    shadowRadius: 6,
-
-    elevation: 3,
-    borderColor: "white",
-    borderWidth: 2,
-  },
-  pic: {
-    height: 100,
-    width: 100,
-    borderRadius: 100,
-  },
+ 
 });
