@@ -15,6 +15,7 @@ import {
   FlatList,
   Image,
   KeyboardAvoidingView,
+  TouchableOpacity
 } from "react-native";
 
 export default function SingleMessageScreen({ route, navigation }) {
@@ -27,7 +28,7 @@ export default function SingleMessageScreen({ route, navigation }) {
   const [isLoading, setIsLoading] = useState(true);
   const [title, setTitle] = useState("");
   const [image, setImage] = useState("");
-
+  const [inputPressed, setInputPressed] = useState(false);
   const Comment = (props) => {
     const { item } = props;
 
@@ -48,18 +49,23 @@ export default function SingleMessageScreen({ route, navigation }) {
     setNewMessage(value);
   }
 
-  function handleSubmit() {
-    addMessage(chatID, currUser.username, newMessage).then(() => {
-      setMessages((curr) => [
-        ...curr,
-        {
-          username: currUser.username,
-          message: newMessage,
-          postedAt: timestamp("DD/MM/YYYY:HH:mm:ss:ms"),
-        },
-      ]);
-      setNewMessage("");
-    });
+  function handleSubmit(event) {
+    if (event.nativeEvent.key == 'Enter') {
+      
+      addMessage(chatID, currUser.username, newMessage).then(() => {
+        setMessages((curr) => [
+          ...curr,
+          {
+            username: currUser.username,
+            message: newMessage,
+            postedAt: timestamp("DD/MM/YYYY:HH:mm:ss:ms"),
+          },
+        ]);
+        setNewMessage("");
+      });
+      event.target.blur()
+      
+    }
   }
 
   useEffect(async () => {
@@ -92,7 +98,7 @@ export default function SingleMessageScreen({ route, navigation }) {
     <Text>Loading...</Text>
   ) : (
     <SafeAreaView style={styles.container}>
-      <KeyboardAvoidingView behavior="padding">
+      <KeyboardAvoidingView behavior="padding" style={{ flex: 1 }}>
         <LinearGradient
           // Background Linear Gradient
           colors={["#f7edf2", "#dee2ff", "white"]}
@@ -114,12 +120,16 @@ export default function SingleMessageScreen({ route, navigation }) {
                 uri: image,
               }}
             />
-          </View>
-          <Text>
+            </View >
+            <View style={styles.bookInfoBox}>
+            <Text style={styles.bookInfo}>
             {title} || {otherUser.username}
           </Text>
+
+            </View>
+          
         </View>
-        <View style={styles.list}>
+        <View style={inputPressed ? styles.listPressed : styles.list}>
           <FlatList
             data={messages}
             renderItem={Comment}
@@ -127,18 +137,30 @@ export default function SingleMessageScreen({ route, navigation }) {
           />
         </View>
 
-        <View style={styles.bottomContainer}>
-          <TextInput
+          <View style={styles.bottomContainer}>
+            
+            <TextInput
+              onFocus={() => setInputPressed(true)}
+              onBlur={() => setInputPressed(false)}
             placeholder="New message"
             style={styles.textInput}
             onChangeText={handleChange}
             value={newMessage}
-            multiline={true}
+              multiline={true}
+              onKeyPress={handleSubmit}
+              returnKeyType={"send"}
+              // blurOnSubmit={true}
+                
           />
 
-          <Pressable style={styles.submit} onPress={handleSubmit}>
+            
+          
+            {/* <TouchableOpacity>
+            <Pressable style={styles.submit} onPress={handleSubmit}>
             <Text>Send</Text>
           </Pressable>
+</TouchableOpacity> */}
+          
         </View>
       </KeyboardAvoidingView>
     </SafeAreaView>
@@ -158,7 +180,7 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     top: 0,
-	  height: "100%",
+	  height: "120%",
 	width: "100%"
   },
   header: {
@@ -194,17 +216,33 @@ const styles = StyleSheet.create({
     width: 100,
     borderRadius: 100,
   },
+  bookInfoBox: {
+marginTop: 15,
+  },
+  bookInfo: {
+    fontFamily: "HelveticaNeue",
+		color: "#52575D",
+    fontWeight: "800",
+    fontSize: 16,
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+  },
   list: {
-    height: "40%",
-    margin: 10,
-    marginVertical: 20,
+    height: "60%",
+    marginVertical: 5,
     // borderColor: "red",
     // borderWidth: 6,
   },
-	commentBox: {
-	  alignSelf: "center",
+  listPressed: {
+    height: "30%",
+    marginVertical: 5,
+  },
+  commentBox: {
+    flex: 1,
+    alignSelf: "center",
+    marginVertical: 1,
     paddingHorizontal: 10,
-    paddingVertical: 10,
+    paddingVertical: 3,
 	  shadowColor: "black",
 	width: 300,
     shadowOffset: {
@@ -214,6 +252,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 5,
     shadowRadius: 4,
     elevation: 3,
+    
     // borderColor: "red",
     // borderWidth: 2,
   },
@@ -226,28 +265,30 @@ const styles = StyleSheet.create({
     // borderWidth: 2,
     borderRadius: 10,
     paddingHorizontal: 10,
-    paddingVertical: 6,
+    paddingVertical: 2,
 	},
 	commentSnippet: {
 		fontFamily: "HelveticaNeue",
 		fontSize: 16,
 	},
 	bottomContainer: {
-	flex: 1,
+	// flex: 1,
     //height: 100,
     alignItems: "center",
     justifyContent: "flex-end",
-    marginBottom: 0,
+    marginBottom: 20,
     // borderColor: "red",
     // borderWidth: 2,
+    paddingBottom: 20
   },
   textInput: {
+    
     borderWidth: 2,
-    width: 300,
-    height: 100,
-    marginTop: 0,
+    width: 288,
+    height: 80,
+    marginTop: 5,
     backgroundColor: "white",
-    margin: 10,
+    marginBottom: 30,
     padding: 10,
     borderRadius: 10,
     borderColor: "grey",
@@ -263,9 +304,10 @@ const styles = StyleSheet.create({
     // borderColor: "red",
     // borderWidth: 6,
   },
+  
   submit: {
     borderRadius: 25,
-    borderColor: "white",
+    borderColor: "#76c893",
     borderWidth: 3,
     width: 75,
     height: 55,
