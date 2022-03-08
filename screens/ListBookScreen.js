@@ -161,6 +161,7 @@ export default function ListBookScreen({ navigation, route }) {
             value={searchISBN}
             onChangeText={(value) => setSearchISBN(value)}
             placeholder="e.g. 9780198829195"
+            keyboardType="numeric"
           />
           <View style={styles.searchButtonContainer}>
             <TouchableOpacity onPress={() => APIcall(searchISBN)}>

@@ -15,7 +15,12 @@ import {
   TextInput,
   Pressable,
 } from "react-native";
-import { Ionicons, AntDesign, MaterialIcons, Foundation } from "@expo/vector-icons";
+import {
+  Ionicons,
+  AntDesign,
+  MaterialIcons,
+  Foundation,
+} from "@expo/vector-icons";
 import MapButton from "./MapButton";
 import TreeIcon from "./TreeIconLink";
 import BooksOfferedLink from "./BooksOfferedLink";
@@ -174,18 +179,17 @@ export default function UserProfileScreen({ route, navigation }) {
         <View style={styles.usernameContainer}>
           <Text style={styles.username}>{currentUser.username}</Text>
         </View>
-        <View
-          style={styles.locationDataBox}
-        >
+        <View style={styles.locationDataBox}>
           {/* <Text>🌎 </Text> */}
-          
+
           <Text style={styles.locationDataText}>
             <Ionicons
               name="ios-location-outline"
               size={26}
               color="black"
               style={{ marginTop: 0, marginLeft: 1 }}
-            ></Ionicons> {cityChanged ? newCity : currentUser.city}
+            ></Ionicons>{" "}
+            {cityChanged ? newCity : currentUser.city}
           </Text>
           <View>
             <Modal
@@ -208,7 +212,9 @@ export default function UserProfileScreen({ route, navigation }) {
                   <TextInput
                     placeholder={"Enter new postcode..."}
                     style={modalStyles.modalText}
+                    autoCapitalize={"characters"}
                     onChangeText={(text) => handlePostcodeChange(text)}
+                    autoCorrect={false}
                   ></TextInput>
                   <TextInput
                     placeholder={"Enter city..."}
@@ -265,7 +271,8 @@ export default function UserProfileScreen({ route, navigation }) {
 
         <View style={styles.treeDataBox}>
           <Text style={styles.treeDataText}>
-            <Foundation name="trees" size={23} color="black" />  {getTreeCount(currentUser)} trees saved
+            <Foundation name="trees" size={23} color="black" />{" "}
+            {getTreeCount(currentUser)} trees saved
           </Text>
         </View>
 
@@ -318,9 +325,7 @@ export default function UserProfileScreen({ route, navigation }) {
           ></FlatList>
 
           <View style={styles.bookCount}>
-            <Text
-              style={styles.bookCountText}
-            >
+            <Text style={styles.bookCountText}>
               {currentUser.books.length} books on offer
             </Text>
           </View>
@@ -442,13 +447,13 @@ const styles = StyleSheet.create({
     padding: 2,
   },
   locationDataBox: {
-paddingVertical: 5,
-  paddingHorizontal: 2,
-  //flexDirection: "row",
-  alignSelf: "center",
-  alignItems: "center",
-  width: 172,
-  backgroundColor: "white",
+    paddingVertical: 5,
+    paddingHorizontal: 2,
+    //flexDirection: "row",
+    alignSelf: "center",
+    alignItems: "center",
+    width: 172,
+    backgroundColor: "white",
     borderColor: "#76c893",
     borderWidth: 2,
     marginTop: 2,
@@ -465,19 +470,19 @@ paddingVertical: 5,
     elevation: 5,
   },
   locationDataText: {
-fontSize: 16,
+    fontSize: 16,
     fontFamily: "HelveticaNeue",
     color: "grey",
     fontWeight: "900",
   },
   treeDataBox: {
-  paddingVertical: 5,
-  paddingHorizontal: 2,
-  //flexDirection: "row",
-  alignSelf: "center",
-  alignItems: "center",
-  width: 172,
-  backgroundColor: "#76c893",
+    paddingVertical: 5,
+    paddingHorizontal: 2,
+    //flexDirection: "row",
+    alignSelf: "center",
+    alignItems: "center",
+    width: 172,
+    backgroundColor: "#76c893",
     borderColor: "white",
     borderWidth: 2,
     marginTop: 4,
@@ -494,7 +499,7 @@ fontSize: 16,
     elevation: 10,
   },
   treeDataText: {
-  fontSize: 16,
+    fontSize: 16,
     fontFamily: "HelveticaNeue",
     color: "white",
     fontWeight: "900",
@@ -543,8 +548,8 @@ fontSize: 16,
     elevation: 10,
   },
   bookCountText: {
-fontFamily: "HelveticaNeue",
-fontSize: 16,
+    fontFamily: "HelveticaNeue",
+    fontSize: 16,
     color: "grey",
     fontWeight: "900",
   },
