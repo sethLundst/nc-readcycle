@@ -69,7 +69,7 @@ export default function SignUpScreen({ navigation }) {
     <View style={styles.container}>
       <LinearGradient
         // Background Linear Gradient
-        colors={["#f7edf2","#dee2ff",  "white"]}
+        colors={["#f7edf2", "#dee2ff", "white"]}
         start={{
           x: 0,
           y: 0,
@@ -113,6 +113,9 @@ export default function SignUpScreen({ navigation }) {
                 style={styles.textInput}
                 onChangeText={handleChange("email")}
                 onBlur={handleBlur("email")}
+                autoCapitalize={"none"}
+                autoCorrect={false}
+                autoCompleteType="email"
                 value={values.email}
               />
             </View>
@@ -138,6 +141,9 @@ export default function SignUpScreen({ navigation }) {
                 style={styles.textInput}
                 onChangeText={handleChange("username")}
                 onBlur={handleBlur("username")}
+                autoCapitalize={"none"}
+                autoCorrect={false}
+                autoCompleteType="email"
                 value={values.username}
               />
             </View>
@@ -162,6 +168,7 @@ export default function SignUpScreen({ navigation }) {
                 style={styles.textInput}
                 onChangeText={handleChange("postcode")}
                 onBlur={handleBlur("postcode")}
+                autoCapitalize={"characters"}
                 value={values.postcode}
               />
             </View>

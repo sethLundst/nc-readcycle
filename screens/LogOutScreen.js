@@ -2,21 +2,22 @@ import * as React from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { getAuth, signOut } from "firebase/auth";
 import { LinearGradient } from "expo-linear-gradient";
+import App from "../App";
 
 const auth = getAuth();
 
 export default function LogOutScreen({ navigation }) {
   const handleLogout = () => {
     signOut(auth).then(() => {
-      navigation.navigate("SignUpScreen");
+      navigation.navigate("App");
     });
   };
 
   return (
     <View style={styles.pageContainer}>
-       <LinearGradient
+      <LinearGradient
         // Background Linear Gradient
-        colors={["#f7edf2","#dee2ff",  "white"]}
+        colors={["#f7edf2", "#dee2ff", "white"]}
         start={{
           x: 0,
           y: 0,
@@ -27,14 +28,12 @@ export default function LogOutScreen({ navigation }) {
         }}
         style={styles.background}
       />
-<View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-      <TouchableOpacity onPress={handleLogout} style={styles.button}>
-        <Text style={styles.text}>Log Out.</Text>
-      </TouchableOpacity>
+      <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+        <TouchableOpacity onPress={handleLogout} style={styles.button}>
+          <Text style={styles.text}>Log Out.</Text>
+        </TouchableOpacity>
+      </View>
     </View>
-
-    </View>
-    
   );
 }
 
@@ -76,5 +75,5 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 16,
     fontWeight: "800",
-  }
+  },
 });

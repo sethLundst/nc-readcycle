@@ -15,6 +15,7 @@ import UserProfileScreen from "../screens/UserProfileScreen";
 import SingleMessageScreen from "../screens/SingleMessageScreen";
 import { UserContext } from "../contexts/User";
 import { getUserDetails } from "../db/firestore";
+import App from "../App";
 
 const HomeStack = createNativeStackNavigator();
 const ListBookStack = createNativeStackNavigator();
@@ -194,6 +195,7 @@ export function LogOutStackScreen() {
         component={SignUpScreen}
         options={{ title: "Sign Up" }}
       />
+      <LogInStack.Screen name="App" component={App}></LogInStack.Screen>
     </LogOutStack.Navigator>
   );
 }

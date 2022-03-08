@@ -23,7 +23,7 @@ export default function LogInScreen({ navigation }) {
     <View style={styles.pageContainer}>
       <LinearGradient
         // Background Linear Gradient
-        colors={["#f7edf2","#dee2ff",  "white"]}
+        colors={["#f7edf2", "#dee2ff", "white"]}
         start={{
           x: 0,
           y: 0,
@@ -61,6 +61,9 @@ export default function LogInScreen({ navigation }) {
                   style={styles.textInput}
                   onChangeText={handleChange("email")}
                   onBlur={handleBlur("email")}
+                  autoCapitalize={"none"}
+                  autoCorrect={false}
+                  autoCompleteType="email"
                   value={values.email}
                 />
               </View>
