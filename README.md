@@ -18,7 +18,7 @@ Install dependencies:
 
     # npm install
     
-Run in browser:  
+Run in browser/simulator:  
 
     # expo start 
 
