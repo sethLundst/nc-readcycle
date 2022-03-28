@@ -22,3 +22,6 @@ Run in browser/simulator:
 
     # expo start 
 
+Run on smartphone:
+
+    Scan the QR code in the terminal on the Expo Go App.
